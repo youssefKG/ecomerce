@@ -1,0 +1,70 @@
+.headerContainer {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  width: 100%;
+  z-index: 30;
+}
+/* brandName start  */
+.brandNameContainer {
+  width: 100%;
+  background-color: black;
+  color: white;
+  display: flex;
+}
+.brandNameContainer ul {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.brandNameContainer ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+.brandNameContainer ul li a,
+.brandNameIcon {
+  font-size: 20px;
+  font-weight: 800;
+}
+/* brandName end */
+/* navbar start */
+.navbarContainer {
+  background-color: var(--darkPrimary);
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  font-weight: 600;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+.navbarContainer ul {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+.navbarContainer ul p {
+  text-decoration: underline;
+}
+.logo {
+  font-size: 26px;
+}
+.shoppingCartIcon {
+  color: white;
+  font-size: 26px;
+}
+.profil {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+/* navbar end */

@@ -1,10 +1,11 @@
 import Navbar from "./Navbar";
 import BrandName from "./BrandName";
+import "./index.css";
 function Header() {
   return (
-    <div>
-      <Navbar />
+    <div className="headerContainer">
       <BrandName />
+      <Navbar />
     </div>
   );
 }

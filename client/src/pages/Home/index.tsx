@@ -1,9 +1,17 @@
-import { useLocation } from "react-router-dom";
 import "./index.css";
+import HeroSection from "../../components/heroSection/index";
+import ProductSection from "../../components/ProductsSection/index";
+import Footer from "../../components/footer/index";
+import Categories from "../../components/Categories";
 function Home() {
-  const { pathname: path } = useLocation();
-  console.log(path);
-  return <div>Home</div>;
+  return (
+    <div className="home-container">
+      <HeroSection />
+      <ProductSection />
+      <Categories />
+      <Footer />
+    </div>
+  );
 }
 
 export default Home;
