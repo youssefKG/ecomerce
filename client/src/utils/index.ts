@@ -1,2 +1,4 @@
 import productData from "./ProductsData";
-export { productData };
+import categoriesData from "./catergoriesData";
+import furnitureCategoriesData from "./furnitureCat";
+export { productData, categoriesData, furnitureCategoriesData };

@@ -5,6 +5,10 @@
   --blueSecondary: #003566;
   --yellowPrimary: #ffc300;
   --yellowSecondary: #ffd60a;
+  --primaryGray: #495057;
+  --secondaryGray: #6c757d;
+  --tertiaryGray: #adb5bd;
+  --quarternaryGray: #ced4da;
 }
 root {
   list-style: none;
@@ -22,6 +26,7 @@ body {
 }
 * {
   margin: 0;
+  font-family: "Titillium Web", sans-serif;
 }
 button,
 a {

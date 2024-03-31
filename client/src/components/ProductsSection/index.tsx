@@ -14,7 +14,7 @@ const ProductSection = () => {
       <div>
         <h1>Featured Products</h1>
       </div>
-      <div className="cards-container">
+      <div className="products-cards-container">
         {productData.map((product) => {
           return (
             <ProductCard

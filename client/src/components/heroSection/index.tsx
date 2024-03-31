@@ -11,9 +11,10 @@ const HeroSection = () => {
     <section className="hero-section-container">
       <Swiper
         className="swiper"
-        speed={2200}
+        speed={1200}
         modules={[Pagination, Navigation, Autoplay]}
         navigation
+        loop={true}
         pagination={{ clickable: true }}
         slidesPerView={1}
         autoplay={{ delay: 2200, disableOnInteraction: false }}

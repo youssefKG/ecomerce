@@ -1,4 +1,10 @@
+import { Box, Grid } from "@mui/material";
+import "./index.css";
 const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <Box>
+      <Grid container></Grid>
+    </Box>
+  );
 };
 export default Footer;
