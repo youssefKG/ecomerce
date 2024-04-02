@@ -1,5 +1,60 @@
 .footer-container {
-  display: grid;
-  grid-template-columns: 20% 80%;
-  grid-gap: 20px;
+  margin-top: 90px;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  background: var(--bluePrimary);
+  color: white;
+}
+.footer-container .icon {
+  color: white;
+  font-size: 20px;
+}
+.footer-container .container {
+  padding: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+.footer-container .container h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+.footer-container .container .socail-media,
+.footer-container .container .about,
+.footer-container .container .company-info {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+.footer-container .container .about p,
+.footer-container .container .company-info p,
+.footer-container .container .socail-media p {
+  font-size: 14px;
+  color: gray;
+  font-weight: 600;
+}
+.footer-container .container .socail-media div {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.footer-container .container .socail-media,
+.footer-container .container .about,
+.footer-container .container .company-info {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+.copy-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  background: var(--blueSecondary);
+  text-align: center;
+  font-size: 14px;
+  padding: 5px;
+  font-weight: 700;
+  color: white;
 }

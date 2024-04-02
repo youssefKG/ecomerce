@@ -63,6 +63,9 @@
   font-weight: 600;
 }
 
+.product-card-container .product-detail button {
+  background-color: transparent;
+}
 .product-card-container .product-detail .add {
   display: flex;
   align-items: center;

@@ -1,13 +1,6 @@
 import { ProductCard } from "../cards/index";
-import { productData } from "../../utils/index";
+import { productsData } from "../../utils/index";
 import "./index.css";
-// interface productType {
-//   title: string;
-//   description: string;
-//   price: number;
-//   discount: number;
-//   imgURL: string;
-// }
 const ProductSection = () => {
   return (
     <section className="product-section">
@@ -15,16 +8,23 @@ const ProductSection = () => {
         <h1>Featured Products</h1>
       </div>
       <div className="products-cards-container">
-        {productData.map((product) => {
-          return (
-            <ProductCard
-              title={product.title}
-              imgURL={product.imgURL}
-              price={product.price}
-              discount={product.discount}
-            />
-          );
-        })}
+        {productsData.map(
+          (product: {
+            title: string;
+            imgURL: string;
+            price: number;
+            discount: number;
+          }) => {
+            return (
+              <ProductCard
+                title={product.title}
+                imgURL={product.imgURL}
+                price={product.price}
+                discount={product.discount}
+              />
+            );
+          },
+        )}
       </div>
     </section>
   );

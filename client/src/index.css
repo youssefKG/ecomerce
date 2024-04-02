@@ -19,6 +19,9 @@ ul {
 li {
   list-style: none;
 }
+a {
+  text-decoration: none;
+}
 body {
   margin: 0;
   font-family: "Titillium Web" sans-serif;

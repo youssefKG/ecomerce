@@ -1,7 +1,7 @@
 import { categoriesData } from "../../utils";
 import { CategorieCard } from "../cards";
 import "./index.css";
-const Categories = () => {
+const CategoriesSection = () => {
   return (
     <div className="categories-section-container">
       <div className="categories-header">
@@ -34,4 +34,4 @@ const Categories = () => {
     </div>
   );
 };
-export default Categories;
+export default CategoriesSection;
