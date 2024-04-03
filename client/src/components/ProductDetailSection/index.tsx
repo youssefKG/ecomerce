@@ -1,19 +1,7 @@
-import { CiHeart } from "react-icons/ci";
-import { FaHeart, FaMinus, FaPlus } from "react-icons/fa";
+import { HeartButton } from "../buttons";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { Rating, Divider } from "@mui/material";
 import "./index.css";
-type PropsHeartButton = { isRed: boolean };
-const HeartButton = ({ isRed }: PropsHeartButton) => {
-  return (
-    <button className="heart-btn">
-      {isRed ? (
-        <FaHeart className="red-heart" />
-      ) : (
-        <CiHeart className="heart-icon" />
-      )}
-    </button>
-  );
-};
 const ProductDetailSection = () => {
   return (
     <section className="product">

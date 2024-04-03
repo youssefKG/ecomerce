@@ -1,11 +1,4 @@
-interface ProductType {
-  title: string;
-  description?: string;
-  price: number;
-  imgURL: string;
-  discount: number;
-  id: number;
-}
+import { ProductType } from "../types";
 
 const productsData: ProductType[] = [
   {

@@ -1,14 +1,5 @@
-interface Furniture {
-  id: number;
-  name: string;
-}
-
-interface FurnitureCategory {
-  categoryName: string;
-  items: Furniture[];
-}
-
-const furnitureCategories: FurnitureCategory[] = [
+import { FurnitureCategoryType } from "../types";
+const furnitureCategories: FurnitureCategoryType[] = [
   {
     categoryName: "Chairs",
     items: [

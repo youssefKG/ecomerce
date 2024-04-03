@@ -1,7 +1,4 @@
-interface CategorieType {
-  title: string;
-  imgsURL: string[];
-}
+import { CategorieType } from "../types/index";
 const categoriesData: CategorieType[] = [
   {
     title: "Baderoom Furniture",
