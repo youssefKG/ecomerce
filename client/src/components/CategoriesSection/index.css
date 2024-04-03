@@ -25,7 +25,6 @@
   font-weight: 500;
 }
 .cards-container {
-  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;

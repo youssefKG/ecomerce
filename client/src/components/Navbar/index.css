@@ -52,8 +52,29 @@
   padding: 0;
   margin: 0;
 }
-.navbarContainer ul p {
-  text-decoration: underline;
+.navbarContainer ul li p {
+  color: white;
+  transition: 300ms ease-out;
+}
+.active {
+  opacity: 100%;
+  color: black;
+  scale: 106%;
+}
+.active {
+  font-size: 18px;
+  position: relative;
+}
+.active::before {
+  position: absolute;
+  align-self: center;
+  justify-self: center;
+  content: "";
+  width: 100%;
+  z-index: 50;
+  height: 2px;
+  bottom: 0;
+  background-color: var(--yellowPrimary);
 }
 .logo {
   font-size: 26px;

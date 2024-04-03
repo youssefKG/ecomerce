@@ -31,6 +31,10 @@ body {
   margin: 0;
   font-family: "Titillium Web", sans-serif;
 }
+button {
+  background-color: transparent;
+  border: none;
+}
 button,
 a {
   cursor: pointer;

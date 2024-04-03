@@ -10,16 +10,24 @@ const Navbar = () => {
       </a>
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">
+            <p>Home</p>
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/products">Product</NavLink>
+          <NavLink to="/products">
+            <p>Product</p>
+          </NavLink>
         </li>
         <li>
-          <p>Contact Us </p>
+          <NavLink to="/contact">
+            <p>Contact Us</p>{" "}
+          </NavLink>
         </li>
         <li>
-          <p>Blog</p>
+          <NavLink to="/blog">
+            <p>Blog</p>
+          </NavLink>
         </li>
       </ul>
       <div className="profil">

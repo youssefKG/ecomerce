@@ -87,7 +87,7 @@
   position: relative;
   border-radius: 16px;
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-  max-width: 300px;
+  max-width: 400px;
   overflow: hidden;
   cursor: pointer;
   transition: 400ms ease-out;

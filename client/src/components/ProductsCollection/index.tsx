@@ -13,8 +13,10 @@ const ProductsCollections = () => {
         </button>
       </div>
       <div className="cards-container">
-        {productsData.map((product) => (
+        {productsData.map((product, i) => (
           <ProductCard
+            product_id={product.id}
+            key={i}
             title={product.title}
             price={product.price}
             imgURL={product.imgURL}

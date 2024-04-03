@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IoIosAdd } from "react-icons/io";
 interface Props {
   title: string;
@@ -5,10 +6,14 @@ interface Props {
   price: number;
   imgURL: string;
   discount: number;
+  product_id: number;
 }
-const ProductCard = ({ title, price, imgURL, discount }: Props) => {
+const ProductCard = ({ title, price, imgURL, discount, product_id }: Props) => {
   return (
-    <div className="product-card-container">
+    <Link
+      to={`/product-detail/${product_id}`}
+      className="product-card-container"
+    >
       <img src={imgURL} className="product-card-img" />
       <div className="discount">-{discount}%</div>
       <div className="product-detail">
@@ -23,7 +28,7 @@ const ProductCard = ({ title, price, imgURL, discount }: Props) => {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 export default ProductCard;

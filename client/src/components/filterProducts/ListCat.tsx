@@ -30,7 +30,7 @@ const ListCat = ({ categoryName, items }: ListCatProps) => {
       </ListItemButton>
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         {items.map((item) => (
-          <ListItemButton>
+          <ListItemButton key={item.id}>
             <ListItemIcon>
               <Checkbox />
             </ListItemIcon>

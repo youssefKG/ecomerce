@@ -4,10 +4,12 @@ interface ProductType {
   price: number;
   imgURL: string;
   discount: number;
+  id: number;
 }
 
 const productsData: ProductType[] = [
   {
+    id: 1,
     title: "Etagere",
     description: "Description of Product 1",
     price: 10.99,
@@ -16,6 +18,7 @@ const productsData: ProductType[] = [
     discount: 0.1, // 10% discount
   },
   {
+    id: 2,
     title: "Bilbliotheque",
     description: "Description of Product 2",
     price: 19.99,
@@ -24,6 +27,7 @@ const productsData: ProductType[] = [
     discount: 0.2, // 20% discount
   },
   {
+    id: 3,
     title: "Decoration",
     description: "Description of Product 3",
     price: 15.5,
@@ -32,6 +36,7 @@ const productsData: ProductType[] = [
     discount: 0, // No discount
   },
   {
+    id: 4,
     title: "Cuilliere",
     description: "Description of Product 4",
     price: 25.0,
@@ -40,6 +45,7 @@ const productsData: ProductType[] = [
     discount: 0.15, // 15% discount
   },
   {
+    id: 5,
     title: "Presontoir",
     description: "Description of Product 5",
     price: 8.75,
@@ -48,6 +54,7 @@ const productsData: ProductType[] = [
     discount: 0.05, // 5% discount
   },
   {
+    id: 6,
     title: "Cup",
     description: "Description of Product 6",
     price: 12.49,
@@ -56,6 +63,7 @@ const productsData: ProductType[] = [
     discount: 0.2, // 20% discount
   },
   {
+    id: 7,
     title: "Forshette",
     description: "Description of Product 7",
     price: 30.0,
@@ -64,6 +72,7 @@ const productsData: ProductType[] = [
     discount: 0.25, // 25% discount
   },
   {
+    id: 8,
     title: "Product 8",
     description: "Description of Product 8",
     price: 9.99,
@@ -72,6 +81,7 @@ const productsData: ProductType[] = [
     discount: 0.1, // 10% discount
   },
   {
+    id: 9,
     title: "Product 9",
     description: "Description of Product 9",
     price: 18.25,
@@ -80,6 +90,7 @@ const productsData: ProductType[] = [
     discount: 0.15, // 15% discount
   },
   {
+    id: 10,
     title: "Product 10",
     description: "Description of Product 10",
     price: 22.99,

@@ -1,0 +1,6 @@
+.product-detail-container {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

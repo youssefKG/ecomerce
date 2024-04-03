@@ -9,21 +9,25 @@ const ProductSection = () => {
       </div>
       <div className="products-cards-container">
         {productsData.map(
-          (product: {
-            title: string;
-            imgURL: string;
-            price: number;
-            discount: number;
-          }) => {
-            return (
-              <ProductCard
-                title={product.title}
-                imgURL={product.imgURL}
-                price={product.price}
-                discount={product.discount}
-              />
-            );
-          },
+          (
+            product: {
+              title: string;
+              imgURL: string;
+              price: number;
+              discount: number;
+              id: number;
+            },
+            i,
+          ) => (
+            <ProductCard
+              product_id={product.id}
+              key={i}
+              title={product.title}
+              imgURL={product.imgURL}
+              price={product.price}
+              discount={product.discount}
+            />
+          ),
         )}
       </div>
     </section>
