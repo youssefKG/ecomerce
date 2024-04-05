@@ -1,9 +1,9 @@
-import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
+import { Suspense } from "react";
 import Header from "../../components/Navbar";
-import Laoding from "../../components/loading";
 import "./index.css";
 import Footer from "../../components/footer";
+import Laoding from "../../components/loading";
 const DefaultLayout = () => {
   return (
     <div className="layoutContainer">
