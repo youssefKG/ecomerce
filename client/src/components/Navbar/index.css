@@ -36,9 +36,10 @@
 /* brandName end */
 /* navbar start */
 .navbarContainer {
-  background-color: var(--darkPrimary);
+  background-color: #023047;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   color: white;
   font-weight: 600;
   align-items: center;
@@ -48,12 +49,10 @@
 .navbarContainer ul {
   display: flex;
   gap: 20px;
-  align-items: center;
-  padding: 0;
   margin: 0;
 }
 .navbarContainer ul li p {
-  color: white;
+  color: silver;
   transition: 300ms ease-out;
 }
 .active {
@@ -62,8 +61,13 @@
   scale: 106%;
 }
 .active {
-  font-size: 18px;
   position: relative;
+  scale: 115%;
+}
+.active p {
+  color: white !important;
+  font-weight: 700;
+  letter-spacing: 2.5Q;
 }
 .active::before {
   position: absolute;
@@ -73,8 +77,8 @@
   width: 100%;
   z-index: 50;
   height: 2px;
-  bottom: 0;
-  background-color: var(--yellowPrimary);
+  bottom: -3px;
+  background-color: #ffd60a;
 }
 .logo {
   font-size: 26px;
@@ -88,4 +92,57 @@
   gap: 12px;
   align-items: center;
 }
+.navbarContainer .bars {
+  display: none;
+}
+.drawer-container {
+  display: none;
+}
 /* navbar end */
+/* responsive design */
+@media only screen and (max-width: 600px) {
+  .navbarContainer {
+    justify-content: space-between;
+    padding: 5px 10px;
+  }
+  .navbarContainer ul {
+    display: none;
+  }
+  .profil {
+    display: none;
+  }
+  .navbarContainer .bars {
+    display: block;
+    color: white;
+  }
+  .drawer-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+    transition: 300ms ease-in;
+  }
+  .drawer-container .drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #023047;
+    width: 60%;
+    height: 100%;
+    padding: 20px;
+  }
+  .drawer-container .drawer li {
+    width: fit-content;
+  }
+  .drawer-container .drawer li .nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: white;
+  }
+  .drawer-container .drawer li .nav .drawer-icon {
+  }
+}
