@@ -1,0 +1,15 @@
+.btn-auth {
+  color: white;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: var(--bluePrimary);
+  border: 1px var(--blueSecondary) solid;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: 500ms ease-in-out;
+}
+.btn-auth:hover {
+  border: 1px white solid;
+  scale: 102%;
+}

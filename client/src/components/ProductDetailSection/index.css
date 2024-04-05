@@ -1,0 +1,126 @@
+.product {
+  display: grid;
+  grid-template-columns: 45% 30%;
+  grid-gap: 40px;
+  align-items: center;
+  justify-content: center;
+}
+.product .images-container {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-gap: 20px;
+  align-items: center;
+}
+.product .small-imgs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.product .big-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.product .product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.product .product-info .header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.product .product-info .header .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product .product-info .header .title h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+.product .product-info .header .title button {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.product-info .header .title button .red-heart {
+  color: red;
+}
+.product .product-info .price {
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  color: gray;
+  font-weight: 600;
+  align-items: center;
+}
+.product .desc {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.product .desc .btns {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+.product .desc .btns .add-to-cart-btns {
+  display: flex;
+  gap: 20px;
+}
+.product .desc .btns .add-to-cart-btns .add-items {
+  flex: 1;
+  padding: 5px;
+  border-radius: 30px;
+  background-color: black;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  border: 1px solid gray;
+  transition: 300ms ease-in;
+}
+.product .desc .btns .add-to-cart-btns .add-item {
+  display: flex;
+  border: 1px solid silver;
+  padding: 5px;
+  border-radius: 30px;
+  align-items: center;
+}
+
+.product .desc .btns .add-to-cart-btns .add-item input {
+  outline: none;
+  border: none;
+  width: fit-content;
+  text-align: center;
+  font-weight: 700;
+  font-size: 17px;
+  width: 60px;
+}
+.product .desc .btns .buy-now-btn {
+  border: 1px solid silver;
+  border-radius: 30px;
+  padding: 5px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: 300ms ease-in;
+}
+.product .desc .btns .buy-now-btn:hover {
+  background-color: black;
+  color: white;
+  scale: 105%;
+  border: 2px solid var(--yellowPrimary);
+}
+
+.product .desc .btns .add-to-cart-btns .add-items:hover {
+  background-color: white;
+  color: black;
+  scale: 105%;
+  border-color: var(--yellowPrimary);
+}

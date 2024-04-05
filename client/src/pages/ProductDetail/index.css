@@ -1,0 +1,11 @@
+.product-detail-container {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.product-reviews-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

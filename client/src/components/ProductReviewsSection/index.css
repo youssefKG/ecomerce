@@ -1,0 +1,112 @@
+.reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* reviews start  */
+.reviews-container h1 {
+  position: relative;
+}
+.reviews-container h1::before {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+}
+.review-container {
+  display: flex;
+  gap: 20px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  padding: 8px;
+}
+.review-container .img-profil {
+  width: 10xp;
+  height: 10xp;
+  border-radius: 50px;
+}
+.review-container .review-detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.review-container .review-detail .review-header {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.review-container .review-detail .review-header h1 {
+  font-size: 16px;
+  font-weight: 600px;
+}
+.review-container .review-detail p {
+  font-size: 14px;
+  font-weight: 600px;
+  color: gray;
+}
+.review-container .review-detail .date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+/* reviews end  */
+/* start add revieww   */
+.add-review-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid silver;
+  padding: 10px;
+  border-radius: 10px;
+}
+.add-review-container form {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.add-review-container form .user-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.add-review-container form .user-info input,
+.add-review-container form textarea {
+  border-radius: 10px;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid silver;
+  padding-left: 15px;
+  outline: none;
+}
+.add-review-container form .publish {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.add-review-container form .rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: gray;
+}
+.add-review-container form .publish button {
+  padding: 5px 20px;
+  border: 1px solid gray;
+  border-radius: 30px;
+  font-weight: 600;
+  background-color: black;
+  color: white;
+  transition: 300ms ease-in;
+}
+.add-review-container form .publish button:hover {
+  scale: 102%;
+  background-color: white;
+  color: black;
+  border-color: var(--yellowPrimary);
+}
+/* end add revieww   */

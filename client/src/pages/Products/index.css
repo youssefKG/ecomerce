@@ -1,0 +1,12 @@
+.products-container {
+  display: grid;
+  grid-template-columns: 15% 75%;
+  justify-content: center;
+  align-items: start;
+  grid-gap: 40px;
+  color: black;
+  margin: 20px;
+}
+div {
+  color: black;
+}

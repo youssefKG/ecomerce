@@ -1,0 +1,29 @@
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: sticky;
+  width: 300px;
+  top: 100px;
+}
+.cat-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  border: 1px silver solid;
+  padding: 10px;
+}
+.cat-filter-container h1 {
+  font-size: 16px;
+}
+.price-filter-container {
+  border: 1px silver solid;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  padding: 10px;
+}
+.price-filter-container h1 {
+  font-size: 16px;
+}

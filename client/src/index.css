@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+:root {
+  --darkPrimary: #000814;
+  --bluePrimary: #001d3d;
+  --blueSecondary: #003566;
+  --yellowPrimary: #ffc300;
+  --yellowSecondary: #ffd60a;
+  --primaryGray: #495057;
+  --secondaryGray: #6c757d;
+  --tertiaryGray: #adb5bd;
+  --quarternaryGray: #ced4da;
+}
+root {
+  list-style: none;
+}
+ul {
+  margin: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+body {
+  margin: 0;
+  font-family: "Titillium Web" sans-serif;
+  overflow-x: hidden;
+}
+* {
+  margin: 0;
+  font-family: "Titillium Web", sans-serif;
+}
+button {
+  background-color: transparent;
+  border: none;
+}
+button,
+a {
+  cursor: pointer;
+}
