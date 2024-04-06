@@ -2,7 +2,18 @@ import "./index.css";
 import { IoSearch } from "react-icons/io5";
 import { productsData } from "../../utils";
 import { ProductCard } from "../cards";
-const ProductsCollections = () => {
+import { Pagination, Chip } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+interface PropsType {
+  filters: string[] | null;
+  handleDeleteFilter: (filter: string) => void;
+  handleDeleteAllFilters: () => void;
+}
+const ProductsCollections = ({
+  filters,
+  handleDeleteFilter,
+  handleDeleteAllFilters,
+}: PropsType) => {
   return (
     <div className="products-collections-container">
       <h1> Our Collection of products</h1>
@@ -11,6 +22,25 @@ const ProductsCollections = () => {
         <button>
           <IoSearch />
         </button>
+      </div>
+      <div className="chips-filters-container">
+        {filters &&
+          filters.map((filter: string, i: number) => (
+            <Chip
+              variant="outlined"
+              deleteIcon={<DeleteIcon />}
+              key={i}
+              label={filter}
+              onDelete={() => handleDeleteFilter(filter)}
+            />
+          ))}
+        {filters && filters.length ? (
+          <Chip
+            variant="outlined"
+            label="Clear All"
+            onClick={handleDeleteAllFilters}
+          />
+        ) : null}
       </div>
       <div className="cards-container">
         {productsData.map((product, i) => (
@@ -24,6 +54,7 @@ const ProductsCollections = () => {
           />
         ))}
       </div>
+      <Pagination count={10} size="medium" color="primary" variant="outlined" />
     </div>
   );
 };

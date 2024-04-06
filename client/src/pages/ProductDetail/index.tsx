@@ -7,6 +7,7 @@ import ProductReviewsSection from "../../components/ProductReviewsSection";
 import ProductDetailSection from "../../components/ProductDetailSection";
 import SimillarProductSection from "../../components/SimilarProducdsSection";
 import AddReview from "../../components/ProductReviewsSection/AddReview";
+import { Pagination } from "@mui/material";
 import "./index.css";
 function ProductDetail() {
   const { product_id } = useParams();

@@ -6,7 +6,7 @@ interface Props {
   price: number;
   imgURL: string;
   discount: number;
-  product_id: number;
+  product_id: string;
 }
 const ProductCard = ({ title, price, imgURL, discount, product_id }: Props) => {
   return (

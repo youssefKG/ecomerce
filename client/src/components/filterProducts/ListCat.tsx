@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import {
   List,
@@ -16,8 +16,15 @@ interface Furniture {
 interface ListCatProps {
   categoryName: string;
   items: Furniture[];
+  handleFilter: (filter: string, event: ChangeEvent<HTMLInputElement>) => void;
+  filters: string[] | null;
 }
-const ListCat = ({ categoryName, items }: ListCatProps) => {
+const ListCat = ({
+  categoryName,
+  items,
+  handleFilter,
+  filters,
+}: ListCatProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleClick = (): void => {
     setIsOpen(!isOpen);
@@ -32,7 +39,10 @@ const ListCat = ({ categoryName, items }: ListCatProps) => {
         {items.map((item) => (
           <ListItemButton key={item.id}>
             <ListItemIcon>
-              <Checkbox />
+              <Checkbox
+                onChange={(e) => handleFilter(item.name, e)}
+                checked={filters && filters.includes(item.name) ? true : false}
+              />
             </ListItemIcon>
             <ListItemText primary={item.name} />
           </ListItemButton>

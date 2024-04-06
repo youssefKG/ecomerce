@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
 import { GiConcentricCrescents } from "react-icons/gi";
 import { CiShoppingCart } from "react-icons/ci";
@@ -9,6 +9,18 @@ import { IoIosContact } from "react-icons/io";
 import { FaBlog } from "react-icons/fa";
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const drawerRef = useRef<HTMLDivElement>();
+  useEffect(() => {
+    const hanldeClickOutsideDrawer = (e: MouseEvent): void => {
+      if (
+        isDrawerOpen &&
+        drawerRef.current &&
+        !drawerRef.current.contains(e.target)
+      )
+        setIsDrawerOpen(false);
+    };
+    document.addEventListener("mousedown", hanldeClickOutsideDrawer);
+  });
   return (
     <div className="navbarContainer">
       <a>
@@ -45,7 +57,7 @@ const Navbar = () => {
       </button>
       {isDrawerOpen && (
         <div className="drawer-container">
-          <ul className="drawer">
+          <div className="drawer" ref={drawerRef}>
             <li>
               <NavLink to="/" className="nav">
                 <FaHome />
@@ -71,7 +83,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <Divider />
-          </ul>
+          </div>
         </div>
       )}
     </div>
