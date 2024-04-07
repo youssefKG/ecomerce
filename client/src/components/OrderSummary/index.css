@@ -1,0 +1,53 @@
+.order-summary-container {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  border: 1px solid whitesmoke;
+  height: fit-content;
+  position: relative;
+  padding: 30px;
+  width: 100%;
+}
+.order-summary-container h1 {
+  position: relative;
+}
+.order-summary-container h1::before {
+  content: "";
+  position: absolute;
+  background-color: var(--yellowPrimary);
+  height: 100%;
+  width: 5px;
+  left: -8px;
+  border-radius: 30px;
+}
+.order-summary-container .prices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.order-summary-container .prices div {
+  display: flex;
+  justify-content: space-between;
+}
+.order-summary-container .prices div p {
+  font-weight: 600;
+  color: grey;
+}
+.order-summary-container button {
+  border: gray;
+  width: 100%;
+  background-color: black;
+  padding: 5px;
+  color: white;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 300ms ease-in-out;
+  opacity: 80%;
+  letter-spacing: 1.5mm;
+}
+.order-summary-container button:hover {
+  scale: 103%;
+  opacity: 100%;
+  border: 1px solid grey;
+}

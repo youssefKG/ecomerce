@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, MouseEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { GiConcentricCrescents } from "react-icons/gi";
 import { CiShoppingCart } from "react-icons/ci";
@@ -11,7 +11,7 @@ const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement>();
   useEffect(() => {
-    const hanldeClickOutsideDrawer = (e: MouseEvent): void => {
+    const hanldeClickOutsideDrawer = (e): void => {
       if (
         isDrawerOpen &&
         drawerRef.current &&
@@ -49,7 +49,9 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="profil">
-        <CiShoppingCart className="shoppingCartIcon" />
+        <NavLink to="/cart">
+          <CiShoppingCart className="shoppingCartIcon" />
+        </NavLink>
         <AuthButton>Login</AuthButton>
       </div>
       <button className="bars" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
