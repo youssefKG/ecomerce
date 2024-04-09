@@ -5,6 +5,7 @@ import {
   TableHead,
   TableBody,
   TableContainer,
+  Paper,
 } from "@mui/material";
 import "./index.css";
 const rows = [
@@ -17,38 +18,40 @@ const rows = [
 const ShopingCart = () => {
   return (
     <div className="cart-table-container">
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>id</TableCell>
-              <TableCell>Product</TableCell>
-              <TableCell>Quantite</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
+      <Paper>
+        <TableContainer>
+          <Table aria-label="sticky table" stickyHeader>
+            <TableHead>
               <TableRow>
-                <TableCell>{row.id}</TableCell>
-                <TableCell>
-                  <div className="product-cell">
-                    <img
-                      className="product-img-table"
-                      src="https://www.ikea.com/ma/fr/images/products/fejka-plante-artificielle-et-supp-mural-interieur-exterieur-vert-mauve__1184665_pe898020_s5.jpg?f=xxs"
-                    />
-                    <p>Beds and roms</p>
-                  </div>
-                </TableCell>
-                <TableCell>{row.quantite}</TableCell>
-                <TableCell>{row.price}</TableCell>
-                <TableCell>{row.total}</TableCell>
+                <TableCell>id</TableCell>
+                <TableCell>Product</TableCell>
+                <TableCell>Quantite</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Total</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>
+                    <div className="product-cell">
+                      <img
+                        className="product-img-table"
+                        src="https://www.ikea.com/ma/fr/images/products/fejka-plante-artificielle-et-supp-mural-interieur-exterieur-vert-mauve__1184665_pe898020_s5.jpg?f=xxs"
+                      />
+                      <p>Beds and roms</p>
+                    </div>
+                  </TableCell>
+                  <TableCell>{row.quantite}</TableCell>
+                  <TableCell>{row.price}</TableCell>
+                  <TableCell>{row.total}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </div>
   );
 };

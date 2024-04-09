@@ -9,3 +9,8 @@
   flex-direction: column;
   gap: 20px;
 }
+@media only screen and (max-width: 700px) {
+  .product-detail-container {
+    padding: 20px;
+  }
+}
