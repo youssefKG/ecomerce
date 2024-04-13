@@ -6,6 +6,8 @@
   grid-gap: 40px;
   color: black;
   margin: 20px;
+  overflow: hidden;
+  height: 100vh;
 }
 div {
   color: black;

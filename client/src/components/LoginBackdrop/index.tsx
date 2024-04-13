@@ -1,14 +1,17 @@
-import { FcGoogle, FaFacebook } from "react-icons/fc";
-import { IoMdClose } from "react-icons/io";
-import { useState } from "react";
+import { useContext } from "react";
+import { Context } from "../../layouts/defaultLayout";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 import Dialog from "@mui/material/Dialog";
-import { Divider, Input, DialogTitle, DialogContent } from "@mui/material";
-import { Facebook } from "@mui/icons-material";
+import { Divider } from "@mui/material";
 import "./index.css";
 const LoginBackDrop = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const { backdropAuth, setBackdropAuth } = useContext(Context);
   return (
-    <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+    <Dialog
+      open={backdropAuth.isLoginOpen}
+      onClose={() => setBackdropAuth({ ...backdropAuth, isLoginOpen: false })}
+    >
       <div className="login-container">
         <button className="close-btn"></button>
         <div className="login-header">
@@ -23,7 +26,7 @@ const LoginBackDrop = () => {
             <p>Continue with Google</p>
           </button>
           <button>
-            <Facebook id="facebook" className="passport-icon" />
+            <FaFacebook id="facebook" className="passport-icon" />
             <p>Continue with Facebook </p>
           </button>
         </div>

@@ -1,11 +1,11 @@
 import { Suspense, createContext, useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/Navbar";
-import BackDropAuth from "../../components/BackDrops";
 import "./index.css";
 import Footer from "../../components/footer";
 import Laoding from "../../components/loading";
-import LoginBackDrop from "../../components/BackDrops/LoginBackDrop";
+import LoginBackDrop from "../../components/LoginBackdrop";
+import SignupBackdrop from "../../components/SignupBackdrop";
 interface shoppingCartType {
   id: number;
   imgURL: string;
@@ -18,9 +18,16 @@ interface currentUserType {
   lastName: string;
   email: string;
 }
+type BackdropType = {
+  isLoginOpen: boolean;
+  isSignupOpen: boolean;
+};
 const Context = createContext(null);
 const DefaultLayout = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState<boolean>(true);
+  const [backdropAuth, setBackdropAuth] = useState<BackdropType>({
+    isLoginOpen: true,
+    isSignupOpen: false,
+  });
   const [isSignupOpen, setIsSignupOpen] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<currentUserType | null>(null);
   const [shoppingCartProducts, setShoppigCartProduts] =
@@ -35,15 +42,19 @@ const DefaultLayout = () => {
         setCurrentUser,
         shoppingCartProducts,
         setShoppigCartProduts,
-        isLoginOpen,
-        setIsLoginOpen,
         isSignupOpen,
         setIsSignupOpen,
+        backdropAuth,
+        setBackdropAuth,
+        handleOpenLoginBackdrop: () =>
+          setBackdropAuth({ isLoginOpen: true, isSignupOpen: false }),
+        handleOpenSignupBackdrop: () =>
+          setBackdropAuth({ isLoginOpen: false, isSignupOpen: true }),
       }}
     >
       <div className="layoutContainer">
-        <BackDropAuth />
         <LoginBackDrop />
+        <SignupBackdrop />
         <Header />
         <Suspense fallback={<Laoding />}>
           <Outlet />

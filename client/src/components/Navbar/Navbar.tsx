@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { Context } from "../../layouts/defaultLayout";
 import { NavLink, Link } from "react-router-dom";
 import { GiConcentricCrescents } from "react-icons/gi";
 import { CiShoppingCart } from "react-icons/ci";
@@ -7,6 +8,7 @@ import { Divider } from "@mui/material";
 import { IoIosContact } from "react-icons/io";
 import { FaBlog } from "react-icons/fa";
 const Navbar = () => {
+  const { backdropAuth, setBackdropAuth } = useContext(Context);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement>();
   useEffect(() => {
@@ -52,13 +54,21 @@ const Navbar = () => {
           <CiShoppingCart className="shoppingCartIcon" />
         </NavLink>
         <div className="auth-btns-container">
-          <Link to="/login">
+          <button
+            onClick={() =>
+              setBackdropAuth({ isLoginOpen: true, isSignupOpen: false })
+            }
+          >
             <p>Login</p>
-          </Link>
+          </button>
           <div className="devider" />
-          <Link to="/signup">
+          <button
+            onClick={() =>
+              setBackdropAuth({ isLoginOpen: false, isSignupOpen: true })
+            }
+          >
             <p>Signup</p>
-          </Link>
+          </button>
         </div>
       </div>
       <button className="bars" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>

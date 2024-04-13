@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+  height: 100vh;
 }
 .search-container {
   width: 100%;
@@ -54,4 +55,13 @@
   gap: 23px;
   flex-wrap: wrap;
   margin: auto;
+  scroll-behavior: smooth;
+  overflow: auto;
+}
+.cards-container::-webkit-scrollbar-thumb {
+  background: var(--yellowPrimary);
+}
+.cards-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: var(--bluePrimary);
 }
