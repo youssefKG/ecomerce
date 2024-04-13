@@ -92,6 +92,30 @@
   gap: 12px;
   align-items: center;
 }
+.profil .auth-btns-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+.profil .auth-btns-container .devider {
+  height: 18px;
+  width: 2px;
+  background-color: var(--yellowPrimary);
+  rotate: 10deg;
+}
+.profil .auth-btns-container p {
+  transition: 300ms ease-out;
+  opacity: 70%;
+  letter-spacing: 0.5mm;
+  font-weight: 400;
+  color: white;
+}
+.profil .auth-btns-container p:hover {
+  scale: 102%;
+  color: whitesmoke;
+  opacity: 100%;
+}
 .navbarContainer .bars {
   display: none;
 }

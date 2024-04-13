@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { GiConcentricCrescents } from "react-icons/gi";
 import { CiShoppingCart } from "react-icons/ci";
-import { AuthButton } from "../buttons";
 import { FaBars, FaHome } from "react-icons/fa";
 import { Divider } from "@mui/material";
 import { IoIosContact } from "react-icons/io";
@@ -52,7 +51,15 @@ const Navbar = () => {
         <NavLink to="/cart">
           <CiShoppingCart className="shoppingCartIcon" />
         </NavLink>
-        <AuthButton>Login</AuthButton>
+        <div className="auth-btns-container">
+          <Link to="/login">
+            <p>Login</p>
+          </Link>
+          <div className="devider" />
+          <Link to="/signup">
+            <p>Signup</p>
+          </Link>
+        </div>
       </div>
       <button className="bars" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
         <FaBars className="bars-icon" />
