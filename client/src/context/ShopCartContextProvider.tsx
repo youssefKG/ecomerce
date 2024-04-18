@@ -1,9 +1,11 @@
 import { createContext, useState } from "react";
 const ShoppingCartContext = createContext(null);
-const ShopCartContextProvider = () => {
+const ShopCartContextProvider = ({ children }) => {
   const [shoppingCart, setShoppingCart] = useState([]);
   return (
-    <ShoppingCartContext.Provider value={{}}></ShoppingCartContext.Provider>
+    <ShoppingCartContext.Provider value={{ shoppingCart, setShoppingCart }}>
+      {children}
+    </ShoppingCartContext.Provider>
   );
 };
 export default ShopCartContextProvider;

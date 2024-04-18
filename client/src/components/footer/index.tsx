@@ -1,7 +1,11 @@
-import { BsTwitterX } from "react-icons/bs";
-import { IoLogoAppleAr } from "react-icons/io5";
-import { FaInstagram, FaFacebook, FaRegCopyright } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {
+  FaInstagram,
+  FaFacebook,
+  FaRegCopyright,
+  IoLogoAppleAr,
+  BsTwitterX,
+} from "../../assets/icons";
 import "./index.css";
 const Footer = () => {
   return (

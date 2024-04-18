@@ -10,12 +10,9 @@ import SimillarProductSection from "../../components/SimilarProducdsSection";
 import AddReview from "../../components/ProductReviewsSection/AddReview";
 import "./index.css";
 function ProductDetail() {
-  // this stock state in permanent before integrate the backend
   const { product_id } = useParams();
+  const { currentUser, handleOpenLoginBackdrop } = useContext(AuthContext);
   const [product, setProduct] = useState<ProductDetailType | null>(null);
-  const { currentUser, handleOpenLoginBackdrop, hello } =
-    useContext(AuthContext);
-  console.log(hello);
   const [productQuantite, setProductQuantite] = useState<number>(1);
   const [isLaoding, setIsLaoding] = useState<boolean>(true);
   const [formData, setFormData] = useState<FormDataOfReviewType>({
@@ -82,6 +79,18 @@ function ProductDetail() {
       setProductQuantite(productQuantite - 1);
     }
   };
+  const addToFavoris = async (): void => {
+    try {
+      setProduct({ ...product, isFavoris: !product.isFavoris });
+      if (currentUser) {
+        console.log(currentUser);
+      } else {
+        handleOpenLoginBackdrop();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect((): void => {
     fetchProductDetail();
   }, [product_id]);
@@ -98,6 +107,7 @@ function ProductDetail() {
         productQuantite={productQuantite}
         incrementProductQuantite={incrementProductQuantite}
         decrementProductQuatite={decrementProductQuantite}
+        addToFavoris={addToFavoris}
       />
       <section className="product-reviews-section">
         <ProductReviewsSection />

@@ -6,7 +6,12 @@ interface ProductType {
   imgURL: string;
   price: number;
   discount: number;
-  quantite: number;
+  stock: number;
+}
+interface shoppingCartProductType extends ProductType {
+  quantity: number;
+  isSeen: boolean;
+  totalPrice: number;
 }
 interface ReviewType {
   id: number;
@@ -36,8 +41,10 @@ interface CategorieType {
   imgsURL: string[];
 }
 interface CurrentUserType {
+  id: number;
   firtName: string;
   lastName: string;
+  photoURL: string;
   email: string;
 }
 interface Furniture {
@@ -58,6 +65,7 @@ type FormDataOfReviewType = {
 export type {
   CurrentUserType,
   FormDataOfReviewType,
+  shoppingCartProductType,
   ProductType,
   ProductDetailType,
   FurnitureCategoryType,

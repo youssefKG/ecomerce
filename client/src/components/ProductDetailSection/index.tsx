@@ -11,6 +11,7 @@ interface ProductDetailSectionProps {
   incrementProductQuantite: () => void;
   productQuantite: number;
   decrementProductQuatite: () => void;
+  addToFavoris: () => Promise<void>;
 }
 const ProductDetailSection = ({
   isFavoris,
@@ -19,6 +20,7 @@ const ProductDetailSection = ({
   addToCart,
   handleBuyNow,
   decrementProductQuatite,
+  addToFavoris,
 }: ProductDetailSectionProps) => {
   return (
     <section className="product">
@@ -37,7 +39,9 @@ const ProductDetailSection = ({
         <div className="header">
           <div className="title">
             <h1>Double Bed & Side Bed</h1>
-            <HeartButton isRed={isFavoris} />
+            <button onClick={addToFavoris}>
+              <HeartButton isRed={isFavoris} />
+            </button>
           </div>
           <div className="price">
             <p>£230</p>

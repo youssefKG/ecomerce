@@ -1,2 +1,10 @@
 import AuthContextProvider, { AuthContext } from "./AuthContextProvider";
-export { AuthContextProvider, AuthContext };
+import ShoppingCartContextProvider, {
+  ShoppingCartContext,
+} from "./ShopCartContextProvider";
+export {
+  AuthContextProvider,
+  AuthContext,
+  ShoppingCartContext,
+  ShoppingCartContextProvider,
+};

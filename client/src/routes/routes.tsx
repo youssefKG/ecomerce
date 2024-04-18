@@ -12,6 +12,7 @@ const Checkout = lazy(() => import("../pages/Checkout/index"));
 const Blogs = lazy(() => import("../pages/Blogs/index"));
 const BlogSettings = lazy(() => import("../pages/BlogDetail/index"));
 const DefaultLayout = lazy(() => import("../layouts/defaultLayout/index"));
+import ProtectedRoutes from "./ProtectedRoutes";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +23,6 @@ const router = createBrowserRouter([
         Component: Home,
       },
       { path: "/products", Component: Products },
-      { path: "/cart", Component: Cart },
       { path: "/Contact", Component: Contact },
       {
         path: "/product-detail/:product_id",
@@ -30,6 +30,11 @@ const router = createBrowserRouter([
       },
       { path: "/checkout", Component: Checkout },
       { path: "/blogs", Component: Blogs },
+      {
+        path: "",
+        Component: ProtectedRoutes,
+        children: [{ path: "/cart", Component: Cart }],
+      },
       { path: "/blog-settings", Component: BlogSettings },
       { path: "/blog-detail", Component: BlogDetail },
     ],

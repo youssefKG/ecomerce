@@ -105,17 +105,29 @@
 }
 .shoppingCartIcon {
   color: white;
-  font-size: 26px;
+  font-size: 20px;
 }
 .profil {
   display: flex;
   gap: 12px;
+  justify-content: center;
   align-items: center;
 }
 .profil .auth-btns-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   color: white;
+}
+.profil .currentUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profil .currentUser img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
 }
 .profil .auth-btns-container .devider {
   height: 18px;
