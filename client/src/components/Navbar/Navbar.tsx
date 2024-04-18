@@ -1,14 +1,49 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import { Context } from "../../layouts/defaultLayout";
+import { AuthContext } from "../../context/AuthContextProvider";
 import { NavLink, Link } from "react-router-dom";
-import { GiConcentricCrescents } from "react-icons/gi";
-import { CiShoppingCart } from "react-icons/ci";
+import { IoLogoAppleAr } from "react-icons/io5";
+// import { GiConcentricCrescents } from "react-icons/gi";
+// import { CiShoppingCart } from "react-icons/ci";
 import { FaBars, FaHome } from "react-icons/fa";
 import { Divider } from "@mui/material";
 import { IoIosContact } from "react-icons/io";
 import { FaBlog } from "react-icons/fa";
+const Drawer = ({ drawerRef }) => {
+  return (
+    <div className="drawer-container">
+      <div className="drawer" ref={drawerRef}>
+        <li>
+          <NavLink to="/" className="nav">
+            <FaHome />
+            <p>Home</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/products" className="nav">
+            <IoIosContact className="drawer-icon " />
+            <p>Products</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/blog" className="nav">
+            <FaBlog />
+            <p>Blog</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/about" className="nav">
+            <FaHome />
+            <p>About</p>
+          </NavLink>
+        </li>
+        <Divider />
+      </div>
+    </div>
+  );
+};
 const Navbar = () => {
-  const { backdropAuth, setBackdropAuth } = useContext(Context);
+  const { setBackdropAuth, currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement>();
   useEffect(() => {
@@ -24,9 +59,10 @@ const Navbar = () => {
   });
   return (
     <div className="navbarContainer">
-      <a>
-        <GiConcentricCrescents className="logo" />
-      </a>
+      <Link to="/" className="brandName">
+        <IoLogoAppleAr className="brandNameIcon" />
+        <p>TOTIB</p>
+      </Link>
       <ul>
         <li>
           <NavLink to="/">
@@ -50,9 +86,7 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="profil">
-        <NavLink to="/cart">
-          <CiShoppingCart className="shoppingCartIcon" />
-        </NavLink>
+        <NavLink to="/cart"></NavLink>
         <div className="auth-btns-container">
           <button
             onClick={() =>
@@ -74,37 +108,7 @@ const Navbar = () => {
       <button className="bars" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
         <FaBars className="bars-icon" />
       </button>
-      {isDrawerOpen && (
-        <div className="drawer-container">
-          <div className="drawer" ref={drawerRef}>
-            <li>
-              <NavLink to="/" className="nav">
-                <FaHome />
-                <p>Home</p>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/products" className="nav">
-                <IoIosContact className="drawer-icon " />
-                <p>Products</p>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/blog" className="nav">
-                <FaBlog />
-                <p>Blog</p>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/about" className="nav">
-                <FaHome />
-                <p>About</p>
-              </NavLink>
-            </li>
-            <Divider />
-          </div>
-        </div>
-      )}
+      {isDrawerOpen && <Drawer drawerRef={drawerRef} />}
     </div>
   );
 };

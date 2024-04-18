@@ -1,11 +1,25 @@
+import { CurrentUserType } from "../../types";
 import { HeartButton } from "../buttons";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Rating, Divider } from "@mui/material";
 import "./index.css";
 interface ProductDetailSectionProps {
   isFavoris: boolean;
+  currentUser: CurrentUserType;
+  addToCart: () => Promise<void>;
+  handleBuyNow: () => Promise<void>;
+  incrementProductQuantite: () => void;
+  productQuantite: number;
+  decrementProductQuatite: () => void;
 }
-const ProductDetailSection = ({ isFavoris }: ProductDetailSectionProps) => {
+const ProductDetailSection = ({
+  isFavoris,
+  productQuantite,
+  incrementProductQuantite,
+  addToCart,
+  handleBuyNow,
+  decrementProductQuatite,
+}: ProductDetailSectionProps) => {
   return (
     <section className="product">
       <div className="images-container">
@@ -57,17 +71,27 @@ const ProductDetailSection = ({ isFavoris }: ProductDetailSectionProps) => {
           <div className="btns">
             <div className="add-to-cart-btns">
               <div className="add-item">
-                <button className="increment-btn">
+                <button
+                  className="increment-btn"
+                  onClick={decrementProductQuatite}
+                >
                   <FaMinus />
                 </button>
-                <input className="nums-items-input" value={1} />
-                <button className="decriment-btn">
+                <input value={productQuantite} className="nums-items-input" />
+                <button
+                  className="decriment-btn"
+                  onClick={incrementProductQuantite}
+                >
                   <FaPlus />
                 </button>
               </div>
-              <button className="add-items">Add To Cart</button>
+              <button onClick={addToCart} className="add-items">
+                Add To Cart
+              </button>
             </div>
-            <button className="buy-now-btn">Buy Now</button>
+            <button onClick={handleBuyNow} className="buy-now-btn">
+              Buy Now
+            </button>
           </div>
         </div>
       </div>

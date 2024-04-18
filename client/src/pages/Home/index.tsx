@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import HeroSection from "../../components/heroSection/index";
 import ProductSection from "../../components/ProductsSection/index";
 import "./index.css";
-function Home() {
+const Home = () => {
   const { pathname } = useLocation();
   console.log(pathname);
   return (
@@ -11,6 +11,6 @@ function Home() {
       <ProductSection />
     </div>
   );
-}
+};
 
 export default Home;

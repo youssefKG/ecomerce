@@ -1,10 +1,31 @@
 .footer-container {
+  border-radius: 40px 40px 0px 0px;
   margin-top: 90px;
   display: flex;
   gap: 30px;
   flex-direction: column;
   background: var(--bluePrimary);
   color: white;
+}
+.footer-container .brandName {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  max-width: 20%;
+  gap: 6px;
+}
+.footer-container .brandName div {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 700;
+  gap: 6px;
+  font-size: 18px;
+  letter-spacing: 1mm;
+}
+.footer-container .brandName p {
+  color: silver;
+  padding: 6px 12px;
 }
 .footer-container .icon {
   color: white;
@@ -24,7 +45,6 @@
 .footer-container .container .about,
 .footer-container .container .company-info {
   display: flex;
-  gap: 20px;
   flex-direction: column;
 }
 .footer-container .container .about p,
@@ -43,7 +63,7 @@
 .footer-container .container .about,
 .footer-container .container .company-info {
   display: flex;
-  gap: 20px;
+  gap: 8px;
   flex-direction: column;
 }
 .copy-right {
@@ -55,6 +75,7 @@
   text-align: center;
   font-size: 14px;
   padding: 5px;
-  font-weight: 700;
+  font-weight: 500;
+  letter-spacing: 0.4mm;
   color: white;
 }

@@ -51,7 +51,7 @@
   padding: 6px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 6px;
   opacity: 50px;
   gap: 8px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
@@ -74,7 +74,7 @@
 .login-container form input {
   padding: 5px;
   padding-left: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   outline: none;
   border: 1px solid silver;
 }

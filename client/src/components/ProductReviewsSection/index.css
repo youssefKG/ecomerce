@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 10px;
   padding: 8px 40px;
+  width: 60vw;
+  align-self: center;
 }
 /* reviews start  */
 .reviews-container h1 {
@@ -61,6 +63,8 @@
   border: 1px solid silver;
   padding: 10px;
   border-radius: 10px;
+  align-self: center;
+  width: 40vw;
 }
 .add-review-container form {
   width: 100%;
@@ -110,6 +114,14 @@
   border-color: var(--yellowPrimary);
 }
 /* end add revieww   */
+@media only screen and (max-width: 1000px) {
+  .reviews-container {
+    width: 90vw;
+  }
+  .add-review-container {
+    width: 80vw;
+  }
+}
 @media only screen and (max-width: 700px) {
   .reviews-container {
     padding: 10px;

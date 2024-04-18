@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from "react";
-import { useLocation } from "react-router-dom";
 import FilterProducts from "../../components/filterProducts";
 import ProductsCollections from "../../components/ProductsCollection";
 import "./index.css";
@@ -9,6 +8,7 @@ const Products = () => {
     filter: string,
     event: ChangeEvent<HTMLInputElement>,
   ): void => {
+    event.preventDefault();
     if (!filters) setFilters([filter]);
     if (filters && !filters.includes(filter)) setFilters([...filters, filter]);
     if (filters && filters.includes(filter))
@@ -20,9 +20,6 @@ const Products = () => {
   const handleDeleteAllFilters = (): void => {
     setFilters(null);
   };
-  console.log(filters);
-  const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <div className="products-container">
       <FilterProducts handleFilter={handleFilter} filters={filters} />

@@ -1,5 +1,4 @@
 import { Skeleton } from "@mui/material";
-import ProductDetail from ".";
 import "./skeleton.css";
 const ProductDetailSkeleton = () => {
   return (

@@ -1,5 +1,5 @@
-import { ChangeEvent } from "react";
-import { FormDataOfReviewType } from "../../types";
+import { ChangeEvent, FormEvent } from "react";
+import { FormDataOfReviewType, CurrentUserType } from "../../types";
 import { Avatar, Rating } from "@mui/material";
 type AddReviewProps = {
   formData: FormDataOfReviewType;
@@ -7,11 +7,15 @@ type AddReviewProps = {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   handleRating: (e: unknown, newValue: number | null) => void;
+  handleOpenLoginBackdrop: () => void;
+  currentUser: CurrentUserType | null;
+  handlePostReview: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 };
 const AddReview = ({
   formData,
   handleChange,
   handleRating,
+  handlePostReview,
 }: AddReviewProps) => {
   return (
     <div className="add-review-container">
@@ -19,7 +23,7 @@ const AddReview = ({
         sx={{ width: 50, height: 50 }}
         src="https://thumbs.dreamstime.com/b/vecteur-d-ic%C3%B4ne-homme-affaires-image-masculine-de-profil-avatar-m%C3%A2le-182095609.jpg"
       />
-      <form>
+      <form onSubmit={handlePostReview}>
         <div className="user-info">
           <input
             className="firstName"

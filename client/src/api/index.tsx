@@ -19,6 +19,13 @@ const getProductsDetail = async (id: string) => {
     console.log(err);
   }
 };
+const handLoginSubmit =async ()=>{
+  try{
+  } catch(err){
+    return err
+  }
+}
+const handleRegisterSubmit = async () => {};
 const addToFavorisProducts = async (id: string) => {};
 const removeFromFavorisProducts = async (id: string) => {};
 const addToPanel = async () => {};

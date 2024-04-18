@@ -45,7 +45,7 @@ const ProductsCollections = ({
       <div className="cards-container">
         {productsData.map((product, i) => (
           <ProductCard
-            product_id={product.id}
+            product_id={+product.id}
             key={i}
             title={product.title}
             price={product.price}

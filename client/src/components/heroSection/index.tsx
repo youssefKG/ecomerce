@@ -26,7 +26,9 @@ const HeroSection = () => {
               src="https://img.freepik.com/free-psd/simple-product-backdrop-mockup-psd-with-shadow_53876-141762.jpg?w=996&t=st=1711722631~exp=1711723231~hmac=e79c0fd46173300cbe3cba67e95c747eb474fcc3a11033936c489379320c4a2d"
             />
             <h1>Black Friday</h1>
-            <button>Start Now</button>
+            <button>
+              <p>Start Now</p>
+            </button>
           </div>
         </SwiperSlide>
         <SwiperSlide className="slide">
@@ -36,7 +38,9 @@ const HeroSection = () => {
               src="https://img.freepik.com/free-psd/simple-product-backdrop-mockup-psd-with-shadow_53876-141762.jpg?w=996&t=st=1711722631~exp=1711723231~hmac=e79c0fd46173300cbe3cba67e95c747eb474fcc3a11033936c489379320c4a2d"
             />
             <h1>Black Friday</h1>
-            <button>Start Now</button>
+            <button>
+              <p>Start Now</p>
+            </button>
           </div>
         </SwiperSlide>
         <SwiperSlide className="slide">
@@ -46,7 +50,9 @@ const HeroSection = () => {
               src="https://img.freepik.com/free-psd/simple-product-backdrop-mockup-psd-with-shadow_53876-141762.jpg?w=996&t=st=1711722631~exp=1711723231~hmac=e79c0fd46173300cbe3cba67e95c747eb474fcc3a11033936c489379320c4a2d"
             />
             <h1>Black Friday</h1>
-            <button>Start Now</button>
+            <button>
+              <p>Start Now</p>
+            </button>
           </div>
         </SwiperSlide>
       </Swiper>

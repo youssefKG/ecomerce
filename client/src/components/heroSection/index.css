@@ -43,12 +43,16 @@
   letter-spacing: 1cm;
 }
 .slide-container button {
-  font-size: 15px;
   padding: 8px 14px;
   background-color: var(--blueSecondary);
   color: white;
-  border: 1px blue solid;
   transition: 300ms ease-in-out;
+  border-radius: 50px;
+}
+.slide-container button p {
+  font-size: 14px;
+  letter-spacing: 0.4mm;
+  font-weight: 600;
 }
 .slide-container button:hover {
   scale: 104%;

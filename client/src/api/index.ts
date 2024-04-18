@@ -15,7 +15,7 @@ const getProductsDetail = (): Promise<ProductDetailType> => {
       rate: 4,
       price: 233.51,
       discount: 20,
-      stock: 200,
+      stock: 20,
       reviews: reviewsData,
       similarProducts: productsData,
       isFavoris: true,

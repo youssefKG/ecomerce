@@ -13,15 +13,6 @@
 root {
   list-style: none;
 }
-ul {
-  margin: 0;
-}
-li {
-  list-style: none;
-}
-a {
-  text-decoration: none;
-}
 body {
   margin: 0;
   font-family: "Titillium Web" sans-serif;
@@ -32,6 +23,14 @@ body {
   font-family: "Titillium Web", sans-serif;
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  background: var(--darkPrimary);
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blueSecondary);
+  border-radius: 30px;
+}
 button {
   background-color: transparent;
   border: none;
@@ -39,4 +38,13 @@ button {
 button,
 a {
   cursor: pointer;
+}
+ul {
+  margin: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
 }

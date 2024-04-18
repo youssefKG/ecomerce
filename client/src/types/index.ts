@@ -1,10 +1,12 @@
 interface ProductType {
-  id: string;
+  id: number;
   title: string;
   rate: number;
+  description: string;
   imgURL: string;
   price: number;
   discount: number;
+  quantite: number;
 }
 interface ReviewType {
   id: number;
@@ -13,11 +15,6 @@ interface ReviewType {
   likes: number;
   stars: number; // should be between 0 and 5
   date: Date;
-}
-interface CategorieType {
-  id: number;
-  title: string;
-  imgsURL: string[];
 }
 interface ProductDetailType {
   id: number;
@@ -33,6 +30,16 @@ interface ProductDetailType {
   reviews: ReviewType[];
 }
 
+interface CategorieType {
+  id: number;
+  title: string;
+  imgsURL: string[];
+}
+interface CurrentUserType {
+  firtName: string;
+  lastName: string;
+  email: string;
+}
 interface Furniture {
   id: number;
   name: string;
@@ -49,6 +56,7 @@ type FormDataOfReviewType = {
   rate: number;
 };
 export type {
+  CurrentUserType,
   FormDataOfReviewType,
   ProductType,
   ProductDetailType,

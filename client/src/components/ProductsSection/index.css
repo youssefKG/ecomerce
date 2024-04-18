@@ -36,6 +36,13 @@
     overflow-x: auto;
     margin: 10px;
   }
+  .products-cards-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  .products-cards-container::-webkit-scrollbar-thumb {
+    background: var(--yellowPrimary);
+    height: 6px;
+  }
   .product-section {
     margin: 0px;
   }
