@@ -6,26 +6,27 @@ import "./index.css";
 interface ProductDetailSectionProps {
   isFavoris: boolean;
   currentUser: CurrentUserType;
-  addToCart: () => Promise<void>;
+  productQuantite: number;
   handleBuyNow: () => Promise<void>;
   incrementProductQuantite: () => void;
-  productQuantite: number;
   decrementProductQuatite: () => void;
   addToFavoris: () => Promise<void>;
+  addProductToShoppingCart: () => Promise<void>;
 }
 const ProductDetailSection = ({
   isFavoris,
   productQuantite,
   incrementProductQuantite,
-  addToCart,
   handleBuyNow,
   decrementProductQuatite,
   addToFavoris,
+  addProductToShoppingCart,
 }: ProductDetailSectionProps) => {
   return (
     <section className="product">
       <div className="images-container">
         <div className="small-imgs-container">
+          <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
           <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
           <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
           <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
@@ -81,7 +82,11 @@ const ProductDetailSection = ({
                 >
                   <FaMinus />
                 </button>
-                <input value={productQuantite} className="nums-items-input" />
+                <input
+                  value={productQuantite}
+                  readOnly
+                  className="nums-items-input"
+                />
                 <button
                   className="decriment-btn"
                   onClick={incrementProductQuantite}
@@ -89,7 +94,7 @@ const ProductDetailSection = ({
                   <FaPlus />
                 </button>
               </div>
-              <button onClick={addToCart} className="add-items">
+              <button onClick={addProductToShoppingCart} className="add-items">
                 Add To Cart
               </button>
             </div>

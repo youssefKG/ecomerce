@@ -11,7 +11,6 @@ interface ProductType {
 interface shoppingCartProductType extends ProductType {
   quantity: number;
   isSeen: boolean;
-  totalPrice: number;
 }
 interface ReviewType {
   id: number;

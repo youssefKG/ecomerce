@@ -6,9 +6,9 @@ const SimillarProductSection = () => {
     <section className="similar-products-section">
       <h1>Simillar Products</h1>
       <div className="products-cards-container">
-        {productsData.map((product) => (
+        {productsData.map((product, i: number) => (
           <ProductCard
-            key={product.id}
+            key={i}
             price={product.price}
             title={product.title}
             imgURL={product.imgURL}

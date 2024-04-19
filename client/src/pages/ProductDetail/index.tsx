@@ -1,6 +1,7 @@
 import { ChangeEvent, useState, useEffect, useContext, FormEvent } from "react";
-import { AuthContext } from "../../context/AuthContextProvider";
 import { useParams } from "react-router-dom";
+import { AuthContext, ShoppingCartContext } from "../../context";
+import { useSnackbar } from "notistack";
 import { getProductsDetail } from "../../api";
 import { FormDataOfReviewType, ProductDetailType } from "../../types";
 import ProductDetailSkeleton from "./ProductDetailSkeleton";
@@ -12,6 +13,7 @@ import "./index.css";
 function ProductDetail() {
   const { product_id } = useParams();
   const { currentUser, handleOpenLoginBackdrop } = useContext(AuthContext);
+  const { addProductToShoppingCart } = useContext(ShoppingCartContext);
   const [product, setProduct] = useState<ProductDetailType | null>(null);
   const [productQuantite, setProductQuantite] = useState<number>(1);
   const [isLaoding, setIsLaoding] = useState<boolean>(true);
@@ -21,6 +23,7 @@ function ProductDetail() {
     review: "",
     rate: 0,
   });
+  const { enqueueSnackbar } = useSnackbar();
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
@@ -51,15 +54,6 @@ function ProductDetail() {
       console.log(err);
     }
   };
-  const addToCart = async (): Promise<void> => {
-    try {
-      if (currentUser) {
-        console.log(currentUser);
-      } else handleOpenLoginBackdrop();
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const handleBuyNow = async (): Promise<void> => {
     try {
       if (currentUser) {
@@ -69,21 +63,26 @@ function ProductDetail() {
       console.log(err);
     }
   };
-  const incrementProductQuantite = () => {
-    if (productQuantite < product.stock) {
+  const incrementProductQuantite = (): void => {
+    if (productQuantite < product.stock)
       setProductQuantite(productQuantite + 1);
-    }
+    else if (productQuantite >= product.stock)
+      enqueueSnackbar("Not enough stock", { variant: "error" });
   };
-  const decrementProductQuantite = () => {
-    if (productQuantite >= 2) {
-      setProductQuantite(productQuantite - 1);
-    }
+  const decrementProductQuantite = (): void => {
+    if (productQuantite >= 2) setProductQuantite(productQuantite - 1);
+    else enqueueSnackbar("minimum quantite", { variant: "error" });
   };
-  const addToFavoris = async (): void => {
+  const addToFavoris = async (): Promise<void> => {
     try {
-      setProduct({ ...product, isFavoris: !product.isFavoris });
       if (currentUser) {
-        console.log(currentUser);
+        if (product?.isFavoris)
+          enqueueSnackbar("Removed from favoris", { variant: "success" });
+        else
+          enqueueSnackbar("Added to favoris", {
+            variant: "success",
+          });
+        setProduct({ ...product, isFavoris: !product.isFavoris });
       } else {
         handleOpenLoginBackdrop();
       }
@@ -100,14 +99,20 @@ function ProductDetail() {
   ) : (
     <div className="product-detail-container">
       <ProductDetailSection
-        isFavoris={product ? product.isFavoris : false}
-        addToCart={addToCart}
+        isFavoris={product ? product?.isFavoris : false}
         currentUser={currentUser}
         handleBuyNow={handleBuyNow}
         productQuantite={productQuantite}
         incrementProductQuantite={incrementProductQuantite}
         decrementProductQuatite={decrementProductQuantite}
         addToFavoris={addToFavoris}
+        addProductToShoppingCart={() =>
+          addProductToShoppingCart({
+            ...product,
+            quatite: productQuantite,
+            isSeen: false,
+          })
+        }
       />
       <section className="product-reviews-section">
         <ProductReviewsSection />

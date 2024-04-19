@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useContext } from "react";
+import { ShoppingCartContext } from "../../context";
 import {
   Table,
   TableRow,
@@ -16,6 +19,10 @@ const rows = [
   { id: 1, productDetail: "bed and rom", quantite: 13, price: 35, total: 3000 },
 ];
 const ShopingCart = () => {
+  const { setUnseen } = useContext(ShoppingCartContext);
+  useEffect(() => {
+    setUnseen(0);
+  }, []);
   return (
     <div className="cart-table-container">
       <Paper>

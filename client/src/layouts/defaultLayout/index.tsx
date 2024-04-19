@@ -5,11 +5,11 @@ import Footer from "../../components/footer";
 import Laoding from "../../components/loading";
 import LoginBackDrop from "../../components/LoginBackdrop";
 import SignupBackdrop from "../../components/SignupBackdrop";
-import AuthContextProvider from "../../context/AuthContextProvider";
+import GlobalConextProvider from "../../context/GlobalContextProvider";
 import "./index.css";
 const DefaultLayout = () => {
   return (
-    <AuthContextProvider>
+    <GlobalConextProvider>
       <div className="layoutContainer">
         <LoginBackDrop />
         <SignupBackdrop />
@@ -19,7 +19,7 @@ const DefaultLayout = () => {
         </Suspense>
         <Footer />
       </div>
-    </AuthContextProvider>
+    </GlobalConextProvider>
   );
 };
 export default DefaultLayout;
