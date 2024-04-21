@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useClickOutside } from "../../hooks";
 import { AuthContext, ShoppingCartContext } from "../../context";
@@ -10,15 +10,21 @@ import {
   FaHome,
   FaBlog,
   IoIosContact,
+  MdOutlineAccountCircle,
+  CiLogout,
+  BsBag,
+  CiStar,
+  MdOutlineCancel,
 } from "../../assets/icons";
 // icons import
 const Navbar = () => {
-  // contexts start
   const { setBackdropAuth, currentUser } = useContext(AuthContext);
   const { unseen } = useContext(ShoppingCartContext);
-  // contexts end
   const drawerRef = useRef<HTMLDivElement>();
   const [isDrawerOpen, setIsDrawerOpen] = useClickOutside(drawerRef);
+  const profilRef = useRef<HTMLButtonElement | null>(null);
+  const [isProfilBackdropOpen, setIsProfilBackdropOpen] =
+    useState<boolean>(true);
   return (
     <div className="navbarContainer">
       <Link to="/" className="brandName">
@@ -38,7 +44,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink to="/contact">
-            <p>Contact Us</p>{" "}
+            <p>Contact Us</p>
           </NavLink>
         </li>
         <li>
@@ -50,6 +56,7 @@ const Navbar = () => {
       <div className="profil">
         {currentUser ? (
           <div className="currentUser">
+            {isProfilBackdropOpen && <ProfilBackfrop />}
             <Link to="/cart">
               <Badge
                 badgeContent={unseen}
@@ -59,8 +66,10 @@ const Navbar = () => {
                 <IoMdCart className="shoppingCartIcon" />
               </Badge>
             </Link>
-
-            <button>
+            <button
+              ref={profilRef}
+              onClick={() => setIsProfilBackdropOpen(!isProfilBackdropOpen)}
+            >
               <img src={currentUser.photoURL} className="profil-img" />
             </button>
           </div>
@@ -121,6 +130,32 @@ const Drawer = ({ drawerRef }) => {
         </li>
         <Divider />
       </div>
+    </div>
+  );
+};
+const ProfilBackfrop = () => {
+  return (
+    <div className="profil-backdrop-container">
+      <Link to="/account" className="item">
+        <MdOutlineAccountCircle className="icon" />
+        <p>My Account</p>
+      </Link>
+      <Link to="item" className="item">
+        <BsBag className="icon" />
+        <p>My Orders</p>
+      </Link>
+      <Link to="" className="item">
+        <MdOutlineCancel className="icon" />
+        <p>MyCancelation</p>
+      </Link>
+      <Link to="" className="item">
+        <CiStar className="icon" />
+        <p>My Reviews</p>
+      </Link>
+      <Link to="item" className="item">
+        <CiLogout className="icon" />
+        <p>Logout</p>
+      </Link>
     </div>
   );
 };

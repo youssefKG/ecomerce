@@ -10,10 +10,12 @@ import ProductDetailSection from "../../components/ProductDetailSection";
 import SimillarProductSection from "../../components/SimilarProducdsSection";
 import AddReview from "../../components/ProductReviewsSection/AddReview";
 import "./index.css";
+
 function ProductDetail() {
   const { product_id } = useParams();
   const { currentUser, handleOpenLoginBackdrop } = useContext(AuthContext);
   const { addProductToShoppingCart } = useContext(ShoppingCartContext);
+  const { enqueueSnackbar } = useSnackbar();
   const [product, setProduct] = useState<ProductDetailType | null>(null);
   const [productQuantite, setProductQuantite] = useState<number>(1);
   const [isLaoding, setIsLaoding] = useState<boolean>(true);
@@ -23,7 +25,7 @@ function ProductDetail() {
     review: "",
     rate: 0,
   });
-  const { enqueueSnackbar } = useSnackbar();
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
@@ -90,10 +92,13 @@ function ProductDetail() {
       console.log(err);
     }
   };
+
   useEffect((): void => {
+    console.log("product detail : ", document.referrer);
     fetchProductDetail();
   }, [product_id]);
   console.log(formData);
+
   return isLaoding ? (
     <ProductDetailSkeleton />
   ) : (

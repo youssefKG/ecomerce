@@ -1,2 +1,3 @@
 import useClickOutside from "./useClickOutside";
-export { useClickOutside };
+import useIsHover from "./useIsHover";
+export { useClickOutside, useIsHover };

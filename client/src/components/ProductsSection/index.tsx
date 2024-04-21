@@ -17,7 +17,7 @@ const ProductSection = () => {
       <div className="products-cards-container">
         {productsData.map((product: productType, i: number) => (
           <ProductCard
-            product_id={String(product.id)}
+            product_id={product.id}
             key={i}
             title={product.title}
             imgURL={product.imgURL}

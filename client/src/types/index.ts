@@ -41,10 +41,11 @@ interface CategorieType {
 }
 interface CurrentUserType {
   id: number;
-  firtName: string;
+  firstName: string;
   lastName: string;
   photoURL: string;
   email: string;
+  address: string;
 }
 interface Furniture {
   id: number;

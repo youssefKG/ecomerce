@@ -1,0 +1,32 @@
+.why-us-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 70px;
+  margin: 10px;
+}
+.why-us-section .why-us {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.why-us-section .why-us .icon-delivery,
+.why-us-section .why-us .icon-customer-service,
+.why-us-section .why-us .icon-shield {
+  color: white;
+  font-size: 54px;
+  padding: 4px;
+  background-color: gray;
+  border-radius: 50px;
+}
+.why-us-section .why-us h1 {
+  font-size: 20px;
+  letter-spacing: 0.3mm;
+}
+.why-us-section .why-us p {
+  font-size: 14px;
+  color: gray;
+  letter-spacing: 0.1mm;
+}

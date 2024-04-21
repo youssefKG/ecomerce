@@ -12,6 +12,8 @@ const Checkout = lazy(() => import("../pages/Checkout/index"));
 const Blogs = lazy(() => import("../pages/Blogs/index"));
 const BlogSettings = lazy(() => import("../pages/BlogDetail/index"));
 const DefaultLayout = lazy(() => import("../layouts/defaultLayout/index"));
+const AccoutLayout = lazy(() => import("../layouts/AccountLayout"));
+const EditAccount = lazy(() => import("../pages/EditAccount"));
 import ProtectedRoutes from "./ProtectedRoutes";
 const router = createBrowserRouter([
   {
@@ -33,7 +35,14 @@ const router = createBrowserRouter([
       {
         path: "",
         Component: ProtectedRoutes,
-        children: [{ path: "/cart", Component: Cart }],
+        children: [
+          { path: "/cart", Component: Cart },
+          {
+            path: "/account",
+            Component: AccoutLayout,
+            children: [{ path: "", Component: EditAccount }],
+          },
+        ],
       },
       { path: "/blog-settings", Component: BlogSettings },
       { path: "/blog-detail", Component: BlogDetail },

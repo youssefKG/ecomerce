@@ -1,5 +1,3 @@
-import { categoriesData } from "../../utils";
-import { CategorieCard } from "../cards";
 import "./index.css";
 const CategoriesSection = () => {
   return (
@@ -11,25 +9,24 @@ const CategoriesSection = () => {
           cillum sint consectetur cupidatat.
         </p>
       </div>
-      <div className="cards-container">
-        <CategorieCard
-          title={categoriesData[0].title}
-          imgsURL={categoriesData[0].imgsURL}
-        />
-        <div>
-          <CategorieCard
-            title={categoriesData[1].title}
-            imgsURL={categoriesData[1].imgsURL}
-          />
-          <CategorieCard
-            title={categoriesData[2].title}
-            imgsURL={categoriesData[2].imgsURL}
-          />
+      <div className="categories-cards-container">
+        <div id="cat-1" className="cat">
+          <h1>Cat num 1</h1>
+          <img src="https://www.archiproducts.com/images/category-b/1394@1x.jpg" />
         </div>
-        <CategorieCard
-          title={categoriesData[3].title}
-          imgsURL={categoriesData[3].imgsURL}
-        />
+        <div id="cat-2" className="cat">
+          <h1>Cat num 1</h1>
+          <img src="https://www.archiproducts.com/images/category-b/1394@1x.jpg" />
+        </div>
+        <div id="cat-3" className="cat">
+          <h1>Cat num 1</h1>
+
+          <img src="https://www.archiproducts.com/images/category-b/1394@1x.jpg" />
+        </div>
+        <div id="cat-4" className="cat">
+          <h1>Cat num 1</h1>
+          <img src="https://www.archiproducts.com/images/category-b/1394@1x.jpg" />
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,6 @@
   width: 100%;
   background-color: black;
   color: white;
-  display: flex;
 }
 .brandNameContainer ul {
   margin: 0;
@@ -45,6 +44,7 @@
   align-items: center;
   padding: 4px;
   margin: 0;
+  position: relative;
 }
 .navbarContainer .brandNameIcon {
   color: white;
@@ -130,6 +130,7 @@
   border-radius: 50px;
 }
 .profil .auth-btns-container .devider {
+  background: white;
   height: 18px;
   width: 2px;
   background-color: var(--yellowPrimary);
@@ -143,6 +144,7 @@
   color: white;
 }
 .profil .auth-btns-container p:hover {
+  background: white;
   scale: 102%;
   color: whitesmoke;
   opacity: 100%;
@@ -152,6 +154,51 @@
 }
 .drawer-container {
   display: none;
+}
+.profil-backdrop-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: white;
+  bottom: -226px;
+  width: 180px;
+  right: 5%;
+  border-radius: 8px;
+}
+.profil-backdrop-container .item {
+  display: flex;
+  align-items: center;
+  z-index: 30;
+  color: black;
+  gap: 10px;
+  width: 100%;
+  opacity: 80%;
+  transition: 300ms ease-out;
+  padding: 6px;
+}
+.profil-backdrop-container .item:hover {
+  opacity: 100%;
+  background-color: silver;
+}
+.profil-backdrop-container button p {
+  font-size: 14px;
+  font-weight: 700;
+}
+.profil-backdrop-container button .icon {
+  font-size: 24px;
+}
+.profil-backdrop-container .my-acount-backdrop {
+}
+.profil-backdrop-container .my-orders-backdrop {
+}
+.profil-backdrop-container .my-cancelation-backdrop {
+}
+.profil-backdrop-container .my-reviews-backdrop {
+}
+.profil-backdrop-container {
+}
+.profil-backdrop-container {
 }
 /* navbar end */
 /* responsive design */
