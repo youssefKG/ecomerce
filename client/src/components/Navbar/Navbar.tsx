@@ -56,7 +56,11 @@ const Navbar = () => {
       <div className="profil">
         {currentUser ? (
           <div className="currentUser">
-            {isProfilBackdropOpen && <ProfilBackfrop />}
+            {isProfilBackdropOpen && (
+              <ProfilBackfrop
+                closeProfilBackdrop={(): void => setIsProfilBackdropOpen(false)}
+              />
+            )}
             <Link to="/cart">
               <Badge
                 badgeContent={unseen}
@@ -133,29 +137,43 @@ const Drawer = ({ drawerRef }) => {
     </div>
   );
 };
-const ProfilBackfrop = () => {
+const ProfilBackfrop = ({
+  closeProfilBackdrop,
+}: {
+  closeProfilBackdrop: () => void;
+}) => {
   return (
     <div className="profil-backdrop-container">
-      <Link to="/account" className="item">
-        <MdOutlineAccountCircle className="icon" />
-        <p>My Account</p>
-      </Link>
-      <Link to="item" className="item">
-        <BsBag className="icon" />
-        <p>My Orders</p>
-      </Link>
-      <Link to="" className="item">
-        <MdOutlineCancel className="icon" />
-        <p>MyCancelation</p>
-      </Link>
-      <Link to="" className="item">
-        <CiStar className="icon" />
-        <p>My Reviews</p>
-      </Link>
-      <Link to="item" className="item">
-        <CiLogout className="icon" />
-        <p>Logout</p>
-      </Link>
+      <button onClick={closeProfilBackdrop}>
+        <Link to="/account" className="item">
+          <MdOutlineAccountCircle className="icon" />
+          <p>My Account</p>
+        </Link>
+      </button>
+      <button onClick={closeProfilBackdrop}>
+        <Link to="item" className="item">
+          <BsBag className="icon" />
+          <p>My Orders</p>
+        </Link>
+      </button>
+      <button onClick={closeProfilBackdrop}>
+        <Link to="" className="item">
+          <MdOutlineCancel className="icon" />
+          <p>MyCancelation</p>
+        </Link>
+      </button>
+      <button onClick={closeProfilBackdrop}>
+        <Link to="" className="item">
+          <CiStar className="icon" />
+          <p>My Reviews</p>
+        </Link>
+      </button>
+      <button onClick={closeProfilBackdrop}>
+        <Link to="item" className="item">
+          <CiLogout className="icon" />
+          <p>Logout</p>
+        </Link>
+      </button>
     </div>
   );
 };

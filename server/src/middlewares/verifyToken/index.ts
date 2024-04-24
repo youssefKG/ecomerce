@@ -1,0 +1,75 @@
+import { Request, Response, NextFunction } from "express";
+import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
+
+interface JwtPayload {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
+const prisma = new PrismaClient();
+
+const verirfyToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const token: string | null = req.cookies.token;
+
+    if (!token) {
+      res.status(401).json({
+        success: false,
+        message: "No authtication token , authorization denied",
+        jwtExpired: true,
+        result: null,
+      });
+      return;
+    }
+
+    const jwtSecret = process.env.JWT_SECRET || "jwt-secret";
+    const verified = jwt.verify(token, jwtSecret) as JwtPayload;
+
+    if (!verified) {
+      res.status(401).json({
+        success: false,
+        result: null,
+        message: "Invalid authorization token",
+        jwtExpired: true,
+      });
+      return;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: verified.email,
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        adress: true,
+        role: true,
+      },
+    });
+
+    if (!user) {
+      res.status(401).json({
+        success: false,
+        result: null,
+        message: "User not found the authorization denied",
+        jwtExpired: true,
+      });
+      return;
+    }
+    req.user = user;
+    next();
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+export default verirfyToken;

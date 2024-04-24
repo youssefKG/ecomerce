@@ -29,18 +29,7 @@ function ProductDetail() {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
-    console.log(e.target.value, e.target.name);
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const fetchProductDetail = async () => {
-    try {
-      setIsLaoding(true);
-      await getProductsDetail().then((data) => setProduct(data));
-      setIsLaoding(false);
-    } catch (err) {
-      setIsLaoding(false);
-      console.log(err);
-    }
   };
   const handlePostReview = async (
     e: FormEvent<HTMLFormElement>,
@@ -92,8 +81,18 @@ function ProductDetail() {
       console.log(err);
     }
   };
-
+  console.log("product ", product);
   useEffect((): void => {
+    const fetchProductDetail = async () => {
+      try {
+        setIsLaoding(true);
+        await getProductsDetail(product_id).then((data) => setProduct(data));
+        setIsLaoding(false);
+      } catch (err) {
+        setIsLaoding(false);
+        console.log(err);
+      }
+    };
     console.log("product detail : ", document.referrer);
     fetchProductDetail();
   }, [product_id]);
@@ -111,11 +110,13 @@ function ProductDetail() {
         incrementProductQuantite={incrementProductQuantite}
         decrementProductQuatite={decrementProductQuantite}
         addToFavoris={addToFavoris}
+        imgURL={product?.imgURL}
         addProductToShoppingCart={() =>
           addProductToShoppingCart({
             ...product,
-            quatite: productQuantite,
+            quantite: productQuantite,
             isSeen: false,
+            orderId: 1,
           })
         }
       />

@@ -6,6 +6,7 @@ import HeroSection from "../../components/heroSection/index";
 import ProductSection from "../../components/ProductsSection/index";
 import CategoriesSection from "../../components/categoriesSection";
 import WhyUsSection from "../../components/WhyUsSection";
+import BestSellingProduct from "../../components/BestSellingProduct";
 import "./index.css";
 const Home = () => {
   const { handleOpenLoginBackdrop } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const Home = () => {
       <HeroSection />
       <ProductSection />
       <CategoriesSection />
+      <BestSellingProduct />
       <WhyUsSection />
     </div>
   );

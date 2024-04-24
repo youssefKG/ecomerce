@@ -1,0 +1,33 @@
+.manage-account-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.manage-account-container div {
+  display: flex;
+  flex-direction: column;
+}
+.manage-account-container div h1 {
+  font-size: 18px;
+}
+.manage-account-container div ul li p {
+  color: gray;
+  transition: all 400ms ease-in;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.4mm;
+}
+.manage-account-container div ul li p:hover {
+  color: var(--blueSecondary) !important;
+  letter-spacing: 0.4mm;
+  font-weight: 700;
+  scale: 101%;
+  text-decoration: underline;
+}
+.active-one {
+  color: var(--blueSecondary) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4mm;
+  scale: 101%;
+  text-decoration: underline;
+}

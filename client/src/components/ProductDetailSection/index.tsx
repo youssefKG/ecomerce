@@ -12,6 +12,7 @@ interface ProductDetailSectionProps {
   decrementProductQuatite: () => void;
   addToFavoris: () => Promise<void>;
   addProductToShoppingCart: () => Promise<void>;
+  imgURL: string;
 }
 const ProductDetailSection = ({
   isFavoris,
@@ -21,6 +22,7 @@ const ProductDetailSection = ({
   decrementProductQuatite,
   addToFavoris,
   addProductToShoppingCart,
+  imgURL,
 }: ProductDetailSectionProps) => {
   return (
     <section className="product">
@@ -31,10 +33,7 @@ const ProductDetailSection = ({
           <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
           <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
         </div>
-        <img
-          className="big-img"
-          src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs"
-        />
+        <img className="big-img" src={imgURL} />
       </div>
       <div className="product-info">
         <div className="header">

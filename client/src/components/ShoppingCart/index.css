@@ -1,6 +1,12 @@
 .cart-table-container {
   width: 100%;
 }
+
+.head-cell p {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--blueSecondary);
+}
 .cart-table-container .product-cell {
   display: flex;
   align-items: center;

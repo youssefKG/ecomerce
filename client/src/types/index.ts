@@ -9,7 +9,8 @@ interface ProductType {
   stock: number;
 }
 interface shoppingCartProductType extends ProductType {
-  quantity: number;
+  orderId: string;
+  quantite: number;
   isSeen: boolean;
 }
 interface ReviewType {
@@ -20,15 +21,8 @@ interface ReviewType {
   stars: number; // should be between 0 and 5
   date: Date;
 }
-interface ProductDetailType {
-  id: number;
-  title: string;
-  description: string;
-  rate: number;
-  imgURL: string;
-  price: number;
-  discount: number;
-  stock: number;
+
+interface ProductDetailType extends ProductType {
   similarProducts: ProductType[];
   isFavoris: boolean;
   reviews: ReviewType[];

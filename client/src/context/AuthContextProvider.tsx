@@ -15,6 +15,7 @@ type BackdropType = {
   isLoginOpen: boolean;
   isSignupOpen: boolean;
 };
+
 const AuthContextProvider = ({ children }) => {
   // const [currentUser, setCurrentUser] = useState<CurrentUserType | null>(null);
   const [currentUser, setCurrentUser] = useState<CurrentUserType | null>({

@@ -36,6 +36,7 @@ const EditAccount = () => {
           <div className="input-champ-container">
             <label>First Name : </label>
             <input
+              onChange={handleEditFromAccountChange}
               name="firstName"
               className="first-name"
               placeholder="First Name"
@@ -45,6 +46,7 @@ const EditAccount = () => {
           <div className="input-champ-container">
             <label>Last Name : </label>
             <input
+              onChange={handleEditFromAccountChange}
               id="lastName"
               className="last-name"
               placeholder="Last Name"
@@ -56,6 +58,7 @@ const EditAccount = () => {
         <div className="input-champ-container">
           <label>Email:</label>
           <input
+            onChange={handleEditFromAccountChange}
             name="email"
             className="first-name"
             placeholder="First Name"
@@ -65,6 +68,7 @@ const EditAccount = () => {
         <div className="input-champ-container">
           <label>Address :</label>
           <input
+            onChange={handleEditFromAccountChange}
             className="address"
             placeholder="derb khalid rue 10 n 89"
             value={profilData?.address}
@@ -75,18 +79,21 @@ const EditAccount = () => {
       <div className="change-password-container">
         <h2>Change Password</h2>
         <input
+          onChange={handleEditFromAccountChange}
           name="currentPassword"
           value={profilData?.currentPassword}
           className="current-password"
           placeholder="Current Password"
         />
         <input
+          onChange={handleEditFromAccountChange}
           name="newPassword"
           value={profilData?.newPassword}
           className="new-password"
           placeholder="New Password"
         />
         <input
+          onChange={handleEditFromAccountChange}
           name="confirmNewPassword"
           value={profilData?.confirmNewPassword}
           className="confirm-new-password"
