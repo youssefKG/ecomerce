@@ -1,16 +1,28 @@
-import { ProductType, ProductDetailType } from "../types";
-import { productsData } from "../utils";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:1900";
+import { productsData } from "../utils";
+import { CurrentUserType , ProductType} from "../types/index";
+axios.defaults.baseURL = "http://localhost:1900/api";
 axios.defaults.withCredentials = true;
-const getProductsDetail = (productId: number): Promise<ProductDetailType> => {
-  return new Promise((resolve, reject) => {
-    const product: ProductType = productsData.filter(
-      (p) => p.id !== productId,
-    )[0];
-    setTimeout(() => {
-      resolve({ ...product, orderId: 4, isSeen: false, quantite: 1 });
-    }, 1000); // 10 seconds delay
+const getProductsDetail = (id: number): ProductType | null => {
+  for (let i: number = 0; i < productsData.length; i++)
+    if (productsData[i].id === id) return productsData[i];
+  return null;
+};
+const continueWithGoogle = async (): Promise<void> => {
+  try {
+    const currentUser = await axios.get("/auth/google");
+    console.log(currentUser);
+  } catch (err) {
+    console.log(err);
+  }
+};
+const login = async (currentUser: {
+  email: string;
+  password: string;
+}): Promise<CurrentUserType> => {
+  return axios.post("/auth/login", currentUser).then((res) => {
+    return res?.data?.result;
   });
 };
-export { getProductsDetail };
+
+export { continueWithGoogle, getProductsDetail, login };

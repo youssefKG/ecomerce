@@ -12,14 +12,13 @@ interface ProductType {
   productId: string;
   title: string;
   rate: number;
-  price: string;
+  price: number;
   discount: number;
   imgsURLS: string[];
 }
 interface ProductDetailType extends ProductType {
   category: string;
-  simillarProducts: ProductType[];
-  reviews: ReviewsType[];
+  created_at: Date;
   isFavoris: boolean;
   quatite: number;
 }

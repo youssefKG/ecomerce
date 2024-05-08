@@ -1,29 +1,63 @@
 import { ChangeEvent, useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { FcGoogle, FaFacebook } from "../../assets/icons";
+import * as authService from "../../auth";
 import Dialog from "@mui/material/Dialog";
 import { Divider } from "@mui/material";
+import { AuthResponseType, RegisterFormDataType } from "../../types";
+import { isStrongPassword, isValidEmail } from "../../utils";
 import "./index.css";
-type FormDataType = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+
 const SignupBackdrop = () => {
-  const { backdropAuth, setBackdropAuth } = useContext(AuthContext);
-  const [formData, setFormData] = useState<FormDataType>({
+  const { backdropAuth, setBackdropAuth, handleOpenLoginBackdrop } =
+    useContext(AuthContext);
+  const [formData, setFormData] = useState<RegisterFormDataType>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [isLaoding, setIsLaoding] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const handleFormDataChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleFormSubmit = async (e): Promise<void> => {
+    e.preventDefault();
+    if (isLaoding) return;
+    setIsLaoding(true);
+
+    if (!isValidEmail(formData.email)) {
+      console.log("not a valid email");
+      return;
+    }
+
+    if (!isStrongPassword) {
+      console.log("is not a strong password ");
+      return;
+    }
+
+    const response: AuthResponseType = await authService.register(formData);
+    if (response) {
+      if (response?.success) {
+        setIsLaoding(false);
+        setTimeout(() => {
+          setSuccessMessage(response.message);
+          setErrorMessage(null);
+          handleOpenLoginBackdrop(); // open login when if the account is created
+        }, 2000);
+      } else {
+        setSuccessMessage(null);
+        setErrorMessage(response?.message);
+      }
+      console.log("response from register backdrop", response);
+    }
+  };
+
   return (
     <Dialog
       open={backdropAuth.isSignupOpen}
@@ -35,9 +69,11 @@ const SignupBackdrop = () => {
         <button className="close-btn"></button>
         <div className="signup-header">
           <h1>Create An Account</h1>
-          <p>
-            Dont have an account?<span>Sign Up</span>
-          </p>
+          <button onClick={handleOpenLoginBackdrop}>
+            <p>
+              Dont have an account?<span>Login ?</span>
+            </p>
+          </button>
         </div>
         <div className="passport-auth">
           <button>
@@ -50,7 +86,7 @@ const SignupBackdrop = () => {
           </button>
         </div>
         <Divider>Or</Divider>
-        <form>
+        <form onSubmit={handleFormSubmit}>
           <div className="">
             <input
               onChange={handleFormDataChange}
@@ -91,7 +127,15 @@ const SignupBackdrop = () => {
             placeholder="Confirm password"
             type="password"
           />
-          <button className="login-btn">Sign Up</button>
+          <button type="submit" disabled={isLaoding} className="login-btn">
+            Sign Up
+          </button>
+          {errorMessage && (
+            <p className="register-error-message">{errorMessage}</p>
+          )}
+          {successMessage && (
+            <p className="register-success-message">{successMessage}</p>
+          )}
         </form>
       </div>
     </Dialog>

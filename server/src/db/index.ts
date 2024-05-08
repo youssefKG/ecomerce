@@ -1,18 +1,19 @@
-import { MongoClient, Db } from "mongodb";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-
-async function connectToDb(): Promise<Db | undefined> {
-  try {
-    const client = new MongoClient(process.env.DATABASE_URL || "");
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    const db: Db = client.db();
-    return db;
-  } catch (err) {
-    console.log(err);
-  }
+import { PrismaClient } from "@prisma/client";
+const client = new PrismaClient();
+async function main(): Promise<void> {
+  const user = await client.user.create({
+    data: {
+      firstName: "youssef",
+      lastName: "youssef",
+      email: "yousseftaoussi@gmail.com",
+      imgURL: "test",
+      adress: "test ",
+      role: "ADMIN",
+      isLogin: false,
+      password: "test",
+      salt: "test",
+    },
+  });
+  console.log(user);
 }
-export default connectToDb;
+export default main;

@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { allowedNodeEnvironmentFlags } from "process";
 import { UserType } from "../../types";
 
 interface RegisterDataType extends UserType {
@@ -12,13 +11,14 @@ interface RegisterDataType extends UserType {
 
 interface User extends UserType {
   password: string;
+  confirmPassword?: string;
   isLogin: boolean;
   salt: string;
 }
 
-class Auth {
-  private prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
+class Auth {
   public async login(
     req: Request,
     res: Response,
@@ -27,7 +27,9 @@ class Auth {
     const email: string = req.body.email;
     const password: string = req.body.password;
 
-    const findUser: User | null = await this.prisma.user.findUnique({
+    console.log(email, password);
+
+    const findUser: User | null = await prisma.user.findUnique({
       where: { email },
     });
 
@@ -64,7 +66,7 @@ class Auth {
       process.env.JWT_SECRET || "",
     );
 
-    await this.prisma.user.update({
+    await prisma.user.update({
       where: { email },
       data: { isLogin: true },
     });
@@ -101,15 +103,122 @@ class Auth {
         password,
         confirmPassword,
       }: RegisterDataType = req.body;
-      console.log(firstName, lastName, email, password, confirmPassword);
+
+      if (
+        firstName === "" ||
+        lastName === "" ||
+        email === "" ||
+        password === "" ||
+        confirmPassword === ""
+      ) {
+        res.status(400).json({
+          success: false,
+          message: "All fields are required",
+          result: null,
+        });
+        return;
+      }
+
+      const existingUser: User | null = await prisma.user.findUnique({
+        where: { email },
+      });
+
+      if (existingUser) {
+        res.status(400).json({
+          success: false,
+          message: "account with this email already exists",
+          result: null,
+        });
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        res.status(400).json({
+          success: false,
+          message: "passwords d'ont match",
+          result: null,
+        });
+        return;
+      }
+
+      if (password.length < 8) {
+        res.status(400).json({
+          success: false,
+          messages: "the password need to be at least 8 characters long",
+          result: null,
+        });
+      }
+
+      const salt = bcrypt.genSaltSync(10);
+      const hashPassword = bcrypt.hashSync(password + salt);
+
+      const newAccount: User | null = await prisma.user.create({
+        data: {
+          firstName,
+          lastName,
+          imgURL: "",
+          role: "USER",
+          email,
+          adress: "",
+          password: hashPassword,
+          salt,
+          isLogin: false,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "account created successfuly!",
+        result: null,
+      });
     } catch (err) {
       next(err);
     }
   }
-  public async logout(): Promise<void> {
+
+  public async continueWithGoogle(
+    req: Request<never, never>,
+    res: Response,
+    next: NextFunction,
+  ) {}
+
+  public async logout(
+    req: Request<never, never, never>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
-    } catch (err) {}
+      const updatedUser: User | null = await prisma.user.update({
+        where: { email: req.currentUser.email },
+        data: { isLogin: false },
+      });
+
+      if (!updatedUser) {
+        res.status(400).json({
+          success: false,
+          message: "only registered users can log out",
+          result: null,
+        });
+        return;
+      }
+
+      if (!updatedUser.isLogin) {
+        res.status(400).json({
+          success: false,
+          message: "only log in users can logout",
+        });
+        return;
+      }
+
+      res.status(200).clearCookie("totib-token").json({
+        success: true,
+        message: "logout successfuly",
+        result: null,
+        jwtExpire: true,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-  public signUp(req: Request, res: Response, next: NextFunction): void {}
 }
 export default Auth;

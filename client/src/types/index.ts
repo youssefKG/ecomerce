@@ -8,6 +8,17 @@ interface ProductType {
   discount: number;
   stock: number;
 }
+interface LoginFormDataType {
+  email: string;
+  password: string;
+}
+interface RegisterFormDataType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 interface shoppingCartProductType extends ProductType {
   orderId: string;
   quantite: number;
@@ -41,6 +52,11 @@ interface CurrentUserType {
   email: string;
   address: string;
 }
+interface AuthResponseType {
+  success: boolean;
+  message: string;
+  result: CurrentUserType | null;
+}
 interface Furniture {
   id: number;
   name: string;
@@ -57,6 +73,9 @@ type FormDataOfReviewType = {
   rate: number;
 };
 export type {
+  LoginFormDataType,
+  RegisterFormDataType,
+  AuthResponseType,
   CurrentUserType,
   FormDataOfReviewType,
   shoppingCartProductType,

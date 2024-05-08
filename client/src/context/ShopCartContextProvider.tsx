@@ -12,6 +12,7 @@ const ShopCartContextProvider = ({ children }) => {
   >([]);
   const [unseen, setUnseen] = useState<number>(0);
   const { enqueueSnackbar } = useSnackbar();
+
   const addProductToShoppingCart = async (
     product: shoppingCartProductType,
   ): Promise<void> => {
@@ -40,9 +41,8 @@ const ShopCartContextProvider = ({ children }) => {
             break;
           }
         }
-        console.log(i);
-        // if the product is not in shopping cart
         if (i === shoppingCartProducts.length)
+          // if the product is not in shopping cart
           setShoppingCartProducts([...shoppingCartProducts, product]);
         setUnseen(unseen + 1);
       } else handleOpenLoginBackdrop();
@@ -50,8 +50,6 @@ const ShopCartContextProvider = ({ children }) => {
       console.log(err);
     }
   };
-  console.log(shoppingCartProducts);
-  // const incrementQuatiteProduct = (productId: number): void => {};
   return (
     <ShoppingCartContext.Provider
       value={{

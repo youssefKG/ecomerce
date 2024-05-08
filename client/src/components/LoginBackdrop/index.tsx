@@ -1,33 +1,53 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
+import * as authService from "../../auth";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { AuthResponseType, LoginFormDataType } from "../../types";
+import TextInput from "../TextInput";
+import { Formik } from "formik";
+import { validateLoginFormData } from "../../utils/validate";
+import { continueWithGoogle } from "../../api/index";
 import Dialog from "@mui/material/Dialog";
 import { Divider } from "@mui/material";
+import { FaFacebook, FcGoogle } from "../../assets/icons";
 import "./index.css";
-type FormDataType = {
-  email: string;
-  passpord: string;
-};
+
 const LoginBackDrop = () => {
-  const { backdropAuth, setBackdropAuth } = useContext(AuthContext);
-  const [formData, setFormData] = useState<FormDataType>({
-    email: "",
-    passpord: "",
-  });
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const {
+    backdropAuth,
+    setBackdropAuth,
+    setCurrentUser,
+    handleOpenRegisterBackdrop,
+  } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const initialValues: LoginFormDataType = { email: "", password: "" };
+
+  const handleFormSubmit = async (
+    values: LoginFormDataType,
+    actions,
+  ): Promise<void> => {
     try {
-      const email: string = formData.email;
-      const password: string = formData.passpord;
-      console.log(email, password);
-      e.preventDefault();
+      console.log(values, actions);
+      if (isLoading) return;
+
+      setIsLoading(true);
+
+      const response: AuthResponseType = await authService.login(values);
+
+      setCurrentUser(response);
+      setSuccessMessage(response.message);
+      setErrorMessage(null);
+      setIsLoading(false);
     } catch (err) {
+      setErrorMessage("Email Or password incorrect !!");
+      setIsLoading(false);
+      setCurrentUser(null);
       console.log(err);
     }
   };
+
   return (
     <Dialog
       open={backdropAuth.isLoginOpen}
@@ -37,12 +57,14 @@ const LoginBackDrop = () => {
         <button className="close-btn"></button>
         <div className="login-header">
           <h1>Login To Your Account</h1>
-          <p>
-            Dont have an account?<span>Sign Up</span>
-          </p>
+          <button onClick={handleOpenRegisterBackdrop}>
+            <p>
+              Dont have an account?<span>Sign Up</span>
+            </p>
+          </button>
         </div>
         <div className="passport-auth">
-          <button>
+          <button onClick={continueWithGoogle}>
             <FcGoogle id="google" className="passport-icon" />
             <p>Continue with Google</p>
           </button>
@@ -52,25 +74,27 @@ const LoginBackDrop = () => {
           </button>
         </div>
         <Divider>Or</Divider>
-        <form onSubmit={handleFormSubmit}>
-          <input
-            name="email"
-            className="email"
-            placeholder="Email"
-            onChange={handleChange}
-            value={formData.email}
-            type="passpord"
-          />
-          <input
-            name="password"
-            className="passport"
-            placeholder="passpord"
-            type="password"
-            onChange={handleChange}
-            value={formData.passpord}
-          />
-          <button className="login-btn">Login</button>
-        </form>
+        <Formik
+          initialValues={initialValues}
+          validate={validateLoginFormData}
+          onSubmit={handleFormSubmit}
+        >
+          <div className="form">
+            <TextInput
+              name="email"
+              type="email"
+              placeholder="exemple@gmail.com"
+            />
+            <TextInput name="password" type="password" placeholder="Password" />
+            <button type="submit" className="login-btn">
+              Login
+            </button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && (
+              <p className="login-success-message">{successMessage}</p>
+            )}
+          </div>
+        </Formik>
       </div>
     </Dialog>
   );

@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
+import { UserType } from "../../types";
 import jwt from "jsonwebtoken";
-
 interface JwtPayload {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
+  isLogin: boolean;
+  role: "ADMIN" | "USER";
 }
 
 const prisma = new PrismaClient();
@@ -42,11 +44,12 @@ const verirfyToken = async (
       return;
     }
 
-    const user = await prisma.user.findUnique({
+    const user: JwtPayload | null = await prisma.user.findUnique({
       where: {
         email: verified.email,
       },
       select: {
+        isLogin: true,
         id: true,
         email: true,
         firstName: true,
@@ -65,7 +68,7 @@ const verirfyToken = async (
       });
       return;
     }
-    req.user = user;
+    req.currentUser = user;
     next();
   } catch (err) {
     console.log(err);

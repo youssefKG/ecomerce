@@ -2,7 +2,7 @@ import { ChangeEvent, useState, useEffect, useContext, FormEvent } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext, ShoppingCartContext } from "../../context";
 import { useSnackbar } from "notistack";
-import { getProductsDetail } from "../../api";
+// import { getProductsDetail } from "../../api";
 import { FormDataOfReviewType, ProductDetailType } from "../../types";
 import ProductDetailSkeleton from "./ProductDetailSkeleton";
 import ProductReviewsSection from "../../components/ProductReviewsSection";
@@ -86,7 +86,7 @@ function ProductDetail() {
     const fetchProductDetail = async () => {
       try {
         setIsLaoding(true);
-        await getProductsDetail(product_id).then((data) => setProduct(data));
+        // await getProductsDetail(product_id).then((data) => setProduct(data));
         setIsLaoding(false);
       } catch (err) {
         setIsLaoding(false);

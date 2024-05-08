@@ -8,10 +8,17 @@ import CategoriesSection from "../../components/categoriesSection";
 import WhyUsSection from "../../components/WhyUsSection";
 import BestSellingProduct from "../../components/BestSellingProduct";
 import "./index.css";
+import useEnhancedEffect from "@mui/material/utils/useEnhancedEffect";
 const Home = () => {
   const { handleOpenLoginBackdrop } = useContext(AuthContext);
   const [queryParams, setQueryParams] = useSearchParams();
-  const [featurredProducts, setFuturedProducts] = useState<ProductType[]>([]);
+  const [featurredProducts, setFuturedProducts] = useState<
+    ProductType[] | null
+  >(null);
+  useEffect(() => {
+    const fetchFeatureProducts = async (): Promise<void> => {};
+    fetchFeatureProducts();
+  }, []);
   useEffect(() => {
     const isAuthenticated = queryParams.get("isAuthenticated");
     if (isAuthenticated === "false") {

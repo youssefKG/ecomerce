@@ -17,16 +17,7 @@ type BackdropType = {
 };
 
 const AuthContextProvider = ({ children }) => {
-  // const [currentUser, setCurrentUser] = useState<CurrentUserType | null>(null);
-  const [currentUser, setCurrentUser] = useState<CurrentUserType | null>({
-    id: 1,
-    firstName: "youssef",
-    lastName: "taoussi",
-    photoURL:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    email: "yousseftaoussi894@gmail.com",
-    address: "derb khalid rue 10 n 89",
-  });
+  const [currentUser, setCurrentUser] = useState<CurrentUserType | null>(null);
   const [backdropAuth, setBackdropAuth] = useState<BackdropType>({
     isLoginOpen: false,
     isSignupOpen: false,
@@ -39,7 +30,7 @@ const AuthContextProvider = ({ children }) => {
       isLoginOpen: true,
       isSignupOpen: false,
     });
-  const handleOpenSignupBackdrop = (): void => {
+  const handleOpenRegisterBackdrop = (): void => {
     setBackdropAuth({
       isLoginOpen: false,
       isSignupOpen: true,
@@ -55,7 +46,7 @@ const AuthContextProvider = ({ children }) => {
         shoppingCartProducts,
         setShoppigCartProduts,
         handleOpenLoginBackdrop,
-        handleOpenSignupBackdrop,
+        handleOpenRegisterBackdrop,
       }}
     >
       {children}
@@ -66,3 +57,12 @@ const AuthContextProvider = ({ children }) => {
 export default AuthContextProvider;
 
 export { AuthContext };
+// const [currentUser, setCurrentUser] = useState<CurrentUserType | null>({
+//   id: 1,
+//   firstName: "youssef",
+//   lastName: "taoussi",
+//   photoURL:
+//     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+//   email: "yousseftaoussi894@gmail.com",
+//   address: "derb khalid rue 10 n 89",
+// });
