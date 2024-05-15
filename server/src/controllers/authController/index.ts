@@ -2,6 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { validateRegisterFormData, validateLoginFormData } from "../../utils";
+import {
+  LoginFormDataType,
+  RegisterFormDataType,
+  LoginFormValidationErrorsType,
+  RegisterFormValidationErrorsType,
+} from "../../types";
 import { UserType } from "../../types";
 
 interface RegisterDataType extends UserType {
@@ -24,10 +31,24 @@ class Auth {
     res: Response,
     next: NextFunction,
   ): Promise<any> {
-    const email: string = req.body.email;
-    const password: string = req.body.password;
+    const { email, password }: LoginFormDataType = req.body;
+
+    const validationErrors: LoginFormValidationErrorsType =
+      validateLoginFormData({
+        email,
+        password,
+      });
 
     console.log(email, password);
+
+    if (validationErrors.isValid) {
+      res.status(403).json({
+        success: false,
+        result: validationErrors,
+        message: "validation rules not match",
+      });
+      return;
+    }
 
     const findUser: User | null = await prisma.user.findUnique({
       where: { email },
@@ -102,23 +123,34 @@ class Auth {
         email,
         password,
         confirmPassword,
-      }: RegisterDataType = req.body;
+      }: RegisterFormDataType = req.body;
 
+      const validationErrors: RegisterFormValidationErrorsType =
+        validateRegisterFormData({
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+        });
+
+      // validate register form data
       if (
-        firstName === "" ||
-        lastName === "" ||
-        email === "" ||
-        password === "" ||
-        confirmPassword === ""
+        validationErrors.email !== "" ||
+        validationErrors.firstName !== "" ||
+        validationErrors.lastName !== "" ||
+        validationErrors.password !== "" ||
+        validationErrors.confirmPassword !== ""
       ) {
-        res.status(400).json({
+        res.status(403).json({
           success: false,
-          message: "All fields are required",
-          result: null,
+          result: validationErrors,
+          message: "validation rules not match!",
         });
         return;
       }
 
+      //check if this account is already exisit
       const existingUser: User | null = await prisma.user.findUnique({
         where: { email },
       });
@@ -132,26 +164,11 @@ class Auth {
         return;
       }
 
-      if (password !== confirmPassword) {
-        res.status(400).json({
-          success: false,
-          message: "passwords d'ont match",
-          result: null,
-        });
-        return;
-      }
-
-      if (password.length < 8) {
-        res.status(400).json({
-          success: false,
-          messages: "the password need to be at least 8 characters long",
-          result: null,
-        });
-      }
-
+      // hash the password and create the salt
       const salt = bcrypt.genSaltSync(10);
       const hashPassword = bcrypt.hashSync(password + salt);
 
+      // create a new account
       const newAccount: User | null = await prisma.user.create({
         data: {
           firstName,

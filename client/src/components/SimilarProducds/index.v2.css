@@ -1,0 +1,41 @@
+.similar-products-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.similar-products-section .header-best-selling-products h1 {
+  font-size: 23px;
+}
+
+.similar-products-section .products-cards-container {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  gap: 10px;
+}
+
+.products-cards-container::-webkit-scrollbar {
+  height: 6px;
+  background-color: silver;
+}
+
+.products-cards-container::-webkit-scrollbar-thumb {
+  background: var(--yellowprimary);
+  height: 6px;
+}
+
+@media only screen and (min-width: 992px) {
+  .similar-products-section {
+    padding: 40px;
+  }
+
+  .similar-products-section .products-cards-container {
+    display: flex;
+    overflow: unset;
+    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

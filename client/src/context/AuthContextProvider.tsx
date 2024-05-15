@@ -25,11 +25,13 @@ const AuthContextProvider = ({ children }) => {
   const [shoppingCartProducts, setShoppigCartProduts] = useState<
     shoppingCartType[]
   >([]);
+
   const handleOpenLoginBackdrop = (): void =>
     setBackdropAuth({
       isLoginOpen: true,
       isSignupOpen: false,
     });
+
   const handleOpenRegisterBackdrop = (): void => {
     setBackdropAuth({
       isLoginOpen: false,

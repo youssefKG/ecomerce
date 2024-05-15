@@ -8,12 +8,12 @@ const validateLoginFormData = (
   const errors: LoginFormDataType = { email: "", password: "" };
 
   // validate the email
-  if (!values.email) errors.email = "Required";
-  else if (!isValidEmail(values.email)) errors.email = "Not valid email !";
+  if (!values?.email) errors.email = "Required";
+  else if (!isValidEmail(values?.email)) errors.email = "Not valid email !";
 
   // validate the password
-  if (!values.password) errors.password = "Required";
-  else if (!isStrongPassword(values.password))
+  if (!values?.password) errors.password = "Required";
+  else if (!isStrongPassword(values?.password))
     errors.password =
       "Password must contain at least one lowercase lettre , one uppercase lettre , one digit , one special character, and be at least 8 characters long";
 

@@ -1,6 +1,6 @@
 import { productsData } from "../../utils";
 import { ProductCard } from "../cards";
-import "./index.css";
+import "./index.v2.css";
 const SimillarProductSection = () => {
   return (
     <section className="similar-products-section">

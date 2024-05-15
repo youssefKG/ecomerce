@@ -1,6 +1,6 @@
 import { ProductCard } from "../cards/index";
 import { productsData } from "../../utils/index";
-import "./index.css";
+import "./index.v2.css";
 type productType = {
   title: string;
   imgURL: string;

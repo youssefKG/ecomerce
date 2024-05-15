@@ -1,10 +1,19 @@
 .why-us-section {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+.why-us-section h1 {
+  font-size: 23px;
+}
+.why-us-section .why-us-container {
+  display: flex;
+  justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  gap: 70px;
   margin: 10px;
+  gap: 10px;
 }
 .why-us-section .why-us {
   display: flex;
@@ -16,7 +25,7 @@
 .why-us-section .why-us .icon-customer-service,
 .why-us-section .why-us .icon-shield {
   color: white;
-  font-size: 54px;
+  font-size: 44px;
   padding: 4px;
   background-color: gray;
   border-radius: 50px;
