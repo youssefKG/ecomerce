@@ -6,7 +6,7 @@ import {
   IoLogoAppleAr,
   BsTwitterX,
 } from "../../assets/icons";
-import "./index.css";
+import "./index.v2.css";
 const Footer = () => {
   return (
     <footer className="footer-container">

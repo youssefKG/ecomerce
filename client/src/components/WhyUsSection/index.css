@@ -25,17 +25,32 @@
 .why-us-section .why-us .icon-customer-service,
 .why-us-section .why-us .icon-shield {
   color: white;
-  font-size: 44px;
+  font-size: 30px;
   padding: 4px;
   background-color: gray;
   border-radius: 50px;
 }
 .why-us-section .why-us h1 {
-  font-size: 20px;
+  font-size: 16px;
   letter-spacing: 0.3mm;
 }
 .why-us-section .why-us p {
   font-size: 14px;
   color: gray;
   letter-spacing: 0.1mm;
+}
+
+@media only screen and (min-width: 992px) {
+  .why-us-section {
+    padding: 40px;
+  }
+  .why-us-section .why-us .icon-delivery,
+  .why-us-section .why-us .icon-customer-service,
+  .why-us-section .why-us .icon-shield {
+    font-size: 45px;
+    padding: 4px;
+  }
+  .why-us-section .why-us h1 {
+    font-size: 24px;
+  }
 }
