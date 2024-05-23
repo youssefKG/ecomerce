@@ -1,5 +1,5 @@
 interface ReviewsType {
-  revview_id: string;
+  review_id: string;
   firstName: string;
   lastName: string;
   userId: string;
@@ -8,14 +8,20 @@ interface ReviewsType {
   date: Date;
   likes: number;
 }
-interface ProductType {
-  productId: string;
+
+type ProductType = {
+  id: string;
   title: string;
-  rate: number;
+  description: string;
+  imgURLS: string[];
+  reviews: number;
   price: number;
   discount: number;
-  imgsURLS: string[];
-}
+  rate: number;
+  categorie: string;
+  created_at: Date;
+};
+
 interface ProductDetailType extends ProductType {
   category: string;
   created_at: Date;

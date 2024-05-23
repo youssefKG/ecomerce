@@ -11,17 +11,21 @@ interface LoginFormDataType {
   password: string;
 }
 
-interface LoginFormValidationErrorsType extends LoginFormDataType {
-  isValid: boolean;
-}
+type RegisterFormDataErrorsType = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+};
 
-interface RegisterFormValidationErrorsType extends RegisterFormDataType {
-  isValid: boolean;
-}
-
+type LoginFormDataErrorsType = {
+  email?: string;
+  password?: string;
+};
 export {
   RegisterFormDataType,
   LoginFormDataType,
-  LoginFormValidationErrorsType,
-  RegisterFormValidationErrorsType,
+  LoginFormDataErrorsType,
+  RegisterFormDataErrorsType,
 };

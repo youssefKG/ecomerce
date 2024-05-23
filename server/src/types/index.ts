@@ -2,10 +2,14 @@ import { ProductDetailType, ReviewsType, ProductType } from "./product.type";
 import {
   RegisterFormDataType,
   LoginFormDataType,
-  LoginFormValidationErrorsType,
-  RegisterFormValidationErrorsType,
+  LoginFormDataErrorsType,
+  RegisterFormDataErrorsType,
 } from "./auth";
-import UserType from "./user.type";
+import UserType, {
+  NewUserType,
+  IUpdatableUserDataType,
+  IUserFields,
+} from "./user.type";
 
 export {
   ProductType,
@@ -14,6 +18,9 @@ export {
   UserType,
   RegisterFormDataType,
   LoginFormDataType,
-  RegisterFormValidationErrorsType,
-  LoginFormValidationErrorsType,
+  LoginFormDataErrorsType,
+  RegisterFormDataErrorsType,
+  IUserFields,
+  IUpdatableUserDataType,
+  NewUserType,
 };

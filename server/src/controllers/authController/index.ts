@@ -1,146 +1,169 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { validateRegisterFormData, validateLoginFormData } from "../../utils";
+import { UserType } from "../../types";
 import {
   LoginFormDataType,
   RegisterFormDataType,
-  LoginFormValidationErrorsType,
-  RegisterFormValidationErrorsType,
+  LoginFormDataErrorsType,
+  RegisterFormDataErrorsType,
 } from "../../types";
-import { UserType } from "../../types";
+import { IUserRepository } from "../../repositories/UserRepositories";
+import { IValidationService } from "../../services/validate.service";
+import { ITokenService } from "../../services/jwtToken.service";
+import { IPasswordService } from "../../services/password.service";
 
-interface RegisterDataType extends UserType {
-  password: string;
-  confirmPassword: string;
+interface IAuthenticator {
+  validationService: IValidationService;
+
+  login: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+  registerUser: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+
+  logoutUser: (
+    req: Request,
+    response: Response,
+    next: NextFunction,
+  ) => Promise<void>;
 }
 
-interface User extends UserType {
-  password: string;
-  confirmPassword?: string;
-  isLogin: boolean;
-  salt: string;
-}
+class Authenticator implements IAuthenticator {
+  private userRepository: IUserRepository;
+  public validationService: IValidationService;
+  private passwordService: IPasswordService;
+  private tokenService: ITokenService;
 
-const prisma = new PrismaClient();
+  constructor(
+    userRepository: IUserRepository,
+    validate: IValidationService,
+    passwordService: IPasswordService,
+    tokenService: ITokenService,
+  ) {
+    this.userRepository = userRepository;
+    this.validationService = validate;
+    this.passwordService = passwordService;
+    this.tokenService = tokenService;
+  }
 
-class Auth {
   public async login(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<any> {
-    const { email, password }: LoginFormDataType = req.body;
+    try {
+      // destructure the email and password from req body
+      const { email, password }: LoginFormDataType = req.body;
 
-    const validationErrors: LoginFormValidationErrorsType =
-      validateLoginFormData({
-        email,
+      // validate user data
+      const validationErrors: LoginFormDataErrorsType =
+        this.validationService.validateLoginFormData({
+          email,
+          password,
+        });
+
+      // if validation fail responde with error
+      if (
+        !this.validationService.isEmpty(validationErrors) ||
+        !email ||
+        !password
+      ) {
+        res.status(403).json({
+          success: false,
+          result: validationErrors,
+          message: "validation rules not match",
+        });
+        return;
+      }
+
+      // find user by email
+      const userWithEmail: UserType | null =
+        await this.userRepository.findByEmail(email);
+
+      // if there is no account with this email respond with error
+      if (!userWithEmail) {
+        res.status(401).json({
+          success: false,
+          message: "No account with this email has been register",
+          result: null,
+        });
+        return;
+      }
+
+      // compare the password whit hash password with salt
+      const isPasswordValid: boolean = this.passwordService.verifyPassword(
         password,
+        userWithEmail.password,
+      );
+
+      // respond with 401 error if the password does not match the hash with salt
+      if (!isPasswordValid) {
+        res
+          .status(401)
+          .json({ success: false, message: "Wrong credentials", result: null });
+        return;
+      }
+
+      // generate jwt token
+      const token: string = this.tokenService.generateToken({
+        id: userWithEmail.id,
+        firstName: userWithEmail.firstName,
+        lastName: userWithEmail.lastName,
+        email: userWithEmail.email,
+        role: userWithEmail?.role,
+        isLogin: userWithEmail.isLogin,
       });
 
-    console.log(email, password);
+      // update the data to user islogin = true
+      await this.userRepository.updateUser(email, { isLogin: true });
 
-    if (validationErrors.isValid) {
-      res.status(403).json({
-        success: false,
-        result: validationErrors,
-        message: "validation rules not match",
-      });
-      return;
-    }
-
-    const findUser: User | null = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (!findUser) {
-      res.status(401).json({
-        success: false,
-        message: "No account with this email has been register",
-        result: null,
-      });
-      return;
-    }
-
-    const isMatch: boolean = await bcrypt.compare(
-      password + findUser.salt,
-      findUser.password,
-    );
-
-    if (!isMatch) {
+      // asign the cookie in the borwser and response with user information
       res
-        .status(401)
-        .json({ success: false, message: "Wrong credentials", result: null });
-      return;
+        .status(200)
+        .cookie("totib-token", token, {
+          maxAge: 1000 * 60 * 60 * 24,
+          httpOnly: true,
+        })
+        .json({
+          success: true,
+          result: {
+            id: userWithEmail?.id,
+            firstName: userWithEmail.firstName,
+            lastName: userWithEmail.lastName,
+            email: userWithEmail.email,
+            adress: userWithEmail?.adress,
+            role: "ADMIN",
+          },
+        });
+    } catch (err) {
+      console.log(err);
+      // catch any error and passe it to golobal error handling
+      next(err);
     }
-
-    const token: string = jwt.sign(
-      {
-        id: findUser?.id,
-        firstName: findUser?.firstName,
-        lastName: findUser?.lastName,
-        email: findUser?.email,
-        adress: findUser?.adress,
-        role: findUser?.role,
-      },
-      process.env.JWT_SECRET || "",
-    );
-
-    await prisma.user.update({
-      where: { email },
-      data: { isLogin: true },
-    });
-
-    res
-      .status(200)
-      .cookie("totib-token", token, {
-        maxAge: 1000 * 60 * 60 * 24,
-        httpOnly: true,
-      })
-      .json({
-        success: true,
-        result: {
-          id: findUser?.id,
-          firstName: findUser?.firstName,
-          lastName: findUser?.lastName,
-          email: findUser?.email,
-          adress: findUser?.adress,
-          role: "ADMIN",
-        },
-      });
   }
 
-  public async register(
+  public async registerUser(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const {
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-      }: RegisterFormDataType = req.body;
+      // destructure user information from req body
+      const { firstName, lastName, email, password }: RegisterFormDataType =
+        req.body;
 
-      const validationErrors: RegisterFormValidationErrorsType =
-        validateRegisterFormData({
-          firstName,
-          lastName,
-          email,
-          password,
-          confirmPassword,
-        });
+      // validate user data
+      const validationErrors: RegisterFormDataErrorsType =
+        this.validationService.validateRegisterFormData(req.body);
 
-      // validate register form data
+      // if validation fail respond with 403 error
       if (
-        validationErrors.email !== "" ||
-        validationErrors.firstName !== "" ||
-        validationErrors.lastName !== "" ||
-        validationErrors.password !== "" ||
-        validationErrors.confirmPassword !== ""
+        !this.validationService.isEmpty(validationErrors) ||
+        !email ||
+        !password ||
+        !firstName ||
+        !lastName
       ) {
         res.status(403).json({
           success: false,
@@ -150,12 +173,12 @@ class Auth {
         return;
       }
 
-      //check if this account is already exisit
-      const existingUser: User | null = await prisma.user.findUnique({
-        where: { email },
-      });
+      // find a account whith this email
+      const userWithTheSameEmail: UserType | null =
+        await this.userRepository.findByEmail(email);
 
-      if (existingUser) {
+      // if there is account  account with the same email res with 400 status  error message
+      if (userWithTheSameEmail) {
         res.status(400).json({
           success: false,
           message: "account with this email already exists",
@@ -164,68 +187,55 @@ class Auth {
         return;
       }
 
-      // hash the password and create the salt
-      const salt = bcrypt.genSaltSync(10);
-      const hashPassword = bcrypt.hashSync(password + salt);
+      // generate the salte and create the hash password
+      const hashPassword: string = this.passwordService.hashPassword(password);
 
-      // create a new account
-      const newAccount: User | null = await prisma.user.create({
-        data: {
-          firstName,
-          lastName,
-          imgURL: "",
-          role: "USER",
-          email,
-          adress: "",
-          password: hashPassword,
-          salt,
-          isLogin: false,
-        },
+      // create a new user
+      await this.userRepository.createUser({
+        firstName,
+        lastName,
+        imgURL: "",
+        role: "USER",
+        email,
+        adress: "",
+        password: hashPassword,
+        salt: "",
+        isLogin: true,
       });
 
+      // res with 200 status code and success message
       res.status(200).json({
         success: true,
         message: "account created successfuly!",
         result: null,
       });
     } catch (err) {
+      console.log(err);
+      // catch an error and pass it to global error handler
       next(err);
     }
   }
 
-  public async continueWithGoogle(
-    req: Request<never, never>,
-    res: Response,
-    next: NextFunction,
-  ) {}
-
-  public async logout(
-    req: Request<never, never, never>,
+  public async logoutUser(
+    req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const updatedUser: User | null = await prisma.user.update({
-        where: { email: req.currentUser.email },
-        data: { isLogin: false },
-      });
+      // destructure email from req obj
+      const email: string = req.currentUser.email;
 
-      if (!updatedUser) {
-        res.status(400).json({
-          success: false,
-          message: "only registered users can log out",
-          result: null,
-        });
-        return;
-      }
-
-      if (!updatedUser.isLogin) {
+      // check if the user is already login
+      if (!req.currentUser.isLogin) {
         res.status(400).json({
           success: false,
           message: "only log in users can logout",
         });
         return;
       }
+
+      // update the user to logout
+      await this.userRepository.updateUser(email, { isLogin: true });
 
       res.status(200).clearCookie("totib-token").json({
         success: true,
@@ -238,4 +248,6 @@ class Auth {
     }
   }
 }
-export default Auth;
+
+export default Authenticator;
+export { IAuthenticator };
