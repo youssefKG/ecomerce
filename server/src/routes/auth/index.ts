@@ -15,7 +15,7 @@ const user = new Authenticator(
   tokenService,
 );
 
-route.post("/login", user.login.bind(user));
+route.post("/login", user.loginUser.bind(user));
 route.post("/register", user.registerUser.bind(user));
 route.get("/logout", user.logoutUser.bind(user));
 

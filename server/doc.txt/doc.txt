@@ -1,5 +1,0 @@
-JWT vs. Session: What to Use?
-Deciding to choose between JWT or session is not just choosing one over the
-other. You need to look at some factors to determine which one to use in an
-application. In order to figure this out, you need to compare both approaches
--- JWT and session -- to authenticate users.
