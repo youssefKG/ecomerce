@@ -10,7 +10,6 @@ interface ReviewForm {
   imgURL: String;
 }
 class UserSer {
-  private client = new PrismaClient();
   public async addToFavoris(
     req: Request,
     res: Response,

@@ -14,7 +14,6 @@ interface IValidationService {
   validateLoginFormData: (
     loginFormData: LoginFormDataType,
   ) => LoginFormDataErrorsType;
-
   validateRegisterFormData: (
     registerFormData: RegisterFormDataType,
   ) => RegisterFormDataErrorsType;

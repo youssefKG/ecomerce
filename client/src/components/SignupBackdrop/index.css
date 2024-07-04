@@ -79,6 +79,7 @@
   width: 100%;
   display: flex;
   gap: 6px;
+  align-items: start;
 }
 .signup-container .form button {
   padding: 5px 20px;

@@ -7,6 +7,7 @@ import LoginBackDrop from "../../components/LoginBackdrop";
 import SignupBackdrop from "../../components/SignupBackdrop";
 import GlobalConextProvider from "../../context/GlobalContextProvider";
 import "./index.css";
+
 const DefaultLayout = () => {
   return (
     <GlobalConextProvider>
@@ -22,4 +23,5 @@ const DefaultLayout = () => {
     </GlobalConextProvider>
   );
 };
+
 export default DefaultLayout;

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { CurrentUserType } from "../types";
 
 const AuthContext = createContext(null);
@@ -22,33 +22,53 @@ const AuthContextProvider = ({ children }) => {
     isLoginOpen: false,
     isSignupOpen: false,
   });
+
   const [shoppingCartProducts, setShoppigCartProduts] = useState<
     shoppingCartType[]
   >([]);
 
-  const handleOpenLoginBackdrop = (): void =>
-    setBackdropAuth({
-      isLoginOpen: true,
-      isSignupOpen: false,
-    });
+  function checkAuth<T>(fn: T): T | void {
+    if (!currentUser) {
+      setBackdropAuth({ isLoginOpen: true, isSignupOpen: false });
+      return;
+    }
+    return fn;
+  }
 
-  const handleOpenRegisterBackdrop = (): void => {
-    setBackdropAuth({
-      isLoginOpen: false,
-      isSignupOpen: true,
-    });
-  };
+  useEffect(() => {
+    const getUserDataFromLocalStorage = (): void => {
+      const userData: CurrentUserType | null = JSON.parse(
+        localStorage.getItem("currentUser"),
+      );
+
+      if (!userData) setCurrentUser(null);
+      else setCurrentUser(userData);
+    };
+    getUserDataFromLocalStorage();
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
+        checkAuth,
         currentUser,
         setCurrentUser,
         backdropAuth,
         setBackdropAuth,
         shoppingCartProducts,
         setShoppigCartProduts,
-        handleOpenLoginBackdrop,
-        handleOpenRegisterBackdrop,
+        handleOpenLoginBackdrop: () => {
+          setBackdropAuth({
+            isLoginOpen: true,
+            isSignupOpen: false,
+          });
+        },
+        handleOpenRegisterBackdrop: () => {
+          setBackdropAuth({
+            isLoginOpen: true,
+            isSignupOpen: false,
+          });
+        },
       }}
     >
       {children}

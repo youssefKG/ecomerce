@@ -12,39 +12,110 @@ enum Role {
   USER
 }
 
-model Product {
-  id                    String @id @default(auto()) @map("_id") @db.ObjectId
-  title                 String
-  description           String 
-  imgURLS               String[]
-  reviews               Int
-  price                 Int
-  discount              Float
-  rate                  Float
-  categorie             String
-  created_at            DateTime @default(now())
-}
-
 model User {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  firstName String 
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
   lastName  String
-  email     String @unique
+  email     String   @unique
   password  String
-  role      Role @default(USER)
+  role      Role     @default(USER)
   imgURL    String
   adress    String
   isLogin   Boolean
   salt      String
   /// Field referred in an index, but found no data to define the type.
+  Review    Review[]
+  cart      Cart?
+  order     Order[]
 }
 
-model Reviews {
-  reviewId              String @id @default(uuid()) @map("_id") @db.ObjectId
-  review                String 
-  likes                 Int
-  Review                Float
-  created_at            DateTime @default(now())
+model Category {
+  id       String    @id @default(uuid()) @map("_id") @db.ObjectId
+  name     String
+  products Product[]
+}
+
+model Product {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  description String
+  imgURLS     String[]
+  price       Int
+  discount    Float
+  rate        Float
+  categoryId  String       @db.ObjectId
+  created_at  DateTime     @default(now())
+  stock      Int
+
+  reviews     Review[]
+  orderItems  OrderItems[]
+  cartItems   CartItems[]
+
+  catgory Category @relation(fields: [categoryId], references: [id])
+}
+
+model Review {
+  id         String   @id @default(uuid()) @map("_id") @db.ObjectId
+  authorId   String   @db.ObjectId
+  productId  String   @db.ObjectId
+  firstName  String
+  lastName   String
+  imgURL     String
+  content    String
+  likes      Int
+  dislikes   Int
+  rate       Float
+  created_at DateTime @default(now())
+
+  author  User    @relation(fields: [authorId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Cart {
+  id         String      @id @default(uuid()) @map("_id") @db.ObjectId
+  userId     String      @unique @db.ObjectId
+  items      CartItems[]
+  total      Float
+  created_at DateTime    @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model CartItems {
+  id        String @id @default(uuid()) @map("_id") @db.ObjectId
+  cartId    String @db.ObjectId
+  productId String @db.ObjectId
+  quantite  Int
+  price     Float
+
+  product Product @relation(fields: [productId], references: [id])
+  cart    Cart    @relation(fields: [cartId], references: [id])
+  @@unique([productId, cartId])
+}
+
+model Order {
+  id         String       @id @default(uuid()) @map("_id") @db.ObjectId
+  userId     String       @db.ObjectId
+  items      OrderItems[]
+  price      Float
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  status     String
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model OrderItems {
+  id         String   @id @default(uuid()) @map("_id") @db.ObjectId
+  orderId    String   @db.ObjectId
+  productId  String   @db.ObjectId
+  quantite   Int
+  total      Float
+  price      Float
+  created_at DateTime @default(now())
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
 
 model sessions {
@@ -54,4 +125,3 @@ model sessions {
 
   @@index([expires], map: "expires_1")
 }
-

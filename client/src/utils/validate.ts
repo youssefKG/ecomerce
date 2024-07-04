@@ -1,11 +1,23 @@
 import { isStrongPassword, isValidEmail } from "./index";
 import { LoginFormDataType, RegisterFormDataType } from "../types";
 
+type ErrorLoginFormData = {
+  email?: string;
+  password?: string;
+};
+
+type ErrorRegisterFormData = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+};
 // validate login form data
 const validateLoginFormData = (
   values: LoginFormDataType | null,
-): LoginFormDataType => {
-  const errors: LoginFormDataType = { email: "", password: "" };
+): ErrorLoginFormData => {
+  let errors: ErrorLoginFormData = {};
 
   // validate the email
   if (!values.email) errors.email = "Required";
@@ -23,18 +35,13 @@ const validateLoginFormData = (
 // validate register form data
 const validateRegisterFormData = (
   values: RegisterFormDataType,
-): RegisterFormDataType => {
-  const errors: RegisterFormDataType = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
+): ErrorRegisterFormData => {
+  const errors: ErrorRegisterFormData = {};
 
   // validate the first Name
   if (!values.firstName) errors.firstName = "Required";
-  else if (values.firstName.length > 15) errors.firstName = "";
+  else if (values.firstName.length > 15)
+    errors.firstName = "must be 15 characters or less ";
 
   // validate the last name
   if (!values.lastName) errors.lastName = "Required";
@@ -53,11 +60,10 @@ const validateRegisterFormData = (
 
   // validate the confirm password
   if (!values.confirmPassword) errors.confirmPassword = "Required";
-  else if (
-    !isStrongPassword(values.confirmPassword) ||
-    values.password === values.confirmPassword
-  )
-    values.confirmPassword = "Password and confirm";
+  else if (values.password !== values.confirmPassword)
+    values.confirmPassword = "Password and confirm does not match!";
+
+  console.log(errors);
 
   return errors;
 };

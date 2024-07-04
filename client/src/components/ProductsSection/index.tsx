@@ -12,7 +12,7 @@ const ProductSection = () => {
   return (
     <section className="product-section">
       <div className="header-product-section-container">
-        <h1>Best Selling Products</h1>
+        <h1>Featured Products</h1>
         <button>View All</button>
       </div>
       <div className="products-cards-container">

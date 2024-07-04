@@ -1,8 +1,8 @@
-import express, { Express, NextFunction, Request } from "express";
+import express, { Express } from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
 import productRouter from "./routes/product";
-import { authRoute } from "./routes";
+import { authRoute, productRoute, cartRoutes } from "./routes";
 import errorHandler from "./utils/errorHandler.ts";
 
 const app: Express = express();
@@ -11,10 +11,14 @@ app.use(express.json());
 dotenv.config();
 app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 
+// routes start
 app.use("/api/product", productRouter);
 app.use("/api/auth", authRoute);
+app.use("/api/product", productRoute);
+app.use("/api/cart", cartRoutes);
+// routes end
 
-// globaleErrorHandler
+// goloabl express error handler
 app.use(errorHandler);
 app.listen(process.env.PORT, () => {
 	console.log("server runing on port ", process.env.PORT);

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   CurrentUserType,
   LoginFormDataType,
@@ -15,7 +15,10 @@ type DataType = {
 
 const login = async (loginFormData: LoginFormDataType): Promise<DataType> => {
   try {
-    const response = await axios.post("/auth/login", loginFormData);
+    const response: AxiosResponse = await axios.post(
+      "/auth/login",
+      loginFormData,
+    );
     console.log(response);
     return response.data;
   } catch (err) {

@@ -1,17 +1,41 @@
 interface ProductType {
-  id: number;
+  id: string;
   title: string;
   rate: number;
-  description: string;
-  imgURL: string;
+  imgURL: string[];
   price: number;
   discount: number;
   stock: number;
 }
+
+interface ProductDetailType extends ProductType {
+  similarProducts: ProductType[];
+  isFavoris: boolean;
+  reviews: ReviewType[];
+}
+
+interface ProductDataType {
+  isFavoris: boolean;
+  id: string;
+  name: string;
+  rate: number;
+  imgURL: string[];
+  discount: number;
+  description: string;
+  price: number;
+  stock: number;
+}
+
 interface LoginFormDataType {
   email: string;
   password: string;
 }
+
+interface LoginFormDataErrorsType {
+  email?: string;
+  password?: string;
+}
+
 interface RegisterFormDataType {
   firstName: string;
   lastName: string;
@@ -19,11 +43,21 @@ interface RegisterFormDataType {
   password: string;
   confirmPassword: string;
 }
+
+interface RegisterFormDataErrorsType {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+}
+
 interface shoppingCartProductType extends ProductType {
   orderId: string;
   quantite: number;
   isSeen: boolean;
 }
+
 interface ReviewType {
   id: number;
   reviewerName: string;
@@ -33,17 +67,12 @@ interface ReviewType {
   date: Date;
 }
 
-interface ProductDetailType extends ProductType {
-  similarProducts: ProductType[];
-  isFavoris: boolean;
-  reviews: ReviewType[];
-}
-
 interface CategorieType {
   id: number;
   title: string;
   imgsURL: string[];
 }
+
 interface CurrentUserType {
   id: number;
   firstName: string;
@@ -52,11 +81,13 @@ interface CurrentUserType {
   email: string;
   address: string;
 }
+
 interface AuthResponseType {
   success: boolean;
   message: string;
   result: CurrentUserType | null;
 }
+
 interface Furniture {
   id: number;
   name: string;
@@ -66,22 +97,25 @@ interface FurnitureCategoryType {
   categoryName: string;
   items: Furniture[];
 }
-type FormDataOfReviewType = {
-  firstName: string;
-  lastName: string;
-  review: string;
+
+type FormReviewType = {
+  content: string;
   rate: number;
 };
+
 export type {
   LoginFormDataType,
+  LoginFormDataErrorsType,
   RegisterFormDataType,
+  RegisterFormDataErrorsType,
   AuthResponseType,
   CurrentUserType,
-  FormDataOfReviewType,
+  FormReviewType,
   shoppingCartProductType,
   ProductType,
   ProductDetailType,
   FurnitureCategoryType,
   ReviewType,
   CategorieType,
+  ProductDataType,
 };

@@ -1,7 +1,7 @@
 import { useRef, useContext, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useClickOutside } from "../../hooks";
-import { AuthContext, ShoppingCartContext } from "../../context";
+import { AuthContext } from "../../context";
 import { Divider, Badge } from "@mui/material";
 import {
   IoLogoAppleAr,
@@ -19,7 +19,6 @@ import {
 // icons import
 const Navbar = () => {
   const { setBackdropAuth, currentUser } = useContext(AuthContext);
-  const { unseen } = useContext(ShoppingCartContext);
   const drawerRef = useRef<HTMLDivElement>();
   const [isDrawerOpen, setIsDrawerOpen] = useClickOutside(drawerRef);
   const profilRef = useRef<HTMLButtonElement | null>(null);
@@ -29,7 +28,7 @@ const Navbar = () => {
     <div className="navbarContainer">
       <Link to="/" className="brandName">
         <IoLogoAppleAr className="brandNameIcon" />
-        <p>TOTIB</p>
+        <p>Totib</p>
       </Link>
       <ul>
         <li>
@@ -63,7 +62,7 @@ const Navbar = () => {
             )}
             <Link to="/cart">
               <Badge
-                badgeContent={unseen}
+                badgeContent={true}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 color="warning"
               >

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./index.css";
+
 const AccountTableContent = () => {
   return (
     <div className="manage-account-container">

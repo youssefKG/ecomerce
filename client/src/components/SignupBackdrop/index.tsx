@@ -3,21 +3,12 @@ import { AuthResponseType, RegisterFormDataType } from "../../types";
 import { AuthContext } from "../../context/AuthContextProvider";
 import * as authService from "../../auth";
 import { validateRegisterFormData } from "../../utils/validate";
-import { Formik } from "formik";
-import TextInput from "../TextInput";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FcGoogle, FaFacebook } from "../../assets/icons";
 import { Divider, Dialog } from "@mui/material";
 import "./index.css";
 
 const SignupBackdrop = () => {
-  const initialeValues: RegisterFormDataType = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-
   const { backdropAuth, setBackdropAuth, handleOpenLoginBackdrop } =
     useContext(AuthContext);
   const [isLaoding, setIsLaoding] = useState<boolean>(false);
@@ -26,13 +17,15 @@ const SignupBackdrop = () => {
 
   const handleFormSubmit = async (
     values: RegisterFormDataType,
+    _,
   ): Promise<void> => {
-    if (isLaoding) return;
-    setIsLaoding(true);
+    try {
+      console.log(values);
+      if (isLaoding) return;
+      setIsLaoding(true);
 
-    const response: AuthResponseType = await authService.register(values);
-    if (response) {
-      if (response?.success) {
+      const response: AuthResponseType = await authService.register(values);
+      if (response.success) {
         setIsLaoding(false);
         setTimeout(() => {
           setSuccessMessage(response.message);
@@ -44,6 +37,9 @@ const SignupBackdrop = () => {
         setErrorMessage(response?.message);
       }
       console.log("response from register backdrop", response);
+    } catch (err) {
+      console.log(err);
+      setIsLaoding(false);
     }
   };
 
@@ -76,27 +72,103 @@ const SignupBackdrop = () => {
         </div>
         <Divider>Or</Divider>
         <Formik
-          initialValues={initialeValues}
+          initialValues={{
+            firstName: "youssef",
+            lastName: "taoussi",
+            email: "yousseftaoussi2003@gmail.com",
+            password: "Taoussi@2003",
+            confirmPassword: "Taoussi@2003",
+          }}
           validate={validateRegisterFormData}
           onSubmit={handleFormSubmit}
         >
-          <div className="form">
+          <Form className="form">
             <div className="first-last-name">
-              <TextInput
-                name="firstName"
-                type="text"
-                placeholder="First Name"
-              />
-              <TextInput type="text" name="lastName" placeholder="Last Name" />
+              <div className="text-input-container">
+                <Field
+                  name="firstName"
+                  className="input-field"
+                  placeholder="first name"
+                />
+                <ErrorMessage
+                  name="firstName"
+                  className="input-error-message"
+                  render={(msg) => (
+                    <div error-message-container>
+                      <p className="input-error-message">{msg}</p>
+                    </div>
+                  )}
+                />
+              </div>
+              <div className="text-input-container">
+                <Field
+                  name="lastName"
+                  className="input-field"
+                  placeholder="last name"
+                />
+                <ErrorMessage
+                  name="lastName"
+                  className="input-error-message"
+                  render={(msg) => (
+                    <div error-message-container>
+                      <p className="input-error-message">{msg}</p>
+                    </div>
+                  )}
+                />
+              </div>
             </div>
-            <TextInput name="email" placeholder="Email" type="email" />
-            <TextInput name="password" placeholder="Password" type="password" />
-            <TextInput
-              name="confirmPassword"
-              placeholder="Confirm password"
-              type="password"
-            />
-            <button type="submit" disabled={isLaoding} className="login-btn">
+            <div className="text-input-container">
+              <Field
+                className="input-field"
+                name="email"
+                placeholder="email"
+                type="email"
+              />
+              <ErrorMessage
+                name="email"
+                className="input-error-message"
+                render={(msg) => (
+                  <div error-message-container>
+                    <p className="input-error-message">{msg}</p>
+                  </div>
+                )}
+              />
+            </div>
+            <div className="text-input-container">
+              <Field
+                name="password"
+                placeholder="Password"
+                className="input-field"
+                type="password"
+              />
+              <ErrorMessage
+                name="password"
+                className="input-error-message"
+                render={(msg) => (
+                  <div error-message-container>
+                    <p className="input-error-message">{msg}</p>
+                  </div>
+                )}
+              />
+            </div>
+            <div className="text-input-container">
+              <Field
+                name="confirmPassword"
+                className="input-field"
+                placeholder="Confirm password"
+                type="password"
+              />
+              <ErrorMessage
+                name="confirmPassword"
+                className="input-error-message"
+                render={(msg) => (
+                  <div error-message-container>
+                    <p className="input-error-message">{msg}</p>
+                  </div>
+                )}
+              />
+            </div>
+            <button type="submit" className="login-btn">
               Sign Up
             </button>
             {errorMessage && (
@@ -105,10 +177,11 @@ const SignupBackdrop = () => {
             {successMessage && (
               <p className="register-success-message">{successMessage}</p>
             )}
-          </div>
+          </Form>
         </Formik>
       </div>
     </Dialog>
   );
 };
+
 export default SignupBackdrop;

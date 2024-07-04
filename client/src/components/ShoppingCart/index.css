@@ -7,14 +7,41 @@
   font-size: 18px;
   color: var(--blueSecondary);
 }
+
 .cart-table-container .product-cell {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .cart-table-container .product-cell {
   font-weight: 600;
   font-size: 18px;
+}
+
+.cart-table-container .product-quantite-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  font-size: 20px;
+  font-weight: 600;
+  gap: 4px;
+  border: 1px solid whitesmoke;
+  padding: 8px;
+  border-radius: 20px;
+}
+.cart-table-container .product-quantite-container button {
+  transition: 100ms ease;
+  font-size: 20px;
+}
+.cart-table-container .product-quantite-container button:hover {
+  opacity: 0.7;
+}
+
+.delete-icon {
+  font-size: 30px;
+  align-self: center;
 }
 
 .cart-table-container .product-img-table {

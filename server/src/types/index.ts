@@ -1,21 +1,28 @@
-import { ProductDetailType, ReviewsType, ProductType } from "./product.type";
+import {
+  ReviewType,
+  ProductDetailType,
+  ProductType,
+  ProductFieldsConfig,
+  ProductFields,
+  ProductDataType,
+  CreateReviewType,
+} from "./product.type";
 import {
   RegisterFormDataType,
   LoginFormDataType,
   LoginFormDataErrorsType,
   RegisterFormDataErrorsType,
 } from "./auth";
-import UserType, {
+import {
   NewUserType,
   IUpdatableUserDataType,
   IUserFields,
+  User,
 } from "./user.type";
+import { Cart, CartType, CartItemsType, CartItems } from "./cart.type";
 
 export {
-  ProductType,
-  ProductDetailType,
-  ReviewsType,
-  UserType,
+  User,
   RegisterFormDataType,
   LoginFormDataType,
   LoginFormDataErrorsType,
@@ -23,4 +30,18 @@ export {
   IUserFields,
   IUpdatableUserDataType,
   NewUserType,
+  // product
+  ProductDetailType,
+  ProductType,
+  ProductFields,
+  ProductFieldsConfig,
+  // cart
+  Cart,
+  CartType,
+  CartItemsType,
+  CartItems,
+  ProductDataType,
+  // review
+  CreateReviewType,
+  ReviewType,
 };

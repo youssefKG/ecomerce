@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
   grid-gap: 30px;
   max-width: 90%;
   margin: auto;
@@ -102,6 +103,7 @@
 .product .desc .btns .add-to-cart-btns {
   display: flex;
   gap: 20px;
+  color: white;
 }
 .product .desc .btns .add-to-cart-btns .add-items {
   flex: 1;
@@ -113,6 +115,7 @@
   font-size: 15px;
   border: 1px solid gray;
   transition: 300ms ease-in;
+  opacity: 0.85;
 }
 .product .desc .btns .add-to-cart-btns .add-item {
   display: flex;
@@ -138,19 +141,17 @@
   font-weight: 600;
   font-size: 16px;
   transition: 300ms ease-in;
-}
-.product .desc .btns .buy-now-btn:hover {
   background-color: black;
   color: white;
-  scale: 105%;
-  border: 2px solid var(--yellowPrimary);
+  opacity: 85%;
+}
+.product .desc .btns .buy-now-btn:hover {
+  color: white;
+  opacity: 1;
 }
 
 .product .desc .btns .add-to-cart-btns .add-items:hover {
-  background-color: white;
-  color: black;
-  scale: 105%;
-  border-color: var(--yellowPrimary);
+  opacity: 1;
 }
 @media only screen and (max-width: 1000px) {
   .product {

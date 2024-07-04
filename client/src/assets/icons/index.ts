@@ -1,9 +1,19 @@
 import { IoLogoAppleAr, IoShieldCheckmarkOutline } from "react-icons/io5";
 import { IoMdCart, IoIosContact } from "react-icons/io";
 import { BsTwitterX } from "react-icons/bs";
-import { CiDeliveryTruck, CiLogout, CiStar, CiWarning } from "react-icons/ci";
-import { CiHeadphones } from "react-icons/ci";
-import { MdOutlineAccountCircle, MdOutlineCancel } from "react-icons/md";
+import {
+  CiDeliveryTruck,
+  CiLogout,
+  CiStar,
+  CiWarning,
+  CiHeadphones,
+  CiHeart,
+} from "react-icons/ci";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineCancel,
+  MdOutlineDeleteOutline,
+} from "react-icons/md";
 import { BsBag } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -15,8 +25,11 @@ import {
   FaInstagram,
   FaFacebook,
   FaRegCopyright,
+  FaHeart,
 } from "react-icons/fa";
+
 export {
+  MdOutlineDeleteOutline,
   FcGoogle,
   CiHeadphones,
   IoShieldCheckmarkOutline,
@@ -39,4 +52,6 @@ export {
   BsBag,
   CiWarning,
   CiStar,
+  CiHeart,
+  FaHeart,
 };

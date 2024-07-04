@@ -1,140 +1,57 @@
-import { ChangeEvent, useState, useEffect, useContext, FormEvent } from "react";
+import { ChangeEvent, useState, useContext, FormEvent } from "react";
+import useProductDetail, { UseProductDetailI } from "../../hooks/productDetail";
 import { useParams } from "react-router-dom";
-import { AuthContext, ShoppingCartContext } from "../../context";
-import { useSnackbar } from "notistack";
-// import { getProductsDetail } from "../../api";
-import { FormDataOfReviewType, ProductDetailType } from "../../types";
-import ProductDetailSkeleton from "./ProductDetailSkeleton";
+import { AuthContext } from "../../context"; // notification
 import ProductReviewsSection from "../../components/ProductReviewsSection";
 import ProductDetailSection from "../../components/ProductDetailSection";
 import SimillarProductSection from "../../components/SimilarProducdsSection";
 import AddReview from "../../components/ProductReviewsSection/AddReview";
 import "./index.css";
 
-function ProductDetail() {
+const ProductDetail = () => {
   const { product_id } = useParams();
-  const { currentUser, handleOpenLoginBackdrop } = useContext(AuthContext);
-  const { addProductToShoppingCart } = useContext(ShoppingCartContext);
-  const { enqueueSnackbar } = useSnackbar();
-  const [product, setProduct] = useState<ProductDetailType | null>(null);
-  const [productQuantite, setProductQuantite] = useState<number>(1);
-  const [isLaoding, setIsLaoding] = useState<boolean>(true);
-  const [formData, setFormData] = useState<FormDataOfReviewType>({
-    firstName: "",
-    lastName: "",
-    review: "",
-    rate: 0,
-  });
+  const { checkAuth } = useContext(AuthContext);
+  const {
+    productData,
+    isProductDataLoading,
+    reviews,
+    isReviewsLoading,
+    simillarProducts,
+    isSimillarProductsLoading,
+    toogleLike,
+    postReview,
+    quantite,
+    incrementProductQuantite,
+    decrementProductQuantite,
+    addProductToCart,
+  }: UseProductDetailI = useProductDetail(product_id);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const handlePostReview = async (
-    e: FormEvent<HTMLFormElement>,
-  ): Promise<void> => {
-    e.preventDefault();
-    try {
-      if (currentUser) {
-        console.log(currentUser);
-      } else {
-        handleOpenLoginBackdrop();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const handleBuyNow = async (): Promise<void> => {
-    try {
-      if (currentUser) {
-        console.log(currentUser);
-      } else handleOpenLoginBackdrop();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const incrementProductQuantite = (): void => {
-    if (productQuantite < product.stock)
-      setProductQuantite(productQuantite + 1);
-    else if (productQuantite >= product.stock)
-      enqueueSnackbar("Not enough stock", { variant: "error" });
-  };
-  const decrementProductQuantite = (): void => {
-    if (productQuantite >= 2) setProductQuantite(productQuantite - 1);
-    else enqueueSnackbar("minimum quantite", { variant: "error" });
-  };
-  const addToFavoris = async (): Promise<void> => {
-    try {
-      if (currentUser) {
-        if (product?.isFavoris)
-          enqueueSnackbar("Removed from favoris", { variant: "success" });
-        else
-          enqueueSnackbar("Added to favoris", {
-            variant: "success",
-          });
-        setProduct({ ...product, isFavoris: !product.isFavoris });
-      } else {
-        handleOpenLoginBackdrop();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  console.log("product ", product);
-  useEffect((): void => {
-    const fetchProductDetail = async () => {
-      try {
-        setIsLaoding(true);
-        // await getProductsDetail(product_id).then((data) => setProduct(data));
-        setIsLaoding(false);
-      } catch (err) {
-        setIsLaoding(false);
-        console.log(err);
-      }
-    };
-    console.log("product detail : ", document.referrer);
-    fetchProductDetail();
-  }, [product_id]);
-  console.log(formData);
-
-  return isLaoding ? (
-    <ProductDetailSkeleton />
-  ) : (
+  return (
     <div className="product-detail-container">
       <ProductDetailSection
-        isFavoris={product ? product?.isFavoris : false}
-        currentUser={currentUser}
-        handleBuyNow={handleBuyNow}
-        productQuantite={productQuantite}
+        productData={productData}
+        isLoading={isProductDataLoading}
         incrementProductQuantite={incrementProductQuantite}
-        decrementProductQuatite={decrementProductQuantite}
-        addToFavoris={addToFavoris}
-        imgURL={product?.imgURL}
-        addProductToShoppingCart={() =>
-          addProductToShoppingCart({
-            ...product,
-            quantite: productQuantite,
-            isSeen: false,
-            orderId: 1,
-          })
-        }
+        quantite={quantite}
+        decrementProductQuantite={decrementProductQuantite}
+        addProductToCart={() => checkAuth(addProductToCart)}
       />
+
       <section className="product-reviews-section">
-        <ProductReviewsSection />
-        <AddReview
-          handlePostReview={handlePostReview}
-          currentUser={currentUser}
-          handleOpenLoginBackdrop={handleOpenLoginBackdrop}
-          formData={formData}
-          handleChange={handleChange}
-          handleRating={(e: unknown, newValue: number) =>
-            setFormData({ ...formData, rate: newValue })
-          }
+        <ProductReviewsSection
+          reviews={reviews}
+          toggleLike={() => checkAuth(toogleLike)}
+          isLoading={isReviewsLoading}
         />
+
+        <AddReview postReview={() => checkAuth(postReview)} />
       </section>
-      <SimillarProductSection />
+      <SimillarProductSection
+        simillarProducts={simillarProducts}
+        isLoading={isSimillarProductsLoading}
+      />
     </div>
   );
-}
+};
+
 export default ProductDetail;

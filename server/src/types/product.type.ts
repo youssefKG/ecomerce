@@ -1,31 +1,79 @@
-interface ReviewsType {
-  review_id: string;
-  firstName: string;
-  lastName: string;
-  userId: string;
-  rate: string;
-  review_content: string;
-  date: Date;
-  likes: number;
-}
+import {
+  Product as ProductDetailType,
+  Review as ReviewType,
+} from "@prisma/client";
 
 type ProductType = {
   id: string;
-  title: string;
-  description: string;
+  name: string;
   imgURLS: string[];
-  reviews: number;
   price: number;
-  discount: number;
   rate: number;
-  categorie: string;
-  created_at: Date;
+  discount: number;
+  stock: number;
 };
 
-interface ProductDetailType extends ProductType {
-  category: string;
-  created_at: Date;
-  isFavoris: boolean;
-  quatite: number;
+type ProductDataType = {
+  id: string;
+  name: string;
+  description: string;
+  imgURLS: string[];
+  rate: number;
+  price: number;
+  stock: number;
+  discount: number;
+};
+
+type ProductFieldsConfig = {
+  id: string;
+  title?: string;
+  description?: string;
+  imgURLS?: string[];
+  price?: number;
+  rate?: number;
+  discount?: number;
+  catergoryId?: string;
+  stocke?: number;
+};
+
+interface CreateReviewType {
+  productId: string;
+  authorId: string;
+  firstName: string;
+  lastName: string;
+  imgURL: string;
+  content: string;
+  likes: number;
+  dislikes: number;
+  rate: number;
 }
-export { ReviewsType, ProductType, ProductDetailType };
+
+type ProductFields = {
+  id: boolean;
+  title?: boolean;
+  description?: boolean;
+  imgURLS?: boolean;
+  price?: boolean;
+  rate?: boolean;
+  discount?: boolean;
+  categoryId?: boolean;
+  stocke?: boolean;
+};
+// id                    String @id @default(auto()) @map("_id") @db.ObjectId
+// title                 String
+// description           String
+// imgURLS               String[]
+// price                 Int
+// discount              Float
+// rate                  Float
+// category             String
+// created_at            DateTime @default(now())
+export {
+  ReviewType,
+  ProductDetailType,
+  ProductType,
+  ProductFieldsConfig,
+  ProductFields,
+  ProductDataType,
+  CreateReviewType,
+};

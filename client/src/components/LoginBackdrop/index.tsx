@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
-import * as authService from "../../auth";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { AuthResponseType, LoginFormDataType } from "../../types";
-import TextInput from "../TextInput";
-import { Formik } from "formik";
+import { LoginFormDataType } from "../../types";
+import { RotatingLines } from "react-loader-spinner";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { validateLoginFormData } from "../../utils/validate";
-import { continueWithGoogle } from "../../api/index";
 import Dialog from "@mui/material/Dialog";
 import { Divider } from "@mui/material";
 import { FaFacebook, FcGoogle } from "../../assets/icons";
+import { ResponseI } from "../../api";
+import authService, { AuthServiceI } from "../../services/authentication";
 import "./index.css";
 
 const LoginBackDrop = () => {
@@ -22,28 +22,31 @@ const LoginBackDrop = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const initialValues: LoginFormDataType = { email: "", password: "" };
-
   const handleFormSubmit = async (
     values: LoginFormDataType,
-    actions,
+    _,
   ): Promise<void> => {
     try {
-      console.log(values, actions);
-      if (isLoading) return;
-
+      console.log("clicked");
       setIsLoading(true);
 
-      const response: AuthResponseType = await authService.login(values);
+      const response: ResponseI = await authService.login(values);
 
-      setCurrentUser(response);
-      setSuccessMessage(response.message);
-      setErrorMessage(null);
+      if (response.data.success) {
+        setCurrentUser(response.data.result);
+        setSuccessMessage(response.data.message);
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify(response.data.result),
+        );
+        setErrorMessage(null);
+      }
       setIsLoading(false);
     } catch (err) {
       setErrorMessage("Email Or password incorrect !!");
       setIsLoading(false);
       setCurrentUser(null);
+      setSuccessMessage(null);
       console.log(err);
     }
   };
@@ -64,7 +67,7 @@ const LoginBackDrop = () => {
           </button>
         </div>
         <div className="passport-auth">
-          <button onClick={continueWithGoogle}>
+          <button>
             <FcGoogle id="google" className="passport-icon" />
             <p>Continue with Google</p>
           </button>
@@ -75,25 +78,68 @@ const LoginBackDrop = () => {
         </div>
         <Divider>Or</Divider>
         <Formik
-          initialValues={initialValues}
+          initialValues={{
+            email: "youssefTaoussi2003@gmail.com",
+            password: "Taoussi@2003",
+          }}
           validate={validateLoginFormData}
           onSubmit={handleFormSubmit}
         >
-          <div className="form">
-            <TextInput
-              name="email"
-              type="email"
-              placeholder="exemple@gmail.com"
-            />
-            <TextInput name="password" type="password" placeholder="Password" />
-            <button type="submit" className="login-btn">
-              Login
-            </button>
+          <Form className="form">
+            <div className="text-input-container">
+              <Field
+                className="input-field"
+                name="email"
+                type="email"
+                placeholder="email"
+              />
+              <ErrorMessage
+                name="email"
+                className="input-error-message"
+                render={(msg) => (
+                  <div error-message-container>
+                    <p className="input-error-message">{msg}</p>
+                  </div>
+                )}
+              />
+            </div>
+            <div className="text-input-container">
+              <Field
+                className="input-field"
+                name="password"
+                type="password"
+                placeholder="password"
+              />
+              <ErrorMessage
+                name="password"
+                className="input-error-message"
+                render={(msg) => (
+                  <div error-message-container>
+                    <p className="input-error-message">{msg}</p>
+                  </div>
+                )}
+              />
+            </div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             {successMessage && (
               <p className="login-success-message">{successMessage}</p>
             )}
-          </div>
+
+            <button type="submit" className="login-btn">
+              {isLoading ? (
+                <RotatingLines
+                  visible={true}
+                  width="20"
+                  strokeWidth="3"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  strokeColor="gray"
+                />
+              ) : (
+                <p>Login</p>
+              )}
+            </button>
+          </Form>
         </Formik>
       </div>
     </Dialog>

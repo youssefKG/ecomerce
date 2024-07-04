@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import UserType from "../types/user.type";
-import { NewUserType } from "../types/user.type";
-import { IUserFields, IUpdatableUserDataType } from "../types";
+import { PrismaClient, User } from "@prisma/client";
+import { NewUserType } from "../../types/user.type";
+import { IUserFields, IUpdatableUserDataType } from "../../types";
 
 interface IUserRepository {
-  findByEmail: (email: string, fields?: any) => Promise<UserType | null>;
+  findByEmail: (email: string, fields?: any) => Promise<User | null>;
   createUser: (newUserData: NewUserType) => Promise<void>;
   updateUser: (email: string, newData: IUpdatableUserDataType) => Promise<void>;
 }
@@ -19,15 +18,15 @@ class UserRepositories implements IUserRepository {
   public async findByEmail(
     email: string,
     fields?: IUserFields,
-  ): Promise<UserType | null> {
+  ): Promise<User | null> {
     if (!fields) {
-      const user: UserType | null = await this.prisma.user.findUnique({
+      const user: User | null = await this.prisma.user.findUnique({
         where: { email },
       });
       return user;
     }
 
-    const user: UserType | null = await this.prisma.user.findUnique({
+    const user: User | null = await this.prisma.user.findUnique({
       where: { email },
       select: fields,
     });

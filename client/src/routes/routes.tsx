@@ -1,5 +1,8 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoutes from "./ProtectedRoutes";
+
+// lazy load the components
 const Home = lazy(() => import("../pages/Home/index"));
 const BlogDetail = lazy(() => import("../pages/BlogDetail/index"));
 const Contact = lazy(() => import("../pages/Contact/index"));
@@ -14,7 +17,7 @@ const BlogSettings = lazy(() => import("../pages/BlogDetail/index"));
 const DefaultLayout = lazy(() => import("../layouts/defaultLayout/index"));
 const AccoutLayout = lazy(() => import("../layouts/AccountLayout"));
 const EditAccount = lazy(() => import("../pages/EditAccount"));
-import ProtectedRoutes from "./ProtectedRoutes";
+
 const router = createBrowserRouter([
   {
     path: "/",

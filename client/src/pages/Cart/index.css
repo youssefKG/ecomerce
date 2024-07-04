@@ -1,7 +1,7 @@
 .cart-container {
   padding: 40px;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 1fr;
   gap: 20px;
   justify-content: center;
 }

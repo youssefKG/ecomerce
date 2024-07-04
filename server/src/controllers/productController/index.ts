@@ -1,89 +1,189 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-class Product {
+import { IProductRepository } from "../../repositories/productRepository";
+import { IReviewRepository } from "../../repositories";
+import { ProductDataType, ProductType, ReviewType } from "../../types";
+import { CustomError } from "../../utils/errorHandler.ts";
+
+interface IProduct {
+  getProductDetail: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  getFeaturedProducts: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  getSimilartProducts: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  getBestSellingProducts: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  getProductReviews: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+}
+
+class Product implements IProduct {
+  private productRepository: IProductRepository;
+  private reviewRepository: IReviewRepository;
+
+  constructor(
+    productRepository: IProductRepository,
+    reviewRepository: IReviewRepository,
+  ) {
+    this.productRepository = productRepository;
+    this.reviewRepository = reviewRepository;
+  }
+
+  // get product detail (id, name , description, stock ... ) method
+  public async getProductDetail(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      // distruct product from request objet
+      const productId: string = req.params.productId;
+
+      // find the product detail
+      const productDetail: ProductDataType | null =
+        await this.productRepository.productDetail(productId);
+
+      if (!productDetail) {
+        next(new CustomError("not found ", 401, null));
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "product detail ",
+        result: productDetail,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  // get simillar products method
   public async getFeaturedProducts(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const featuredProductsPromise = await prisma.product.findMany({
-        skip: 0,
-        take: 10,
-        orderBy: {
-          created_at: "desc",
-        },
-        select: {
-          id: true,
-          price: true,
-          discount: true,
-          title: true,
-          rate: true,
-          imgURLS: true,
-        },
-      });
+      const featuredProducts: ProductType[] | null =
+        await this.productRepository.featuredProducts();
 
-      const bestSelligProductsPromise = await prisma.product.findMany({
-        skip: 0,
-        take: 10,
-        orderBy: { created_at: "desc" },
-        select: {
-          id: true,
-          price: true,
-          discount: true,
-          title: true,
-          rate: true,
-          imgURLS: true,
-        },
-      });
-
-      const [featuredProducts, bestSellingProducts] = await Promise.all([
-        featuredProductsPromise,
-        bestSelligProductsPromise,
-      ]);
+      if (!featuredProducts) {
+        next(new CustomError("not founds", 402, null));
+        return;
+      }
 
       res.status(200).json({
         success: true,
-        result: { bestSellingProducts, featuredProducts },
-        message: "products fetched successfully",
-        error: null,
+        result: featuredProducts,
+        message: "featured products",
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  // get best selling product method
+  public async getBestSellingProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const bestSellingProducts: ProductType[] | null =
+        await this.productRepository.bestSellingProducts();
+
+      if (!bestSellingProducts) {
+        next(new CustomError("not found ", 402, null));
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        result: bestSellingProducts,
+        message: "best selling products",
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  // get simillar products method
+  public async getSimilartProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const category: string = req.body.category;
+      const similartProducts =
+        await this.productRepository.similarProducts(category);
+
+      if (!similartProducts) {
+        next(new CustomError("similar products not found ", 402, null));
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        result: similartProducts,
+        message: "smillar products",
       });
     } catch (err) {
       next(err);
       console.log(err);
     }
   }
-  public async getProductDetail(
+
+  // get product reviews  method
+  public async getProductReviews(
     req: Request,
     res: Response,
     next: NextFunction,
-  ) {
+  ): Promise<void> {
     try {
-      const product_id: string = req.params?.product_id;
+      // destruct the product id of request params
+      const productId: string = req.params.productId;
 
-      console.log(product_id);
+      // fetch the product reviews
+      const productReviews: ReviewType[] | null =
+        await this.reviewRepository.getProductReviews(productId);
 
-      const findProductDeatil = await prisma.product.findUnique({
-        where: {
-          id: product_id,
-        },
-      });
-      console.log("product : ", findProductDeatil);
-
-      if (!findProductDeatil) {
-        res.status(404).json({
-          success: false,
-          message: "not found ",
-          result: null,
-        });
+      // if there is no product or error send this error
+      if (!productReviews) {
+        next(
+          new CustomError(
+            "An error occurred while loading reviews. Please refresh the page or try again later. If the problem persists, contact customer support.",
+            500,
+            null,
+          ),
+        );
         return;
       }
 
+      // send the product reviews
       res.status(200).json({
+        message: "product reviews ",
+        result: productReviews,
         success: true,
-        result: findProductDeatil,
-        message: "product fetched successfully",
       });
     } catch (err) {
       console.log(err);
@@ -93,3 +193,4 @@ class Product {
 }
 
 export default Product;
+export { IProduct };

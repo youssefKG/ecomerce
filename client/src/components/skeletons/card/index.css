@@ -1,0 +1,17 @@
+.skeleton-cards-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.card-skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.similar-products-section .products-cards-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}

@@ -60,7 +60,7 @@
 .login-container .passport-auth button:hover {
   opacity: 100%;
   scale: 102%;
-  border-color: var(--blueSecondary);
+  /* border-color: var(--blueSecondary); */
 }
 .login-container .passport-auth button .passport-icon {
   width: 20px;
@@ -92,8 +92,9 @@
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 .login-container .form button:hover {
-  background-color: white;
-  color: black;
+  /* background-color: white; */
+  opacity: 0.9;
+  /* color: black; */
   border: 1px solid black;
 }
 .login-container .form .error-message {
@@ -101,6 +102,34 @@
   font-size: 14px;
   font-weight: 500;
   color: red;
+}
+.text-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  flex: 1;
+}
+
+.input-field {
+  width: 100%;
+  flex: 1;
+  padding: 5px;
+  padding-left: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid silver;
+}
+
+.error-message-container {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+}
+
+.input-error-message {
+  font-size: 12px;
+  color: #c1121f;
 }
 @media only screen and (max-width: 400px) {
   .login-container {

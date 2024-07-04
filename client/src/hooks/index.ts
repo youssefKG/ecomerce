@@ -1,3 +1,4 @@
 import useClickOutside from "./useClickOutside";
 import useIsHover from "./useIsHover";
-export { useClickOutside, useIsHover };
+import useCart from "./cart";
+export { useClickOutside, useIsHover, useCart };

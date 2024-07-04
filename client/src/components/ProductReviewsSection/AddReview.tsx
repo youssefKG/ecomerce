@@ -1,67 +1,41 @@
-import { ChangeEvent, FormEvent } from "react";
-import { FormDataOfReviewType, CurrentUserType } from "../../types";
+import { FormReviewType } from "../../types";
 import { Avatar, Rating } from "@mui/material";
-type AddReviewProps = {
-  formData: FormDataOfReviewType;
-  handleChange: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-  handleRating: (e: unknown, newValue: number | null) => void;
-  handleOpenLoginBackdrop: () => void;
-  currentUser: CurrentUserType | null;
-  handlePostReview: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+
+interface AddReviewProps {
+  postReview: (reviewData: FormReviewType) => void;
+}
+
+const formData: FormReviewType = {
+  content: "",
+  rate: 4,
 };
-const AddReview = ({
-  formData,
-  handleChange,
-  handleRating,
-  handlePostReview,
-}: AddReviewProps) => {
+
+const AddReview = ({ postReview }: AddReviewProps) => {
   return (
     <div className="add-review-container">
       <Avatar
         sx={{ width: 50, height: 50 }}
         src="https://thumbs.dreamstime.com/b/vecteur-d-ic%C3%B4ne-homme-affaires-image-masculine-de-profil-avatar-m%C3%A2le-182095609.jpg"
       />
-      <form onSubmit={handlePostReview}>
-        <div className="user-info">
-          <input
-            className="firstName"
-            value={formData.firstName}
-            placeholder="First Name"
-            name="firstName"
-            onChange={handleChange}
-          />
-          <input
-            name="lastName"
-            className=""
-            placeholder="Last Name"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </div>
+      <div className="form-review-container">
         <textarea
           placeholder="Write your review"
           rows={4}
-          value={formData.review}
           name="review"
-          onChange={handleChange}
+          onChange={() => {}}
         />
         <div className="publish">
           <div className="rating">
             <p>Your Rating</p>
-            <Rating
-              size="medium"
-              value={formData.rate}
-              onChange={handleRating}
-            />
+            <Rating size="medium" onChange={() => {}} />
           </div>
-          <button className="post-btn" type="submit">
+          <button className="post-btn" onClick={() => postReview(formData)}>
             Post Review
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
+
 export default AddReview;

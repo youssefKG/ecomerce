@@ -1,0 +1,23 @@
+.skeleton-reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 40px;
+  width: 60vw;
+  align-self: center;
+  display: flex;
+}
+
+.review-skeleton-container {
+  display: flex;
+  gap: 20px;
+  border: 1px solid silver;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.review-skeleton-container .review-detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}

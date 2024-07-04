@@ -1,5 +1,6 @@
 import { Skeleton } from "@mui/material";
 import "./skeleton.css";
+
 const ProductDetailSkeleton = () => {
   return (
     <div className="product-detail-skeleton-container">
@@ -88,4 +89,5 @@ const ProductDetailSkeleton = () => {
     </div>
   );
 };
+
 export default ProductDetailSkeleton;

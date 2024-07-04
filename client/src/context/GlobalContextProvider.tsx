@@ -1,5 +1,6 @@
 import { SnackbarProvider } from "notistack";
-import { AuthContextProvider, ShoppingCartContextProvider } from "./";
+import { AuthContextProvider } from "./";
+
 const GlobalConextProvider = ({ children }) => {
   return (
     <SnackbarProvider
@@ -8,10 +9,9 @@ const GlobalConextProvider = ({ children }) => {
       dense
       autoHideDuration={1500}
     >
-      <AuthContextProvider>
-        <ShoppingCartContextProvider>{children}</ShoppingCartContextProvider>
-      </AuthContextProvider>
+      <AuthContextProvider>{children}</AuthContextProvider>
     </SnackbarProvider>
   );
 };
+
 export default GlobalConextProvider;
