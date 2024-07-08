@@ -41,16 +41,17 @@ const ProductDetailSection = ({
       <div className="product-info">
         <div className="header">
           <div className="title">
-            <h1>Double Bed & Side Bed</h1>
+            <h1>{productData?.name}</h1>
             <button onClick={() => {}}>
               <HeartButton isRed={true} />
             </button>
           </div>
           <div className="price">
-            <p>£230</p>
+            <p>£{productData?.price}</p>
             <Divider orientation="vertical" flexItem />
             <Rating value={4} name="disabled" disabled size="medium" />
-            <p>(23 reviews)</p>
+            <p>({productData?.rate} reviews)</p>
+            <p>(stock {productData?.stock})</p>
           </div>
         </div>
         <Divider />

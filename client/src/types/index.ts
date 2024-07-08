@@ -59,12 +59,17 @@ interface shoppingCartProductType extends ProductType {
 }
 
 interface ReviewType {
-  id: number;
-  reviewerName: string;
-  description: string;
+  id: string;
+  authorId: string;
+  productId: string;
+  firstName: string;
+  lastName: string;
+  imgURL: string;
+  content: string;
+  rate: number;
   likes: number;
-  stars: number; // should be between 0 and 5
-  date: Date;
+  dislikes: number;
+  created_at: string;
 }
 
 interface CategorieType {

@@ -3,7 +3,7 @@ import { FormReviewType } from "../../types";
 
 interface ProductDetailServiceI {
   getProductDetail: (endPoint: string) => Promise<ResponseI>;
-  getReviews: (endPoint: string) => Promise<ResponseI>;
+  getReviews: (productId: string) => Promise<ResponseI>;
   getSimillarProducts: (endPoint: string) => Promise<ResponseI>;
   postReview: (
     endPoint: string,
@@ -24,8 +24,8 @@ class productDetailService implements ProductDetailServiceI {
     return api.get(endPoint);
   }
 
-  public async getReviews(endPoint: string): Promise<ResponseI> {
-    return api.get(endPoint);
+  public async getReviews(productId: string): Promise<ResponseI> {
+    return api.get(`/review/get-reviews/${productId}`);
   }
 
   public async toogleReviewLike(

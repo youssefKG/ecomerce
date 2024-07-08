@@ -32,6 +32,7 @@ const AuthContextProvider = ({ children }) => {
       setBackdropAuth({ isLoginOpen: true, isSignupOpen: false });
       return;
     }
+    fn;
     return fn;
   }
 

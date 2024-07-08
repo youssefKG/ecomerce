@@ -23,7 +23,7 @@ const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useClickOutside(drawerRef);
   const profilRef = useRef<HTMLButtonElement | null>(null);
   const [isProfilBackdropOpen, setIsProfilBackdropOpen] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   return (
     <div className="navbarContainer">
       <Link to="/" className="brandName">

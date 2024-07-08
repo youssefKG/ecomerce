@@ -1,8 +1,13 @@
+import { ChangeEvent } from "react";
 import { FormReviewType } from "../../types";
 import { Avatar, Rating } from "@mui/material";
 
 interface AddReviewProps {
   postReview: (reviewData: FormReviewType) => void;
+  handleChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  handleStarRatingChange: (event: any, newVlaue: number) => void;
+  formReview: FormReviewType;
+  isPostReviewLoading: boolean;
 }
 
 const formData: FormReviewType = {

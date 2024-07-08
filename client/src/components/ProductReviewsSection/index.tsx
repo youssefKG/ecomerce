@@ -1,5 +1,4 @@
 import "./index.css";
-import reviewsData from "../../utils/reviewsData.ts";
 import { HeartButton } from "../buttons";
 import { ReviewType } from "../../types";
 import { Rating, Avatar } from "@mui/material";
@@ -23,7 +22,7 @@ const ProductReviewsSection = ({
         {isLoading ? (
           <ReviewsSkeleton />
         ) : (
-          reviewsData.map((rev) => (
+          reviews.map((rev) => (
             <div className="review-container">
               <Avatar
                 alt="profil image"
@@ -33,10 +32,12 @@ const ProductReviewsSection = ({
               />
               <div className="review-detail">
                 <div className="review-header">
-                  <h1>{rev.reviewerName}</h1>
-                  <Rating size="small" value={rev.stars} />
+                  <h1>
+                    {rev.firstName} {rev.lastName}
+                  </h1>
+                  <Rating size="small" value={rev.rate} />
                 </div>
-                <p>{rev.description}</p>
+                <p>{rev.content}</p>
                 <div className="date">
                   <button
                     className="heart-btn"
@@ -49,7 +50,7 @@ const ProductReviewsSection = ({
                     )}
                   </button>
                   <HeartButton isRed={false} />
-                  <p>{`${rev.date.getDay()}-${rev.date.getMonth()}-${rev.date.getFullYear()}`}</p>
+                  <p>{rev.created_at}</p>
                 </div>
               </div>
             </div>
