@@ -1,39 +1,26 @@
-import ValidationService, { IValidationService } from "./validate.service";
-import ReviewRepository, {
-  IReviewRepository,
-} from "../repositories/reviewRepository";
-import TokenService, { ITokenService } from "./jwtToken.service";
+import ValidationService from "./validate.service";
+import ReviewRepository from "../repositories/reviewRepository";
+import TokenService from "./jwtToken.service";
 import { PrismaClient } from "@prisma/client";
-import PasswordService, { IPasswordService } from "./password.service";
-import UserRepository, {
-  IUserRepository,
-} from "../repositories/userRepository";
-import ProductRepository, {
-  IProductRepository,
-} from "../repositories/productRepository";
-import CartRepository, {
-  ICartRepository,
-} from "../repositories/cartRepository";
+import PasswordService from "./password.service";
+import UserRepository from "../repositories/userRepository";
+import ProductRepository from "../repositories/productRepository";
+import CartRepository from "../repositories/cartRepository";
+import { autoInjectable, injectable } from "tsyringe";
+import "reflect-metadata";
 
-const prisma: PrismaClient = new PrismaClient();
-const passwordService: IPasswordService = new PasswordService();
-const tokenService: ITokenService = new TokenService();
-const validationService: IValidationService = new ValidationService();
-const userRepository: IUserRepository = new UserRepository(prisma);
-const productRepository: IProductRepository = new ProductRepository(prisma);
-const cartRepository: ICartRepository = new CartRepository(prisma);
-const reviewRepository: IReviewRepository = new ReviewRepository(prisma);
+@autoInjectable()
+class Database extends PrismaClient {}
 
+const Prisma: PrismaClient = new PrismaClient();
 export {
-  passwordService,
-  prisma,
-  tokenService,
-  validationService,
-  userRepository,
-  productRepository,
-  ICartRepository,
-  IProductRepository,
-  cartRepository,
-  reviewRepository,
-  IReviewRepository,
+  Database,
+  PasswordService,
+  CartRepository,
+  UserRepository,
+  ProductRepository,
+  TokenService,
+  ValidationService,
+  ReviewRepository,
+  Prisma,
 };

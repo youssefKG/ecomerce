@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { inject, injectable } from "tsyringe";
 import { User } from "@prisma/client";
 import {
   LoginFormDataType,
@@ -6,14 +7,17 @@ import {
   LoginFormDataErrorsType,
   RegisterFormDataErrorsType,
 } from "../../types";
-import { IUserRepository } from "../../repositories/userRepository";
-import { IValidationService } from "../../services/validate.service";
-import { ITokenService } from "../../services/jwtToken.service";
-import { IPasswordService } from "../../services/password.service";
+
+import {
+  UserRepository,
+  ValidationService,
+  TokenService,
+} from "../../services";
+
+import PasswordService from "../../services/password.service";
 import { CustomError } from "../../utils/errorHandler.ts";
 
 interface IAuthenticator {
-  validationService: IValidationService;
   loginUser: (req: Request, res: Response, next: NextFunction) => Promise<void>;
   registerUser: (
     req: Request,
@@ -27,23 +31,14 @@ interface IAuthenticator {
   ) => Promise<void>;
 }
 
+@injectable()
 class Authenticator implements IAuthenticator {
-  private userRepository: IUserRepository;
-  public validationService: IValidationService;
-  private passwordService: IPasswordService;
-  private tokenService: ITokenService;
-
   constructor(
-    userRepository: IUserRepository,
-    validate: IValidationService,
-    passwordService: IPasswordService,
-    tokenService: ITokenService,
-  ) {
-    this.userRepository = userRepository;
-    this.validationService = validate;
-    this.passwordService = passwordService;
-    this.tokenService = tokenService;
-  }
+    @inject(UserRepository) private userRepository: UserRepository,
+    @inject(ValidationService) private validationService: ValidationService,
+    @inject(PasswordService) private passwordService: PasswordService,
+    @inject(TokenService) private tokenService: TokenService,
+  ) {}
 
   public async loginUser(
     req: Request,
@@ -104,6 +99,7 @@ class Authenticator implements IAuthenticator {
         firstName: userWithEmail.firstName,
         lastName: userWithEmail.lastName,
         email: userWithEmail.email,
+        imgURL: userWithEmail.imgURL,
         role: userWithEmail.role,
         isLogin: userWithEmail.isLogin,
       });

@@ -1,3 +1,4 @@
+import { injectable } from "tsyringe";
 import {
   LoginFormDataType,
   RegisterFormDataType,

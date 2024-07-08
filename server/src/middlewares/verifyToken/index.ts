@@ -1,77 +1,78 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
+import { User } from "../../types";
+import { inject, injectable, container } from "tsyringe";
 import jwt from "jsonwebtoken";
-interface JwtPayload {
-	id: string;
-	email: string;
-	firstName: string;
-	lastName: string;
-	isLogin: boolean;
-	role: "ADMIN" | "USER";
+import { UserRepository } from "../../services";
+import { CustomError } from "../../utils/errorHandler.ts";
+
+interface DecodedDataType {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isLogin: boolean;
+  role: "ADMIN" | "USER";
 }
 
-const prisma = new PrismaClient();
+interface TokenI {
+  verirfyToken: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+}
 
-const verirfyToken = async (
-	req: Request,
-	res: Response,
-	next: NextFunction,
-): Promise<void> => {
-	try {
-		const token: string | null = req.cookies.token;
+@injectable()
+class Token implements TokenI {
+  constructor(
+    @inject("UserRepository") private userRepository: UserRepository,
+  ) {}
 
-		if (!token) {
-			res.status(401).json({
-				success: false,
-				message: "No authtication token , authorization denied",
-				jwtExpired: true,
-				result: null,
-			});
-			return;
-		}
+  public async verirfyToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token: string | null = req.cookies["totib-token"];
 
-		const jwtSecret = process.env.JWT_SECRET || "jwt-secret";
-		const verified = jwt.verify(token, jwtSecret) as JwtPayload;
+      if (!token) {
+        next(
+          new CustomError(
+            "No authtication token , authorization denied",
+            401,
+            null,
+          ),
+        );
+        return;
+      }
 
-		if (!verified) {
-			res.status(401).json({
-				success: false,
-				result: null,
-				message: "Invalid authorization token",
-				jwtExpired: true,
-			});
-			return;
-		}
+      const tokenSecret = process.env.JWT_SECRET || "jwtSecret";
+      const decodedData = jwt.verify(token, tokenSecret) as DecodedDataType;
 
-		const user: JwtPayload | null = await prisma.user.findUnique({
-			where: {
-				email: verified.email,
-			},
-			select: {
-				isLogin: true,
-				id: true,
-				email: true,
-				firstName: true,
-				lastName: true,
-				adress: true,
-				role: true,
-			},
-		});
+      if (!decodedData) {
+        next(new CustomError("Invalid authorization token", 401, null));
+        return;
+      }
 
-		if (!user) {
-			res.status(401).json({
-				success: false,
-				result: null,
-				message: "User not found the authorization denied",
-				jwtExpired: true,
-			});
-			return;
-		}
-		req.currentUser = user;
-		next();
-	} catch (err) {
-		console.log(err);
-		next(err);
-	}
-};
-export default verirfyToken;
+      const user: User | null = await this.userRepository.findUserById(
+        decodedData.id,
+      );
+
+      if (!user) {
+        next(
+          new CustomError("User not found the authorization denied", 401, null),
+        );
+        return;
+      }
+
+      req.currentUser = user;
+      next();
+    } catch (err) {
+      console.log("errors", err);
+      next(err);
+    }
+  }
+}
+
+container.register("UserRepository", { useClass: UserRepository });
+
+const token = container.resolve(Token);
+
+export default token.verirfyToken.bind(token);

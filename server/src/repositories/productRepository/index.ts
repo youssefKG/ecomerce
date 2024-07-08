@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { delay, inject, injectable } from "tsyringe";
 import {
   ProductDetailType,
   ProductType,
@@ -6,6 +6,7 @@ import {
   ProductFieldsConfig,
   ProductDataType,
 } from "../../types";
+import { Database } from "../../services";
 
 interface IProductRepository {
   productDetail: (productId: string) => Promise<ProductDataType | null>;
@@ -22,12 +23,9 @@ interface IProductRepository {
   ) => Promise<ProductDetailType | null>;
 }
 
+@injectable()
 class ProductRepository implements IProductRepository {
-  private prisma: PrismaClient;
-
-  constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
-  }
+  constructor(@inject(delay(() => Database)) private prisma: Database) {}
 
   public async getProductById(
     id: string,

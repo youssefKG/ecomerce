@@ -1,13 +1,18 @@
+import { container } from "tsyringe";
 import express, { Router } from "express";
+import { ProductRepository, Database, ReviewRepository } from "../../services";
 import Product, { IProduct } from "../../controllers/productController";
-import {
-  productRepository,
-  reviewRepository,
-  IReviewRepository,
-} from "../../services";
 
 const route: Router = express.Router();
-const product: IProduct = new Product(productRepository, reviewRepository);
+
+container.register("DataBase", { useClass: Database });
+container.register("ReviewRepository", { useClass: ReviewRepository });
+container.register("Product", { useClass: Product });
+container.register("ProductRepository", {
+  useClass: ProductRepository,
+});
+
+const product: IProduct = container.resolve(Product);
 
 route.get("/product-detail/:productId", product.getProductDetail.bind(product));
 route.get(

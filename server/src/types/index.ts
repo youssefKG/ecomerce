@@ -6,6 +6,7 @@ import {
   ProductFields,
   ProductDataType,
   CreateReviewType,
+  ReviewDataType,
 } from "./product.type";
 import {
   RegisterFormDataType,
@@ -44,4 +45,5 @@ export {
   // review
   CreateReviewType,
   ReviewType,
+  ReviewDataType,
 };

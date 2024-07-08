@@ -1,8 +1,9 @@
 import { Response, Request, NextFunction } from "express";
-import { CartType } from "../../types";
+import { inject, injectable } from "tsyringe";
+import { CartType, ProductFieldsConfig } from "../../types";
 import { CustomError } from "../../utils/errorHandler.ts";
-import { IProductRepository, ICartRepository } from "../../services";
-import { Cart, CartItems, ProductFieldsConfig } from "../../types";
+import { CartRepository, ProductRepository } from "../../services";
+import { Cart, CartItems } from "../../types";
 
 interface ICartController {
   getCartProducts: (
@@ -24,17 +25,12 @@ interface ICartController {
   ) => Promise<void>;
 }
 
-class CartController {
-  private productRepository: IProductRepository;
-  private cartRepository: ICartRepository;
-
+@injectable()
+class CartController implements ICartController {
   constructor(
-    cartRepository: ICartRepository,
-    productRepository: IProductRepository,
-  ) {
-    this.cartRepository = cartRepository;
-    this.productRepository = productRepository;
-  }
+    @inject(CartRepository) private cartRepository: CartRepository,
+    @inject(ProductRepository) private productRepository: ProductRepository,
+  ) {}
 
   public async getCartProducts(
     req: Request,
@@ -72,9 +68,13 @@ class CartController {
       const { productId } = req.body;
 
       // check if the cart belong to user
-      const userCart: Cart =
-        await this.cartRepository.findInsertUserCart(userId);
+      const userCart: Cart | null =
+        await this.cartRepository.findUserCart(userId);
 
+      if (!userCart) {
+        next(new CustomError("there is no cart with this name ", 400, null));
+        return;
+      }
       // is it user cart ?
       if (userCart.userId !== userId) {
         next(new CustomError("you can only update only your cart ", 402, null));
@@ -102,25 +102,11 @@ class CartController {
         return;
       }
 
+      // delete the product from cart
       const deletedCartProduct = await this.cartRepository.deleteCartItem(
         productId,
         userCart.id,
       );
-
-      // find the product
-      const product = await this.productRepository.getProductById(
-        cartProduct.productId,
-        { id: true, stocke: true },
-      );
-
-      if (!product || !product.stocke) {
-        next(new CustomError("this product not exist", 402, null));
-        return;
-      }
-
-      // update the product stock after deletion
-      const newStock = product.stocke + cartProduct.quantite;
-      await this.productRepository.updateProduct(product.id, newStock);
 
       res.status(200).json({
         success: true,
@@ -140,6 +126,7 @@ class CartController {
   ) {
     try {
       const { productId, quantite } = req.body;
+      console.log(productId, quantite);
       const userId: string = req.currentUser.id;
 
       // check the card is belong to him
@@ -158,7 +145,8 @@ class CartController {
         await this.productRepository.getProductById(productId, {
           id: true,
           categoryId: true,
-          stocke: true,
+          stock: true,
+          price: true,
         });
 
       // if the product does not exist
@@ -173,10 +161,10 @@ class CartController {
         return;
       }
 
-      if (!product.stocke || !product.price) return; // todo: fix this later
+      if (!product.stock || !product.price) return; // todo: fix this later
 
       // if the quantite that user wanna add does not exist in stock
-      if (product.stocke > quantite) {
+      if (product.stock < quantite) {
         next(
           new CustomError(
             "The requested quantity exceeds the available stock for this product. Please reduce the quantity and try again.",
@@ -187,18 +175,13 @@ class CartController {
         return;
       }
 
-      // update the product stock
-      // update the quantite if the product is already in cart if not create
-      // new one
+      // update the quantite if the product is already in cart if not create new one
       const cartItem = await this.cartRepository.upsertCartItem(
         userCart.id,
         productId,
         quantite,
         product.price,
       );
-
-      const newStock = product.stocke - quantite;
-      await this.productRepository.updateProduct(product.id, newStock);
 
       res.status(200).json({
         success: true,

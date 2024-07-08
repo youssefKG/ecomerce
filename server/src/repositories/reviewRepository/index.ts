@@ -1,21 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import { Review } from "@prisma/client";
+import { Database } from "../../services";
 import { ReviewType, CreateReviewType } from "../../types";
+import { inject, injectable, delay, singleton, autoInjectable } from "tsyringe";
 
 interface IReviewRepository {
-  creatReview: (
-    reviewData: CreateReviewType,
-  ) => Promise<CreateReviewType | null>;
+  creatReview: (reviewData: CreateReviewType) => Promise<Review | null>;
   likeReview: (reviewId: string) => Promise<ReviewType | null>;
   dislikeReview: (reviewId: string) => Promise<ReviewType | null>;
   getProductReviews: (productId: string) => Promise<ReviewType[] | null>;
 }
 
+@injectable()
 class ReviewRepository implements IReviewRepository {
-  private prisma: PrismaClient;
-
-  constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
-  }
+  constructor(@inject(delay(() => Database)) private prisma: Database) {}
 
   public async getProductReviews(
     productId: string,
@@ -36,7 +33,7 @@ class ReviewRepository implements IReviewRepository {
 
   public async creatReview(
     reviewData: CreateReviewType,
-  ): Promise<CreateReviewType | null> {
+  ): Promise<Review | null> {
     try {
       const newReview = await this.prisma.review.create({ data: reviewData });
 

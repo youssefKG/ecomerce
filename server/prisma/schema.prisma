@@ -30,8 +30,8 @@ model User {
 }
 
 model Category {
-  id       String    @id @default(uuid()) @map("_id") @db.ObjectId
-  name     String
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String    @unique
   products Product[]
 }
 
@@ -55,7 +55,7 @@ model Product {
 }
 
 model Review {
-  id         String   @id @default(uuid()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   authorId   String   @db.ObjectId
   productId  String   @db.ObjectId
   firstName  String
@@ -72,7 +72,7 @@ model Review {
 }
 
 model Cart {
-  id         String      @id @default(uuid()) @map("_id") @db.ObjectId
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
   userId     String      @unique @db.ObjectId
   items      CartItems[]
   total      Float
@@ -82,7 +82,7 @@ model Cart {
 }
 
 model CartItems {
-  id        String @id @default(uuid()) @map("_id") @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   cartId    String @db.ObjectId
   productId String @db.ObjectId
   quantite  Int
@@ -94,7 +94,7 @@ model CartItems {
 }
 
 model Order {
-  id         String       @id @default(uuid()) @map("_id") @db.ObjectId
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
   userId     String       @db.ObjectId
   items      OrderItems[]
   price      Float
@@ -106,7 +106,7 @@ model Order {
 }
 
 model OrderItems {
-  id         String   @id @default(uuid()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   orderId    String   @db.ObjectId
   productId  String   @db.ObjectId
   quantite   Int

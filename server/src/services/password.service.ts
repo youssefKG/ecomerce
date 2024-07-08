@@ -1,10 +1,12 @@
 import bcrypt from "bcryptjs";
+import { injectable } from "tsyringe";
 
 interface IPasswordService {
   hashPassword: (password: string) => string;
   verifyPassword: (password: string, hashPassword: string) => boolean;
 }
 
+@injectable()
 class PasswordService implements IPasswordService {
   // hash the user password before store it to data base
   hashPassword(password: string): string {

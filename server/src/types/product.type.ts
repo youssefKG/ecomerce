@@ -26,14 +26,14 @@ type ProductDataType = {
 
 type ProductFieldsConfig = {
   id: string;
-  title?: string;
+  name?: string;
   description?: string;
   imgURLS?: string[];
   price?: number;
   rate?: number;
   discount?: number;
   catergoryId?: string;
-  stocke?: number;
+  stock?: number;
 };
 
 interface CreateReviewType {
@@ -48,26 +48,25 @@ interface CreateReviewType {
   rate: number;
 }
 
+type ReviewDataType = {
+  authorId: string;
+  content: string;
+  rate: number;
+  productId: string;
+};
+
 type ProductFields = {
   id: boolean;
-  title?: boolean;
+  name?: boolean;
   description?: boolean;
   imgURLS?: boolean;
   price?: boolean;
   rate?: boolean;
   discount?: boolean;
   categoryId?: boolean;
-  stocke?: boolean;
+  stock?: boolean;
 };
-// id                    String @id @default(auto()) @map("_id") @db.ObjectId
-// title                 String
-// description           String
-// imgURLS               String[]
-// price                 Int
-// discount              Float
-// rate                  Float
-// category             String
-// created_at            DateTime @default(now())
+
 export {
   ReviewType,
   ProductDetailType,
@@ -76,4 +75,5 @@ export {
   ProductFields,
   ProductDataType,
   CreateReviewType,
+  ReviewDataType,
 };

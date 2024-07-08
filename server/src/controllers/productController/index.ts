@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { IProductRepository } from "../../repositories/productRepository";
-import { IReviewRepository } from "../../repositories";
+import { inject, injectable } from "tsyringe";
+import { ReviewRepository, ProductRepository } from "../../services";
 import { ProductDataType, ProductType, ReviewType } from "../../types";
 import { CustomError } from "../../utils/errorHandler.ts";
 
@@ -32,17 +32,12 @@ interface IProduct {
   ) => Promise<void>;
 }
 
+@injectable()
 class Product implements IProduct {
-  private productRepository: IProductRepository;
-  private reviewRepository: IReviewRepository;
-
   constructor(
-    productRepository: IProductRepository,
-    reviewRepository: IReviewRepository,
-  ) {
-    this.productRepository = productRepository;
-    this.reviewRepository = reviewRepository;
-  }
+    @inject("ProductRepository") private productRepository: ProductRepository,
+    @inject("ReviewRepository") private reviewRepository: ReviewRepository,
+  ) {}
 
   // get product detail (id, name , description, stock ... ) method
   public async getProductDetail(

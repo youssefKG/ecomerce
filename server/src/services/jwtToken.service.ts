@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken";
+import { injectable } from "tsyringe";
 
 interface JwtPayload {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
+  imgURL: string;
   isLogin: boolean;
   role: "ADMIN" | "USER";
 }
@@ -14,6 +16,7 @@ interface ITokenService {
   generateToken: (user: JwtPayload) => string;
 }
 
+@injectable()
 class TokenService implements ITokenService {
   // jwt secret key
   #jwtSecretKey = process.env.JWT_SECRET || "jwt-secret-key";
