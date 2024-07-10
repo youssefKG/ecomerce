@@ -2,7 +2,7 @@ interface ProductType {
   id: string;
   title: string;
   rate: number;
-  imgURL: string[];
+  imgsURL: string[];
   price: number;
   discount: number;
   stock: number;
@@ -52,10 +52,25 @@ interface RegisterFormDataErrorsType {
   confirmPassword?: string;
 }
 
-interface shoppingCartProductType extends ProductType {
-  orderId: string;
+type ProductCartType = {
+  id: string;
+  name: string;
+  description: string;
+  imgURLS: string[];
+  categoryId: string;
+  price: number;
+  stock: number;
+  rate: number;
+  created_at: string;
+};
+
+interface ShoppingCartProductType {
+  cartId: string;
+  id: string;
+  price: number;
+  product: ProductCartType;
   quantite: number;
-  isSeen: boolean;
+  productId: string;
 }
 
 interface ReviewType {
@@ -116,7 +131,7 @@ export type {
   AuthResponseType,
   CurrentUserType,
   FormReviewType,
-  shoppingCartProductType,
+  ShoppingCartProductType,
   ProductType,
   ProductDetailType,
   FurnitureCategoryType,

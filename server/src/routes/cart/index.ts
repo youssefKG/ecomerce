@@ -10,9 +10,9 @@ const route: Router = express.Router();
 
 const cart: ICartController = container.resolve(CartController);
 
-route.get("/cart-products", verifyToken, cart.getCartProducts.bind(cart));
+route.get("/products", verifyToken, cart.getCartProducts.bind(cart));
 route.delete(
-  "/:cartProductId",
+  "/:cartItemId",
   verirfyToken,
   cart.deleteProductFromCart.bind(cart),
 );

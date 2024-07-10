@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { shoppingCartProductType } from "../../types";
+import { useSnackbar } from "notistack";
+import { ShoppingCartProductType } from "../../types";
 import { ResponseI } from "../../api";
 import cartApi from "../../services/cart";
 
 interface UseCartI {
-  cartProducts: shoppingCartProductType[];
-  errorMessage: string;
+  cartProducts: ShoppingCartProductType[];
   increaseProductQuantite: (
     productId: string,
     quantite: number,
@@ -14,34 +14,42 @@ interface UseCartI {
     productId: string,
     quantite: number,
   ) => Promise<void>;
-  removeCartProduct: (productId: string) => Promise<void>;
+  removeCartProduct: (productId: string, cartId: string) => Promise<void>;
+  isCartProductLoading: boolean;
 }
 
-function useCart(): UseCartI {
-  const [cartProducts, setCartProducts] = useState<shoppingCartProductType[]>(
+const useCart = (): UseCartI => {
+  const [cartProducts, setCartProducts] = useState<ShoppingCartProductType[]>(
     [],
   );
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [laoding, setLaoding] = useState<boolean>(false);
+  const [isCartProductLoading, setIsCartProductLoading] =
+    useState<boolean>(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const increaseProductQuantite = async (
     productId: string,
     quantite: number,
   ): Promise<void> => {
     try {
-      if (laoding) return;
-      setLaoding(true);
-      await cartApi.increaseProductQuantite(productId, quantite);
+      console.log(productId, quantite);
+      if (isCartProductLoading) return;
+      setIsCartProductLoading(true);
+      const response = await cartApi.addProductToCart(productId, quantite);
 
-      setLaoding(false);
-      setRefresh(!refresh);
+      console.log(response);
+
+      enqueueSnackbar(`the product quantie is  increment by ${quantite}`, {
+        variant: "success",
+      });
     } catch (err) {
       if (err.response.status === 401) localStorage.removeItem("currentuser");
 
-      setErrorMessage(err.response.data.message);
       console.log(err);
-      setLaoding(false);
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
+    } finally {
+      setIsCartProductLoading(false);
+      setRefresh(!refresh);
     }
   };
 
@@ -50,48 +58,55 @@ function useCart(): UseCartI {
     quantite: number,
   ): Promise<void> => {
     try {
-      if (laoding) return;
-      setLaoding(true);
+      if (setIsCartProductLoading) return;
+      setIsCartProductLoading(true);
       await cartApi.decreaseProductQuatite(productId, quantite);
-
-      setLaoding(false);
     } catch (err) {
-      if (err.response.status === 401) {
-        localStorage.removeItem("currentuser");
-      }
-      setErrorMessage(err.response.data.message);
-      console.log(err);
-      setLaoding(false);
+      if (err.response.status === 401) localStorage.removeItem("currentuser");
+
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
+    } finally {
+      setIsCartProductLoading(false);
+      setRefresh(!refresh);
     }
   };
 
   const removeCartProduct = async (productId: string) => {
     try {
-      setLaoding(true);
-      await cartApi.removeProductFromCart(productId);
+      setIsCartProductLoading(true);
+      const response: ResponseI =
+        await cartApi.removeProductFromCart(productId);
 
-      setLaoding(false);
-      setRefresh(!refresh);
+      console.log(response);
+      if (response.status === 200)
+        enqueueSnackbar(response.data.message, { variant: "success" });
     } catch (err) {
-      if (err.response.status === 401) localStorage.removeItem("currentuser");
-      setLaoding(false);
-      setRefresh(!refresh);
       console.log(err);
+      if (err.response.status === 401) localStorage.removeItem("currentuser");
+
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
+    } finally {
+      setIsCartProductLoading(false);
+      setRefresh(!refresh);
     }
   };
 
   useEffect(() => {
     const fetchCartProducts = async () => {
       try {
-        setLaoding(true);
+        setIsCartProductLoading(true);
+
         const response: ResponseI = await cartApi.getCartProducts();
-        setCartProducts(response.data);
-        setLaoding(false);
+
+        if (response.status === 200) {
+          setCartProducts(response.data.result.items);
+        }
+        console.log(response.data.result);
       } catch (err) {
         if (err.status.status === 401) localStorage.removeItem("currentuser");
-        setErrorMessage(err.response.data.message);
-        setLaoding(false);
-        console.log(err);
+        enqueueSnackbar(err.response.data.message, { variant: "error" });
+      } finally {
+        setIsCartProductLoading(false);
       }
     };
 
@@ -100,12 +115,12 @@ function useCart(): UseCartI {
 
   return {
     cartProducts,
-    errorMessage,
     increaseProductQuantite,
     decreaseProductQuantite,
     removeCartProduct,
+    isCartProductLoading,
   };
-}
+};
 
 export default useCart;
 export type { UseCartI };

@@ -11,11 +11,8 @@ interface ICartRepository {
     quantite: number,
     price: number,
   ) => Promise<CartItems>;
-  findUserCart: (cartId: string) => Promise<Cart | null>;
-  deleteCartItem: (
-    productId: string,
-    cartId: string,
-  ) => Promise<CartItems | null>;
+  findUserCart: (userId: string) => Promise<Cart | null>;
+  deleteCartItem: (cartItemId: string) => Promise<CartItems | null>;
   findCartProduct: (productId: string) => Promise<CartItems | null>;
 }
 
@@ -62,7 +59,7 @@ class CartRepository implements ICartRepository {
 
   public async findUserCart(cartId: string): Promise<Cart | null> {
     try {
-      const userCart: Cart | null = await this.prisma.cart.findUnique({
+      const userCart: Cart | null = await this.prisma.cart.findFirst({
         where: { id: cartId },
       });
 
@@ -74,15 +71,11 @@ class CartRepository implements ICartRepository {
   }
 
   // delete item in cart
-  public async deleteCartItem(
-    productId: string,
-    cartId: string,
-  ): Promise<CartItems | null> {
+  public async deleteCartItem(cartItemId: string): Promise<CartItems | null> {
     try {
-      const deletedProduct: CartItems | null =
-        await this.prisma.cartItems.delete({
-          where: { productId_cartId: { cartId, productId } },
-        });
+      const deletedProduct: CartItems = await this.prisma.cartItems.delete({
+        where: { id: cartItemId },
+      });
 
       return deletedProduct;
     } catch (err) {

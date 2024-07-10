@@ -7,7 +7,7 @@ const GlobalConextProvider = ({ children }) => {
       maxSnack={3}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       dense
-      autoHideDuration={1500}
+      autoHideDuration={2500}
     >
       <AuthContextProvider>{children}</AuthContextProvider>
     </SnackbarProvider>

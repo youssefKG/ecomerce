@@ -33,10 +33,7 @@ class ProductRepository implements IProductRepository {
   ): Promise<ProductFieldsConfig | null> {
     try {
       const product: ProductFieldsConfig | null =
-        await this.prisma.product.findUnique({
-          where: { id },
-          select: fields,
-        });
+        await this.prisma.product.findUnique({ where: { id }, select: fields });
 
       return product;
     } catch (err) {

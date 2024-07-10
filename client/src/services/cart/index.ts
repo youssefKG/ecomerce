@@ -19,10 +19,6 @@ class cartService implements CartApiI {
     return api.get("/cart/products");
   };
 
-  cartProducts = async (): Promise<ResponseI> => {
-    return api.get("/cart/products");
-  };
-
   addProductToCart = async (productId: string, quantite: number) => {
     return api.put("/cart/add-product", { productId, quantite });
   };

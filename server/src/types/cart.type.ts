@@ -1,13 +1,9 @@
 import { Cart, CartItems, Product } from "@prisma/client";
 
 type CartItemsType = CartItems & {
-	product: Product[];
+  product: Product[];
 };
 
-type CartType =
-	| Cart
-	| {
-			items: CartItemsType[];
-	  };
+type CartType = Cart | { items: CartItemsType[] };
 
 export { Cart, CartItems, CartType, CartItemsType };

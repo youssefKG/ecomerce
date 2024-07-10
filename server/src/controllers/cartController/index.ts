@@ -65,48 +65,45 @@ class CartController implements ICartController {
   ): Promise<void> {
     try {
       const userId: string = req.currentUser.id;
-      const { productId } = req.body;
+      const cartItemId = req.params.cartItemId;
 
-      // check if the cart belong to user
-      const userCart: Cart | null =
-        await this.cartRepository.findUserCart(userId);
+      // find product in cart items
+      const cartItem: CartItems | null =
+        await this.cartRepository.findCartProduct(cartItemId);
 
-      if (!userCart) {
-        next(new CustomError("there is no cart with this name ", 400, null));
-        return;
-      }
-      // is it user cart ?
-      if (userCart.userId !== userId) {
-        next(new CustomError("you can only update only your cart ", 402, null));
-        return;
-      }
-
-      // if product does not exist in user cart
-      const cartProduct: CartItems | null =
-        await this.cartRepository.findCartProduct(productId);
-
-      if (!cartProduct) {
-        next(new CustomError("the product not found user cart", 400, null));
-        return;
-      }
-
-      // if the product is not his shoppingCart
-      if (cartProduct.cartId === userCart.id) {
+      // if the product is not in cart items
+      if (!cartItem) {
         next(
           new CustomError(
-            "you can delete only the product in your shoopingCart",
-            402,
+            "the product that you try to delete does not exist",
+            404,
             null,
           ),
         );
         return;
       }
 
-      // delete the product from cart
-      const deletedCartProduct = await this.cartRepository.deleteCartItem(
-        productId,
-        userCart.id,
+      // find the user Cart
+      const userCart: Cart | null = await this.cartRepository.findUserCart(
+        cartItem.cartId,
       );
+
+      // if the user cart does not exist
+      if (!userCart) {
+        next(new CustomError("there is no cart with this name ", 400, null));
+        return;
+      }
+
+      // is it user cart ?
+      if (userCart.userId !== userId) {
+        next(new CustomError("you can only update only your cart ", 402, null));
+        return;
+      }
+
+      // delete the product from cart
+      const deletedCartProduct =
+        await this.cartRepository.deleteCartItem(cartItemId);
+      console.log("deleted cart product", deletedCartProduct);
 
       res.status(200).json({
         success: true,
@@ -148,6 +145,8 @@ class CartController implements ICartController {
           stock: true,
           price: true,
         });
+
+      console.log("product", product);
 
       // if the product does not exist
       if (!product) {

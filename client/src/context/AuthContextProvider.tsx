@@ -27,12 +27,11 @@ const AuthContextProvider = ({ children }) => {
     shoppingCartType[]
   >([]);
 
-  function checkAuth<T>(fn: T): T | void {
+  function checkAuth(fn: any) {
     if (!currentUser) {
       setBackdropAuth({ isLoginOpen: true, isSignupOpen: false });
-      return;
+      return (): void => undefined;
     }
-    fn;
     return fn;
   }
 
