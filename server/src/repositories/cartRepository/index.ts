@@ -13,14 +13,15 @@ interface ICartRepository {
   ) => Promise<CartItems>;
   findUserCart: (userId: string) => Promise<Cart | null>;
   deleteCartItem: (cartItemId: string) => Promise<CartItems | null>;
-  findCartProduct: (productId: string) => Promise<CartItems | null>;
+  findCartItem: (productId: string) => Promise<CartItems | null>;
+  decrementCartItemQuantite: (cartItemId: string) => Promise<CartItems | null>;
+
+  incrementCartItemQuantite: (cartItemId: string) => Promise<CartItems | null>;
 }
 
 @injectable()
 class CartRepository implements ICartRepository {
-  constructor(@inject(delay(() => Database)) private prisma: Database) {
-    this.prisma = prisma;
-  } // fetch the products in user cart
+  constructor(@inject(delay(() => Database)) private prisma: Database) {}
 
   public async userCartProducts(userId: string): Promise<CartType | null> {
     try {
@@ -39,7 +40,7 @@ class CartRepository implements ICartRepository {
     }
   }
 
-  public async findCartProduct(productId: string): Promise<CartItems | null> {
+  public async findCartItem(productId: string): Promise<CartItems | null> {
     const product: CartItems | null = await this.prisma.cartItems.findUnique({
       where: { id: productId },
     });
@@ -98,6 +99,38 @@ class CartRepository implements ICartRepository {
     });
 
     return cartIem;
+  }
+
+  public async decrementCartItemQuantite(
+    cartItemId: string,
+  ): Promise<CartItems | null> {
+    try {
+      const cartItem: CartItems | null = await this.prisma.cartItems.update({
+        where: { id: cartItemId },
+        data: { quantite: { increment: 1 } },
+      });
+
+      return cartItem;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
+
+  public async incrementCartItemQuantite(
+    cartItemId: string,
+  ): Promise<CartItems | null> {
+    try {
+      const cartItem: CartItems | null = await this.prisma.cartItems.update({
+        where: { id: cartItemId },
+        data: { quantite: { increment: 1 } },
+      });
+
+      return cartItem;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
   }
 }
 

@@ -57,8 +57,7 @@
   .best-selling-products-container .products-cards-container {
     display: flex;
     overflow: unset;
-    justify-content: center;
     flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
   }
 }

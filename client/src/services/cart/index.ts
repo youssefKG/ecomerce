@@ -4,14 +4,8 @@ interface CartApiI {
   getCartProducts: () => Promise<ResponseI>;
   addProductToCart: (productId: string, quantite: number) => Promise<ResponseI>;
   removeProductFromCart: (productId: string) => Promise<ResponseI>;
-  increaseProductQuantite: (
-    productId: string,
-    quantite: number,
-  ) => Promise<ResponseI>;
-  decreaseProductQuatite: (
-    productId: string,
-    quantite: number,
-  ) => Promise<ResponseI>;
+  incrementCartItemQuantite: (cartItemId: string) => Promise<ResponseI>;
+  decrementCartItemQuatite: (cartItemId: string) => Promise<ResponseI>;
 }
 
 class cartService implements CartApiI {
@@ -27,18 +21,14 @@ class cartService implements CartApiI {
     return api.delete(`/cart/${productId}`);
   };
 
-  increaseProductQuantite = async (
-    productId: string,
-    quantite: number,
+  incrementCartItemQuantite = async (
+    cartItemId: string,
   ): Promise<ResponseI> => {
-    return api.put("/cart/increase-quantite", { productId, quantite });
+    return api.put(`/cart/cartItem/increment/${cartItemId}`);
   };
 
-  decreaseProductQuatite = async (
-    productId: string,
-    quantite: number,
-  ): Promise<ResponseI> => {
-    return api.put("/cart/decrease-quanttie", { productId, quantite });
+  decrementCartItemQuatite = async (cartItemId: string): Promise<ResponseI> => {
+    return api.put(`/cart/cartItem/decrement/${cartItemId}`);
   };
 }
 

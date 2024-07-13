@@ -79,7 +79,7 @@ const LoginBackDrop = () => {
         <Divider>Or</Divider>
         <Formik
           initialValues={{
-            email: "youssefTaoussi2003@gmail.com",
+            email: "yousseftaoussi2003@gmail.com",
             password: "Taoussi@2003",
           }}
           validate={validateLoginFormData}

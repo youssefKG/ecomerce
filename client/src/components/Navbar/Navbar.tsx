@@ -65,6 +65,7 @@ const Navbar = () => {
                 badgeContent={true}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 color="warning"
+                variant="dot"
               >
                 <IoMdCart className="shoppingCartIcon" />
               </Badge>
@@ -73,7 +74,10 @@ const Navbar = () => {
               ref={profilRef}
               onClick={() => setIsProfilBackdropOpen(!isProfilBackdropOpen)}
             >
-              <img src={currentUser.photoURL} className="profil-img" />
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStsz-ePYChlKmmDp0G6-3nUZOJQ3d8KmY7DA&s"
+                className="profil-img"
+              />
             </button>
           </div>
         ) : (

@@ -41,12 +41,7 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
         { variant: "success" },
       );
     } catch (err) {
-      enqueueSnackbar(
-        "An error occurred while trying to add the product to your favorites. Please try again. If the problem persists, contact customer support.",
-        {
-          variant: "error",
-        },
-      );
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
       console.log(err);
     }
   };
@@ -65,10 +60,7 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
         );
       }
     } catch (err) {
-      enqueueSnackbar(
-        "An error occurred while trying to add the product to your cart. Please try again. If the problem persists, contact customer support.",
-        { variant: "error" },
-      );
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
       console.log(err);
     }
   };

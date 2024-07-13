@@ -6,15 +6,9 @@ import cartApi from "../../services/cart";
 
 interface UseCartI {
   cartProducts: ShoppingCartProductType[];
-  increaseProductQuantite: (
-    productId: string,
-    quantite: number,
-  ) => Promise<void>;
-  decreaseProductQuantite: (
-    productId: string,
-    quantite: number,
-  ) => Promise<void>;
-  removeCartProduct: (productId: string, cartId: string) => Promise<void>;
+  incrementCartItemQuantite: (cartItemId: string) => Promise<void>;
+  decrementCartItemQuantite: (cartItemId: string) => Promise<void>;
+  removeCartItem: (cartItemId: string) => Promise<void>;
   isCartProductLoading: boolean;
 }
 
@@ -27,19 +21,17 @@ const useCart = (): UseCartI => {
     useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  const increaseProductQuantite = async (
+  const incrementCartItemQuantite = async (
     productId: string,
-    quantite: number,
   ): Promise<void> => {
     try {
-      console.log(productId, quantite);
       if (isCartProductLoading) return;
       setIsCartProductLoading(true);
-      const response = await cartApi.addProductToCart(productId, quantite);
+      const response = await cartApi.incrementCartItemQuantite(productId);
 
       console.log(response);
 
-      enqueueSnackbar(`the product quantie is  increment by ${quantite}`, {
+      enqueueSnackbar(`the product quantie is  increment by 1`, {
         variant: "success",
       });
     } catch (err) {
@@ -53,17 +45,19 @@ const useCart = (): UseCartI => {
     }
   };
 
-  const decreaseProductQuantite = async (
-    productId: string,
-    quantite: number,
+  const decrementCartItemQuantite = async (
+    cartItemId: string,
   ): Promise<void> => {
     try {
       if (setIsCartProductLoading) return;
       setIsCartProductLoading(true);
-      await cartApi.decreaseProductQuatite(productId, quantite);
+      const response: ResponseI =
+        await cartApi.decrementCartItemQuatite(cartItemId);
+      console.log(response);
     } catch (err) {
       if (err.response.status === 401) localStorage.removeItem("currentuser");
 
+      console.log(err);
       enqueueSnackbar(err.response.data.message, { variant: "error" });
     } finally {
       setIsCartProductLoading(false);
@@ -71,11 +65,11 @@ const useCart = (): UseCartI => {
     }
   };
 
-  const removeCartProduct = async (productId: string) => {
+  const removeCartItem = async (cartItemId: string) => {
     try {
       setIsCartProductLoading(true);
       const response: ResponseI =
-        await cartApi.removeProductFromCart(productId);
+        await cartApi.removeProductFromCart(cartItemId);
 
       console.log(response);
       if (response.status === 200)
@@ -115,9 +109,9 @@ const useCart = (): UseCartI => {
 
   return {
     cartProducts,
-    increaseProductQuantite,
-    decreaseProductQuantite,
-    removeCartProduct,
+    incrementCartItemQuantite,
+    decrementCartItemQuantite,
+    removeCartItem,
     isCartProductLoading,
   };
 };

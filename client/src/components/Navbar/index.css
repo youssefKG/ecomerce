@@ -101,9 +101,10 @@
 .logo {
   font-size: 26px;
 }
+
 .shoppingCartIcon {
   color: white;
-  font-size: 28px;
+  font-size: 23px;
 }
 .profil {
   display: flex;
@@ -119,8 +120,14 @@
 }
 .profil .currentUser {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 10px;
+}
+.profil .currentUser button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .profil .currentUser img {
   width: 25px;

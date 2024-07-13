@@ -8,10 +8,10 @@ import "./index.css";
 function Cart() {
   const { checkAuth } = useContext(AuthContext);
   const {
-    decreaseProductQuantite,
+    incrementCartItemQuantite,
     cartProducts,
-    increaseProductQuantite,
-    removeCartProduct,
+    decrementCartItemQuantite,
+    removeCartItem,
     isCartProductLoading,
   }: UseCartI = useCart();
 
@@ -20,9 +20,9 @@ function Cart() {
       <ShopingCart
         isCartProductsLoading={isCartProductLoading}
         cartProducts={cartProducts}
-        decreaseProductQuantite={() => checkAuth(decreaseProductQuantite)()}
-        removeCartProduct={removeCartProduct}
-        increaseProductQuatite={increaseProductQuantite}
+        decrementCartItemQuantite={decrementCartItemQuantite}
+        removeCartItem={removeCartItem}
+        incrementCartItemQuantite={incrementCartItemQuantite}
       />
       <Ordersummary />
     </div>

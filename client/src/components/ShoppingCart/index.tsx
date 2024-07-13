@@ -14,23 +14,17 @@ import { FaMinus, FaPlus } from "../../assets/icons";
 
 interface CartTableI {
   cartProducts: ShoppingCartProductType[];
-  decreaseProductQuantite: (
-    productId: string,
-    quantite: number,
-  ) => Promise<void>;
-  increaseProductQuatite: (
-    productId: string,
-    quantite: number,
-  ) => Promise<void>;
-  removeCartProduct: (productId: string) => Promise<void>;
+  decrementCartItemQuantite: (cartItemId: string) => Promise<void>;
+  incrementCartItemQuantite: (cartItemId: string) => Promise<void>;
+  removeCartItem: (cartItemId: string) => Promise<void>;
   isCartProductsLoading: boolean;
 }
 
 const ShopingCart = ({
   cartProducts,
-  decreaseProductQuantite,
-  increaseProductQuatite,
-  removeCartProduct,
+  incrementCartItemQuantite,
+  decrementCartItemQuantite,
+  removeCartItem,
   isCartProductsLoading,
 }: CartTableI) => {
   return (
@@ -77,17 +71,13 @@ const ShopingCart = ({
                   <TableCell>
                     <div className="product-quantite-container">
                       <button
-                        onClick={() =>
-                          decreaseProductQuantite(product.productId, -1)
-                        }
+                        onClick={() => decrementCartItemQuantite(product.id)}
                       >
                         <FaMinus />
                       </button>
                       <input value={product.quantite} />
                       <button
-                        onClick={() =>
-                          increaseProductQuatite(product.productId, 1)
-                        }
+                        onClick={() => incrementCartItemQuantite(product.id)}
                       >
                         <FaPlus />
                       </button>
@@ -98,7 +88,7 @@ const ShopingCart = ({
                     {product.price * product.quantite}
                   </TableCell>
                   <TableCell>
-                    <button onClick={() => removeCartProduct(product.id)}>
+                    <button onClick={() => removeCartItem(product.id)}>
                       <MdOutlineDeleteOutline className="delete-icon" />
                     </button>
                   </TableCell>

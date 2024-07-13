@@ -7,7 +7,7 @@
   height: 100vh;
 }
 .search-container {
-  width: 100%;
+  width: 60%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,14 +17,17 @@
   padding-left: 12px;
   background-color: #f2f2f2;
 }
+
 .search-container input {
   flex: 1;
   background-color: transparent;
   border: none;
 }
+
 .search-container input:focus {
   outline: none;
 }
+
 .search-container button {
   display: flex;
   font-size: 18px;
@@ -37,30 +40,34 @@
   border: 1px silver solid;
   transition: 300ms ease-out;
 }
+
 .search-container button:hover {
   scale: 103%;
   background-color: black;
   color: #cccccc;
   border: 1px white solid;
 }
+
 .chips-filters-container {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
+
 .cards-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   gap: 23px;
   flex-wrap: wrap;
   margin: auto;
   scroll-behavior: smooth;
   overflow: auto;
 }
+
 .cards-container::-webkit-scrollbar-thumb {
   background: var(--yellowPrimary);
 }
+
 .cards-container::-webkit-scrollbar {
   width: 6px;
   background-color: var(--bluePrimary);

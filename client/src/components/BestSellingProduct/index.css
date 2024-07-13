@@ -31,9 +31,9 @@
   scale: 101%;
   opacity: 1;
 }
+
 .best-selling-products-container .products-cards-container {
   display: flex;
-  justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
 }
