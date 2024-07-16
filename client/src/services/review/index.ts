@@ -1,10 +1,14 @@
 import api, { ResponseI } from "../../api";
 import { FormReviewType } from "../../types";
 
+interface ReviewDataI extends FormReviewType {
+  productId: string;
+}
+
 interface ReviewServiceI {
   getReviews: (productId: string) => Promise<ResponseI>;
   toggleReviewLike: (value: boolean) => Promise<ResponseI>;
-  postReview: (formReview: FormReviewType) => Promise<ResponseI>;
+  postReview: (formReview: ReviewDataI) => Promise<ResponseI>;
 }
 
 class ReviewService implements ReviewServiceI {
@@ -12,8 +16,8 @@ class ReviewService implements ReviewServiceI {
     return api.get(`/review/get-reviews/${productId}`);
   }
 
-  public async postReview(formReview: FormReviewType): Promise<ResponseI> {
-    return api.post("/review/create-review", formReview);
+  public async postReview(formReview: ReviewDataI): Promise<ResponseI> {
+    return api.post("/review/", formReview);
   }
 
   public async toggleReviewLike(value: boolean): Promise<ResponseI> {

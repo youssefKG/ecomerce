@@ -6,7 +6,6 @@ const NotificationContext = createContext(null);
 
 const NotificationContextProdvider = ({ children }) => {
   const showNotification = (type: string, message: string): void => {
-    console.log("noti");
     toast[type](message);
   };
   return (

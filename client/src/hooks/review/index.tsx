@@ -1,4 +1,5 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useContext } from "react";
+import { NotificationContext } from "../../context/NotificationContextProvider";
 import { useSnackbar } from "notistack";
 import { ReviewType, FormReviewType } from "../../types";
 import reviewService from "../../services/review";
@@ -11,7 +12,7 @@ interface UseReviewI {
   isPostReviewLoading: boolean;
   formReview: FormReviewType;
   handleChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  handleStarRatingChange: (event: any, newValue: number) => void;
+  handleStarsRatingChange: (event: any, newValue: number) => void;
 }
 
 const useReview = (productId: string): UseReviewI => {
@@ -23,28 +24,33 @@ const useReview = (productId: string): UseReviewI => {
   const [isReviewsLoading, setIsReviewsLoading] = useState<boolean>(false);
   const [isPostReviewLoading, setIsPostReviewLoading] =
     useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const { showNotification } = useContext(NotificationContext);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setFormReview({ ...formReview, [e.target.name]: e.target.value });
   };
 
-  const handleStarRatingChange = (_, newValue: number) => {
+  const handleStarsRatingChange = (_, newValue: number) => {
+    console.log(formReview);
+
     setFormReview({ ...formReview, rate: newValue });
   };
 
   const postReview = async () => {
     try {
       setIsPostReviewLoading(true);
-      const response = await reviewService.getReviews(productId);
+      const response = await reviewService.postReview({
+        ...formReview,
+        productId,
+      });
 
-      if (response.status === 200) {
-        if (response.data.result !== null) setReviews(response.data.result);
-        console.log(response);
-      }
+      showNotification("success", response.data.message);
+      setRefresh(!refresh);
     } catch (err) {
+      showNotification("error", err.response.data.message);
       console.log(err);
-      enqueueSnackbar(err.response.data.message);
     } finally {
       setIsPostReviewLoading(false);
     }
@@ -70,7 +76,7 @@ const useReview = (productId: string): UseReviewI => {
     };
 
     fetchReviews();
-  }, [productId]);
+  }, [productId, refresh]);
   return {
     reviews,
     formReview,
@@ -78,7 +84,7 @@ const useReview = (productId: string): UseReviewI => {
     isReviewsLoading,
     isPostReviewLoading,
     handleChange,
-    handleStarRatingChange,
+    handleStarsRatingChange,
   };
 };
 

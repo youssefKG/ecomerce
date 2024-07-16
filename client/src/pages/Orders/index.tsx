@@ -3,7 +3,7 @@ import OrdersTable from "../../components/OrderTable";
 
 const Orders = () => {
   return (
-    <div className="self-start flex-col gap-10  justify-center w-full">
+    <div className="self-start flex-col gap-10 overflow-hidden justify-center w-full">
       <div className="flex justify-between">
         <h1 className="font-bold text-xl">Orders</h1>
         <div className="flex gap-2">

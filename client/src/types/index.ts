@@ -118,10 +118,10 @@ interface FurnitureCategoryType {
   items: Furniture[];
 }
 
-type FormReviewType = {
+interface FormReviewType {
   content: string;
   rate: number;
-};
+}
 
 export type {
   LoginFormDataType,

@@ -3,7 +3,7 @@ import "./index.css";
 
 const AccountTableContent = () => {
   return (
-    <div className="manage-account-container">
+    <div className="lg:flex hidden  flex-col gap-4">
       <div className="">
         <h1>Manage My Account </h1>
         <ul>

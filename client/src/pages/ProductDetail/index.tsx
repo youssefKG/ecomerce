@@ -26,7 +26,7 @@ const ProductDetail = () => {
   }: UseProductDetailI = useProductDetail(product_id);
 
   const {
-    handleStarRatingChange,
+    handleStarsRatingChange,
     handleChange,
     isPostReviewLoading,
     postReview,
@@ -54,9 +54,9 @@ const ProductDetail = () => {
         />
 
         <AddReview
-          postReview={() => checkAuth(postReview)}
+          postReview={postReview}
           handleChange={handleChange}
-          handleStarRatingChange={handleStarRatingChange}
+          handleStarsRatingChange={handleStarsRatingChange}
           formReview={formReview}
           isPostReviewLoading={isPostReviewLoading}
         />

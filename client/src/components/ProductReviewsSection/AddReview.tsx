@@ -3,19 +3,19 @@ import { FormReviewType } from "../../types";
 import { Avatar, Rating } from "@mui/material";
 
 interface AddReviewProps {
-  postReview: (reviewData: FormReviewType) => void;
+  postReview: () => Promise<void>;
   handleChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  handleStarRatingChange: (event: any, newVlaue: number) => void;
+  handleStarsRatingChange: (event: any, newVlaue: number) => void;
   formReview: FormReviewType;
   isPostReviewLoading: boolean;
 }
 
-const formData: FormReviewType = {
-  content: "",
-  rate: 4,
-};
-
-const AddReview = ({ postReview }: AddReviewProps) => {
+const AddReview = ({
+  postReview,
+  handleChange,
+  formReview,
+  handleStarsRatingChange,
+}: AddReviewProps) => {
   return (
     <div className="add-review-container">
       <Avatar
@@ -26,15 +26,16 @@ const AddReview = ({ postReview }: AddReviewProps) => {
         <textarea
           placeholder="Write your review"
           rows={4}
-          name="review"
-          onChange={() => {}}
+          name="content"
+          value={formReview.content}
+          onChange={handleChange}
         />
         <div className="publish">
           <div className="rating">
             <p>Your Rating</p>
-            <Rating size="medium" onChange={() => {}} />
+            <Rating size="medium" onChange={handleStarsRatingChange} />
           </div>
-          <button className="post-btn" onClick={() => postReview(formData)}>
+          <button className="post-btn" onClick={postReview}>
             Post Review
           </button>
         </div>

@@ -13,29 +13,37 @@
 root {
   list-style: none;
 }
+
 body {
   margin: 0;
   font-family: "Titillium Web" sans-serif;
   overflow-x: hidden;
 }
+
 * {
   margin: 0;
   font-family: "Titillium Web", sans-serif;
   box-sizing: border-box;
 }
+
 ::-webkit-scrollbar {
-  background: var(--darkPrimary);
-  width: 8px;
+  background: silver;
+  width: 2px;
+  height: 4px;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: var(--blueSecondary);
+  background: white;
   border-radius: 30px;
 }
+
 th {
   padding: 12px;
+  margin: 2px;
 }
 td {
   padding: 9px;
+  margin: 2px;
 }
 button {
   background-color: transparent;
