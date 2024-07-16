@@ -40,9 +40,9 @@ class ReviewController implements IReviewController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const { authorId, content, rate, productId }: ReviewDataType = req.body;
+      const { content, rate, productId }: ReviewDataType = req.body;
 
-      if (!authorId || !rate || !content) {
+      if (!rate || !content) {
         next(new CustomError("all feidls required", 400, null));
         return;
       }
@@ -73,7 +73,7 @@ class ReviewController implements IReviewController {
       if (!product) {
         next(
           new CustomError(
-            "the product you are trying review does not exist ",
+            "the product you are trying to review does not exist ",
             401,
             null,
           ),
@@ -81,7 +81,6 @@ class ReviewController implements IReviewController {
         return;
       }
 
-      console.log(req.currentUser);
       // create a new review
       const newReview: ReviewType | null =
         await this.reviewRepository.creatReview({

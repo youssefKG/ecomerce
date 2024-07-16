@@ -12,7 +12,7 @@ route.get(
   reviewController.productReviews.bind(reviewController),
 );
 route.post(
-  "/create-review",
+  "/",
   verifyToken,
   reviewController.createReview.bind(reviewController),
 );

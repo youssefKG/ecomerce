@@ -21,7 +21,7 @@ class ReviewRepository implements IReviewRepository {
       const reviews: ReviewType[] = await this.prisma.review.findMany({
         where: { productId },
         take: 5,
-        orderBy: { likes: "desc" },
+        orderBy: { created_at: "desc" },
       });
 
       return reviews;
