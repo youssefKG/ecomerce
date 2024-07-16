@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse as ResponseI } from "axios";
 import {
   CurrentUserType,
   LoginFormDataType,

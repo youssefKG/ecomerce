@@ -18,7 +18,6 @@ const DefaultLayout = () => {
         <Suspense fallback={<Laoding />}>
           <Outlet />
         </Suspense>
-        <Footer />
       </div>
     </GlobalConextProvider>
   );

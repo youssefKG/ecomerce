@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useClickOutside } from "../../hooks";
 import { AuthContext } from "../../context";
 import { Divider, Badge } from "@mui/material";
+import ProfilBackDrop from "../ProfilBackDrop";
 import {
   IoLogoAppleAr,
   IoMdCart,
@@ -16,14 +17,16 @@ import {
   CiStar,
   MdOutlineCancel,
 } from "../../assets/icons";
+// import ProfilBackDrop from "../ProfilBackDrop";
 // icons import
+
 const Navbar = () => {
   const { setBackdropAuth, currentUser } = useContext(AuthContext);
   const drawerRef = useRef<HTMLDivElement>();
   const [isDrawerOpen, setIsDrawerOpen] = useClickOutside(drawerRef);
-  const profilRef = useRef<HTMLButtonElement | null>(null);
   const [isProfilBackdropOpen, setIsProfilBackdropOpen] =
     useState<boolean>(false);
+
   return (
     <div className="navbarContainer">
       <Link to="/" className="brandName">
@@ -55,11 +58,6 @@ const Navbar = () => {
       <div className="profil">
         {currentUser ? (
           <div className="currentUser">
-            {isProfilBackdropOpen && (
-              <ProfilBackfrop
-                closeProfilBackdrop={(): void => setIsProfilBackdropOpen(false)}
-              />
-            )}
             <Link to="/cart">
               <Badge
                 badgeContent={true}
@@ -70,15 +68,7 @@ const Navbar = () => {
                 <IoMdCart className="shoppingCartIcon" />
               </Badge>
             </Link>
-            <button
-              ref={profilRef}
-              onClick={() => setIsProfilBackdropOpen(!isProfilBackdropOpen)}
-            >
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStsz-ePYChlKmmDp0G6-3nUZOJQ3d8KmY7DA&s"
-                className="profil-img"
-              />
-            </button>
+            <ProfilBackDrop />
           </div>
         ) : (
           <div className="auth-btns-container">
@@ -87,7 +77,7 @@ const Navbar = () => {
                 setBackdropAuth({ isLoginOpen: true, isSignupOpen: false })
               }
             >
-              <p>Login</p>
+              <p className="text-sm">Login</p>
             </button>
             <div className="devider" />
             <button
@@ -95,7 +85,7 @@ const Navbar = () => {
                 setBackdropAuth({ isLoginOpen: false, isSignupOpen: true })
               }
             >
-              <p>Signup</p>
+              <p className="text-sm">Signup</p>
             </button>
           </div>
         )}
@@ -140,44 +130,45 @@ const Drawer = ({ drawerRef }) => {
     </div>
   );
 };
-const ProfilBackfrop = ({
-  closeProfilBackdrop,
-}: {
-  closeProfilBackdrop: () => void;
-}) => {
-  return (
-    <div className="profil-backdrop-container">
-      <button onClick={closeProfilBackdrop}>
-        <Link to="/account" className="item">
-          <MdOutlineAccountCircle className="icon" />
-          <p>My Account</p>
-        </Link>
-      </button>
-      <button onClick={closeProfilBackdrop}>
-        <Link to="item" className="item">
-          <BsBag className="icon" />
-          <p>My Orders</p>
-        </Link>
-      </button>
-      <button onClick={closeProfilBackdrop}>
-        <Link to="" className="item">
-          <MdOutlineCancel className="icon" />
-          <p>MyCancelation</p>
-        </Link>
-      </button>
-      <button onClick={closeProfilBackdrop}>
-        <Link to="" className="item">
-          <CiStar className="icon" />
-          <p>My Reviews</p>
-        </Link>
-      </button>
-      <button onClick={closeProfilBackdrop}>
-        <Link to="item" className="item">
-          <CiLogout className="icon" />
-          <p>Logout</p>
-        </Link>
-      </button>
-    </div>
-  );
-};
+
+// const ProfilBackfrop = ({
+//   closeProfilBackdrop,
+// }: {
+//   closeProfilBackdrop: () => void;
+// }) => {
+//   return (
+//     <div className="profil-backdrop-container">
+//       <button onClick={closeProfilBackdrop}>
+//         <Link to="/account" className="item">
+//           <MdOutlineAccountCircle className="icon" />
+//           <p>My Account</p>
+//         </Link>
+//       </button>
+//       <button onClick={closeProfilBackdrop}>
+//         <Link to="/account/orders" className="item">
+//           <BsBag className="icon" />
+//           <p>My Orders</p>
+//         </Link>
+//       </button>
+//       <button onClick={closeProfilBackdrop}>
+//         <Link to="" className="item">
+//           <MdOutlineCancel className="icon" />
+//           <p>MyCancelation</p>
+//         </Link>
+//       </button>
+//       <button onClick={closeProfilBackdrop}>
+//         <Link to="" className="item">
+//           <CiStar className="icon" />
+//           <p>My Reviews</p>
+//         </Link>
+//       </button>
+//       <button onClick={closeProfilBackdrop}>
+//         <Link to="item" className="item">
+//           <CiLogout className="icon" />
+//           <p>Logout</p>
+//         </Link>
+//       </button>
+//     </div>
+//   );
+// };
 export default Navbar;

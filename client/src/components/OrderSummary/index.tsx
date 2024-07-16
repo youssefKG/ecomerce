@@ -3,7 +3,7 @@ import "./index.css";
 const Ordersummary = () => {
   return (
     <div className="order-summary-container">
-      <h1>Order Summary</h1>
+      <h1 className="font-bold text-xl">Order Summary</h1>
       <Divider />
       <div className="prices">
         <div>

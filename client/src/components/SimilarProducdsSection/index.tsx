@@ -15,7 +15,7 @@ const SimillarProductSection = ({
 }: SimillarProductsSectionPropsType) => {
   return (
     <section className="similar-products-section">
-      <h1>Simillar Products</h1>
+      <h1 className="font-bold text-2xl">Simillar Products</h1>
       {isLoading ? (
         <CardSkeleton />
       ) : (

@@ -8,7 +8,8 @@ import Dialog from "@mui/material/Dialog";
 import { Divider } from "@mui/material";
 import { FaFacebook, FcGoogle } from "../../assets/icons";
 import { ResponseI } from "../../api";
-import authService, { AuthServiceI } from "../../services/authentication";
+import authService from "../../services/authentication";
+import { useSnackbar } from "notistack";
 import "./index.css";
 
 const LoginBackDrop = () => {
@@ -21,6 +22,7 @@ const LoginBackDrop = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleFormSubmit = async (
     values: LoginFormDataType,
@@ -41,13 +43,15 @@ const LoginBackDrop = () => {
         );
         setErrorMessage(null);
       }
-      setIsLoading(false);
+      enqueueSnackbar(response.data.message, { variant: "success" });
     } catch (err) {
       setErrorMessage("Email Or password incorrect !!");
-      setIsLoading(false);
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
       setCurrentUser(null);
       setSuccessMessage(null);
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,7 +92,7 @@ const LoginBackDrop = () => {
           <Form className="form">
             <div className="text-input-container">
               <Field
-                className="input-field"
+                className="input-field font-medium text-sm"
                 name="email"
                 type="email"
                 placeholder="email"
@@ -105,7 +109,7 @@ const LoginBackDrop = () => {
             </div>
             <div className="text-input-container">
               <Field
-                className="input-field"
+                className="input-field font-medium text-sm"
                 name="password"
                 type="password"
                 placeholder="password"

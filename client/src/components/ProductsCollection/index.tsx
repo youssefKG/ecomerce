@@ -16,7 +16,7 @@ const ProductsCollections = ({
 }: PropsType) => {
   return (
     <div className="products-collections-container">
-      <h1> Our Collection of products</h1>
+      <h1 className="font-bold text-2xl"> Our Collection of products</h1>
       <div className="search-container">
         <input type="text" placeholder="Search for item" />
         <button>

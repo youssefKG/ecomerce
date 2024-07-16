@@ -38,7 +38,7 @@ const AccountTableContent = () => {
             </Link>
           </li>
           <li>
-            <Link to="">
+            <Link to="orders">
               <p>My Orders</p>
             </Link>
           </li>

@@ -1,12 +1,9 @@
-import { useContext } from "react";
-import { AuthContext } from "../../context";
 import useCart, { UseCartI } from "../../hooks/cart";
 import Ordersummary from "../../components/OrderSummary";
 import ShopingCart from "../../components/ShoppingCart";
 import "./index.css";
 
 function Cart() {
-  const { checkAuth } = useContext(AuthContext);
   const {
     incrementCartItemQuantite,
     cartProducts,

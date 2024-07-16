@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useSnackbar } from "notistack";
+import { useEffect, useState, useContext } from "react";
 import { ShoppingCartProductType } from "../../types";
 import { ResponseI } from "../../api";
 import cartApi from "../../services/cart";
+import { NotificationContext } from "../../context/NotificationContextProvider";
 
 interface UseCartI {
   cartProducts: ShoppingCartProductType[];
@@ -19,7 +19,7 @@ const useCart = (): UseCartI => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [isCartProductLoading, setIsCartProductLoading] =
     useState<boolean>(false);
-  const { enqueueSnackbar } = useSnackbar();
+  const { showNotification } = useContext(NotificationContext);
 
   const incrementCartItemQuantite = async (
     productId: string,
@@ -31,14 +31,12 @@ const useCart = (): UseCartI => {
 
       console.log(response);
 
-      enqueueSnackbar(`the product quantie is  increment by 1`, {
-        variant: "success",
-      });
+      showNotification("info", `the product quantie is  increment by 1`);
     } catch (err) {
       if (err.response.status === 401) localStorage.removeItem("currentuser");
 
       console.log(err);
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+      showNotification("error", err.response.data.message);
     } finally {
       setIsCartProductLoading(false);
       setRefresh(!refresh);
@@ -53,12 +51,13 @@ const useCart = (): UseCartI => {
       setIsCartProductLoading(true);
       const response: ResponseI =
         await cartApi.decrementCartItemQuatite(cartItemId);
+      showNotification("info", `the product quantie is  decrement by 1`);
       console.log(response);
     } catch (err) {
       if (err.response.status === 401) localStorage.removeItem("currentuser");
 
       console.log(err);
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+      showNotification("error", err.response.data.message);
     } finally {
       setIsCartProductLoading(false);
       setRefresh(!refresh);
@@ -73,12 +72,12 @@ const useCart = (): UseCartI => {
 
       console.log(response);
       if (response.status === 200)
-        enqueueSnackbar(response.data.message, { variant: "success" });
+        showNotification("success", response.data.message);
     } catch (err) {
       console.log(err);
       if (err.response.status === 401) localStorage.removeItem("currentuser");
 
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+      showNotification("error", err.response.data.message);
     } finally {
       setIsCartProductLoading(false);
       setRefresh(!refresh);
@@ -98,7 +97,7 @@ const useCart = (): UseCartI => {
         console.log(response.data.result);
       } catch (err) {
         if (err.status.status === 401) localStorage.removeItem("currentuser");
-        enqueueSnackbar(err.response.data.message, { variant: "error" });
+        showNotification("error", err.response.data.message);
       } finally {
         setIsCartProductLoading(false);
       }

@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ProductType, ProductDataType } from "../../types";
 import productDetailService from "../../services/productDetail";
 import cartService from "../../services/cart";
-import { useSnackbar } from "notistack";
 import { ResponseI } from "../../api";
+import { NotificationContext } from "../../context/NotificationContextProvider";
 
 interface UseProductDetailI {
   isProductDataLoading: boolean;
@@ -25,7 +25,7 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
   const [isSimillarProductsLoading, setIsSimillarProductsLoading] =
     useState<boolean>(true);
   const [quantite, setQuantite] = useState<number>(1);
-  const { enqueueSnackbar } = useSnackbar();
+  const { showNotification } = useContext(NotificationContext);
 
   const toogleLike = async (
     reviewId: string,
@@ -36,12 +36,12 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
         reviewId,
         value,
       });
-      enqueueSnackbar(
+      showNotification(
+        "success",
         "The product has been added to your favorites successfully!",
-        { variant: "success" },
       );
     } catch (err) {
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+      showNotification("error", err.response.data.message);
       console.log(err);
     }
   };
@@ -54,24 +54,19 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
       );
 
       if (response.status === 200) {
-        enqueueSnackbar(
-          "The product has been added to your cart successfully!",
-          { variant: "success" },
-        );
+        showNotification("success", response.data.message);
       }
     } catch (err) {
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+      showNotification("error", err.response.data.message);
       console.log(err);
     }
   };
 
   const incrementProductQuantite = () => {
     if (productData.stock <= quantite) {
-      enqueueSnackbar(
+      showNotification(
+        "error",
         "we currently do not have the requested quantity in stock.",
-        {
-          variant: "error",
-        },
       );
     } else setQuantite(quantite + 1);
   };
@@ -79,9 +74,9 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
   const decrementProductQuantite = () => {
     if (quantite > 1) setQuantite(quantite - 1);
     else {
-      enqueueSnackbar(
+      showNotification(
+        "error",
         "The minimum quantity you can add to the cart for this item is one.",
-        { variant: "error" },
       );
     }
   };

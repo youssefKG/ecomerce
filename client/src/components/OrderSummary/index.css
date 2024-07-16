@@ -47,7 +47,5 @@
   letter-spacing: 1.5mm;
 }
 .order-summary-container button:hover {
-  scale: 103%;
   opacity: 100%;
-  border: 1px solid grey;
 }

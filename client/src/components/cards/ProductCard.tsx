@@ -17,7 +17,7 @@ const ProductCard = ({ title, price, imgURL, discount, product_id }: Props) => {
       <img src={imgURL} className="product-card-img" />
       <div className="discount">-{discount}%</div>
       <div className="product-detail">
-        <h1 className="title">{title}</h1>
+        <h1 className="title font-semibold">{title}</h1>
         <div>
           <p className="price">
             <span>$2040.00</span>

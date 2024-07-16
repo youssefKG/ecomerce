@@ -5,7 +5,7 @@ const BestSellingProduct = () => {
   return (
     <div className="best-selling-products-container">
       <div className="header-best-selling-products">
-        <h1>Best Selling Products</h1>
+        <h1 className="font-bold text-2xl">Best Selling Products</h1>
         <button>View All</button>
       </div>
       <div className="products-cards-container">

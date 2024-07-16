@@ -116,6 +116,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   color: white;
 }
 .profil .currentUser {
@@ -142,16 +143,16 @@
   rotate: 10deg;
 }
 .profil .auth-btns-container p {
-  transition: 300ms ease-out;
+  transition: 400ms ease-out;
   opacity: 80%;
   letter-spacing: 0.5mm;
-  font-weight: 600;
+  font-weight: 500;
   color: white;
 }
 .profil .auth-btns-container p:hover {
-  scale: 102%;
   color: whitesmoke;
   opacity: 100%;
+  font-weight: bold;
 }
 .navbarContainer .bars {
   display: none;

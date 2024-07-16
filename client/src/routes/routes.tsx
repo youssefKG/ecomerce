@@ -15,8 +15,9 @@ const Checkout = lazy(() => import("../pages/Checkout/index"));
 const Blogs = lazy(() => import("../pages/Blogs/index"));
 const BlogSettings = lazy(() => import("../pages/BlogDetail/index"));
 const DefaultLayout = lazy(() => import("../layouts/defaultLayout/index"));
-const AccoutLayout = lazy(() => import("../layouts/AccountLayout"));
+const AccoutLayout = lazy(() => import("../layouts/AccountLayout/index"));
 const EditAccount = lazy(() => import("../pages/EditAccount"));
+const Orders = lazy(() => import("../pages/Orders"));
 
 const router = createBrowserRouter([
   {
@@ -43,7 +44,10 @@ const router = createBrowserRouter([
           {
             path: "/account",
             Component: AccoutLayout,
-            children: [{ path: "", Component: EditAccount }],
+            children: [
+              { path: "", Component: EditAccount },
+              { path: "orders", Component: Orders },
+            ],
           },
         ],
       },

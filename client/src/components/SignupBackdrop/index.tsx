@@ -1,45 +1,36 @@
 import { useContext, useState } from "react";
-import { AuthResponseType, RegisterFormDataType } from "../../types";
+import { RegisterFormDataType } from "../../types";
 import { AuthContext } from "../../context/AuthContextProvider";
-import * as authService from "../../auth";
+import authService from "../../services/authentication";
 import { validateRegisterFormData } from "../../utils/validate";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FcGoogle, FaFacebook } from "../../assets/icons";
 import { Divider, Dialog } from "@mui/material";
 import "./index.css";
+import { ResponseI } from "../../api";
+import { useSnackbar } from "notistack";
 
 const SignupBackdrop = () => {
   const { backdropAuth, setBackdropAuth, handleOpenLoginBackdrop } =
     useContext(AuthContext);
-  const [isLaoding, setIsLaoding] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleFormSubmit = async (
     values: RegisterFormDataType,
     _,
   ): Promise<void> => {
     try {
-      console.log(values);
-      if (isLaoding) return;
-      setIsLaoding(true);
+      setIsLoading(true);
+      const response: ResponseI = await authService.register(values);
 
-      const response: AuthResponseType = await authService.register(values);
-      if (response.success) {
-        setIsLaoding(false);
-        setTimeout(() => {
-          setSuccessMessage(response.message);
-          setErrorMessage(null);
-          handleOpenLoginBackdrop(); // open login when if the account is created
-        }, 2000);
-      } else {
-        setSuccessMessage(null);
-        setErrorMessage(response?.message);
-      }
-      console.log("response from register backdrop", response);
+      enqueueSnackbar(response.data.message, { variant: "success" });
+      handleOpenLoginBackdrop();
     } catch (err) {
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
       console.log(err);
-      setIsLaoding(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,7 +78,7 @@ const SignupBackdrop = () => {
               <div className="text-input-container">
                 <Field
                   name="firstName"
-                  className="input-field"
+                  className="input-field font-medium text-sm"
                   placeholder="first name"
                 />
                 <ErrorMessage
@@ -119,7 +110,7 @@ const SignupBackdrop = () => {
             </div>
             <div className="text-input-container">
               <Field
-                className="input-field"
+                className="input-field font-medium text-sm"
                 name="email"
                 placeholder="email"
                 type="email"
@@ -138,7 +129,7 @@ const SignupBackdrop = () => {
               <Field
                 name="password"
                 placeholder="Password"
-                className="input-field"
+                className="input-field font-medium text-sm"
                 type="password"
               />
               <ErrorMessage
@@ -154,7 +145,7 @@ const SignupBackdrop = () => {
             <div className="text-input-container">
               <Field
                 name="confirmPassword"
-                className="input-field"
+                className="input-field font-medium text-sm"
                 placeholder="Confirm password"
                 type="password"
               />
@@ -168,15 +159,9 @@ const SignupBackdrop = () => {
                 )}
               />
             </div>
-            <button type="submit" className="login-btn">
+            <button disabled={isLoading} type="submit" className="login-btn">
               Sign Up
             </button>
-            {errorMessage && (
-              <p className="register-error-message">{errorMessage}</p>
-            )}
-            {successMessage && (
-              <p className="register-success-message">{successMessage}</p>
-            )}
           </Form>
         </Formik>
       </div>

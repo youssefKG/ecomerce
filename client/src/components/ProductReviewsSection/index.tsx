@@ -17,7 +17,7 @@ const ProductReviewsSection = ({
 }: ReviewsSectionI) => {
   return (
     <>
-      <h1>Reviews</h1>
+      <h1 className="font-bold text-2xl">Reviews</h1>
       <div className="reviews-container">
         {isLoading ? (
           <ReviewsSkeleton />
@@ -32,12 +32,14 @@ const ProductReviewsSection = ({
               />
               <div className="review-detail">
                 <div className="review-header">
-                  <h1>
+                  <h1 className="font-bold">
                     {rev.firstName} {rev.lastName}
                   </h1>
                   <Rating size="small" value={rev.rate} />
                 </div>
-                <p>{rev.content}</p>
+                <p className="text-gray-300 text-xs font-medium">
+                  {rev.content}
+                </p>
                 <div className="date">
                   <button
                     className="heart-btn"

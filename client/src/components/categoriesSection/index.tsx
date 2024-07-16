@@ -3,8 +3,8 @@ const CategoriesSection = () => {
   return (
     <div className="categories-section-container">
       <div className="categories-header">
-        <h1>View Our Range Of Categories</h1>
-        <p>
+        <h1 className="font-medium text-xl">View Our Range Of Categories</h1>
+        <p className="text-sm text-gray-400">
           Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
           cillum sint consectetur cupidatat.
         </p>
