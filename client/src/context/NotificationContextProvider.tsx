@@ -16,6 +16,7 @@ const NotificationContextProdvider = ({ children }) => {
     >
       {children}
       <ToastContainer
+        className="text-white"
         position="top-center"
         draggable
         autoClose={3000}

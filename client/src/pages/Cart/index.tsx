@@ -1,29 +1,26 @@
 import useCart, { UseCartI } from "../../hooks/cart";
 import Ordersummary from "../../components/OrderSummary";
 import ShopingCart from "../../components/ShoppingCart";
+import CartTable from "../../components/CartTable";
 import "./index.css";
 
-function Cart() {
+const Cart = () => {
   const {
     incrementCartItemQuantite,
     cartProducts,
     decrementCartItemQuantite,
     removeCartItem,
-    isCartProductLoading,
   }: UseCartI = useCart();
-
   return (
     <div className="cart-container">
-      <ShopingCart
-        isCartProductsLoading={isCartProductLoading}
+      <CartTable
         cartProducts={cartProducts}
+        incrementCartItemQuantite={incrementCartItemQuantite}
         decrementCartItemQuantite={decrementCartItemQuantite}
         removeCartItem={removeCartItem}
-        incrementCartItemQuantite={incrementCartItemQuantite}
       />
       <Ordersummary />
     </div>
   );
-}
-
+};
 export default Cart;
