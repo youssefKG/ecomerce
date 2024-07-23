@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
 import { ReviewRepository, ProductRepository } from "../../services";
-import { ProductDataType, ProductType, ReviewType } from "../../types";
+import {
+  NewProductType,
+  ProductDataType,
+  ProductType,
+  ReviewType,
+} from "../../types";
 import { CustomError } from "../../utils/errorHandler.ts";
 
 interface IProduct {
@@ -26,6 +31,11 @@ interface IProduct {
     next: NextFunction,
   ) => Promise<void>;
   getProductReviews: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  createProducts: (
     req: Request,
     res: Response,
     next: NextFunction,
@@ -179,6 +189,23 @@ class Product implements IProduct {
         message: "product reviews ",
         result: productReviews,
         success: true,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  public async createProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products: NewProductType[] = req.body;
+      console.log(products);
+      await this.productRepository.createProducts(products);
+
+      res.status(200).json({
+        success: true,
+        result: null,
+        message: "the products is created",
       });
     } catch (err) {
       console.log(err);

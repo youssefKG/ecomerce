@@ -1,6 +1,6 @@
 import { ProductCard } from "../cards";
 import { productsData } from "../../utils";
-import "./index.v2.css";
+import "./index.css";
 const BestSellingProduct = () => {
   return (
     <div className="best-selling-products-container">

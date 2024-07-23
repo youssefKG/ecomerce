@@ -2,9 +2,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
   flex-direction: column;
   gap: 30px;
+  padding: 10px;
+  height: 70vh;
 }
 
 .categories-section-container .categories-header {
@@ -16,8 +17,10 @@
 .categories-section-container .categories-cards-container {
   position: relative;
   display: grid;
-  grid-template-columns: 400px 400px 400px;
-  grid-template-rows: 300px 300px;
+  overflow: hidden;
+  justify-content: space-between;
+  grid-template-columns: 30% 30% 30%;
+  grid-template-rows: 50% 50%;
   column-gap: 10px;
   row-gap: 10px;
   gap: 10px;
@@ -104,4 +107,18 @@
   color: #6c757d;
   font-size: 14px;
   font-weight: 500;
+}
+
+@media only screen and (min-width: 992px) {
+  .categories-section-container .categories-cards-container {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    justify-content: center;
+    grid-template-columns: 25% 25% 25%;
+    align-items: center;
+    grid-template-rows: 50% 50%;
+    row-gap: 10px;
+    gap: 10px;
+  }
 }

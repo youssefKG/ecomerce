@@ -15,9 +15,10 @@ interface UseProductDetailI {
   incrementProductQuantite: () => void;
   decrementProductQuantite: () => void;
   addProductToCart: (productId: string, quantite: string) => Promise<void>;
+  isAddProductLoading: boolean;
 }
 
-const useProductDetailt = (productId: string): UseProductDetailI => {
+const useProductDetail = (productId: string): UseProductDetailI => {
   const [productData, setProductData] = useState<ProductDataType | null>(null);
   const [simillarProducts, setSimillarProducts] = useState<ProductType[]>([]);
   const [isProductDataLoading, setIsProductDataLoading] =
@@ -26,6 +27,8 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
     useState<boolean>(true);
   const [quantite, setQuantite] = useState<number>(1);
   const { showNotification } = useContext(NotificationContext);
+  const [isAddProductLoading, setIsAddProductLoading] =
+    useState<boolean>(false);
 
   const toogleLike = async (
     reviewId: string,
@@ -48,17 +51,19 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
 
   const addProductToCart = async (): Promise<void> => {
     try {
+      setIsAddProductLoading(true);
       const response: ResponseI = await cartService.addProductToCart(
         productId,
         quantite,
       );
+      console.log(response);
 
-      if (response.status === 200) {
-        showNotification("success", response.data.message);
-      }
+      showNotification("info", response.data.message);
     } catch (err) {
       showNotification("error", err.response.data.message);
       console.log(err);
+    } finally {
+      setIsAddProductLoading(false);
     }
   };
 
@@ -135,8 +140,9 @@ const useProductDetailt = (productId: string): UseProductDetailI => {
     incrementProductQuantite,
     decrementProductQuantite,
     addProductToCart,
+    isAddProductLoading,
   };
 };
 
-export default useProductDetailt;
+export default useProductDetail;
 export type { UseProductDetailI };

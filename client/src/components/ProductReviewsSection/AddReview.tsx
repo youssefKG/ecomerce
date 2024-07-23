@@ -35,7 +35,10 @@ const AddReview = ({
             <p>Your Rating</p>
             <Rating size="medium" onChange={handleStarsRatingChange} />
           </div>
-          <button className="post-btn" onClick={postReview}>
+          <button
+            className="font-medium py-1 px-3 shadow hover:opacity-95 transition rounded text-white text-sm tracking-wide bg-gray-700 "
+            onClick={postReview}
+          >
             Post Review
           </button>
         </div>

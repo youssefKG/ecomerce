@@ -16,7 +16,9 @@ const useCart = (): UseCartI => {
   const [cartProducts, setCartProducts] = useState<ShoppingCartProductType[]>(
     [],
   );
+  useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
   const [isCartProductLoading, setIsCartProductLoading] =
     useState<boolean>(false);
   const { showNotification } = useContext(NotificationContext);
@@ -70,9 +72,7 @@ const useCart = (): UseCartI => {
       const response: ResponseI =
         await cartApi.removeProductFromCart(cartItemId);
 
-      console.log(response);
-      if (response.status === 200)
-        showNotification("success", response.data.message);
+      showNotification("info", response.data.message);
     } catch (err) {
       console.log(err);
       if (err.response.status === 401) localStorage.removeItem("currentuser");
@@ -91,13 +91,12 @@ const useCart = (): UseCartI => {
 
         const response: ResponseI = await cartApi.getCartProducts();
 
-        if (response.status === 200) {
-          setCartProducts(response.data.result.items);
-        }
-        console.log(response.data.result);
+        setCartProducts(response.data.result.items);
+        console.log(response);
       } catch (err) {
-        if (err.status.status === 401) localStorage.removeItem("currentuser");
+        if (err.status === 401) localStorage.removeItem("currentuser");
         showNotification("error", err.response.data.message);
+        console.log(err);
       } finally {
         setIsCartProductLoading(false);
       }

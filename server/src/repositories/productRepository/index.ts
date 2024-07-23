@@ -5,6 +5,7 @@ import {
   ProductFields,
   ProductFieldsConfig,
   ProductDataType,
+  NewProductType,
 } from "../../types";
 import { Database } from "../../services";
 
@@ -21,6 +22,7 @@ interface IProductRepository {
     productId: string,
     stock: number,
   ) => Promise<ProductDetailType | null>;
+  createProducts: (products: NewProductType[]) => Promise<void>;
 }
 
 @injectable()
@@ -125,7 +127,7 @@ class ProductRepository implements IProductRepository {
       const bestSellingProductsData: ProductType[] | null =
         await this.prisma.product.findMany({
           orderBy: [],
-          take: 9,
+          take: 14,
           skip: 0,
           select: {
             id: true,
@@ -155,6 +157,12 @@ class ProductRepository implements IProductRepository {
         data: { stock },
       });
     return updatedProduct;
+  }
+
+  public async createProducts(products: NewProductType[]): Promise<void> {
+    await this.prisma.product.createMany({
+      data: products,
+    });
   }
 }
 

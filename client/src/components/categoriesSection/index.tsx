@@ -1,4 +1,4 @@
-import "./index.v2.css";
+import "./index.css";
 const CategoriesSection = () => {
   return (
     <div className="categories-section-container">

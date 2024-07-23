@@ -1,31 +1,12 @@
-import { useRef, useContext, useState } from "react";
+import { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { useClickOutside } from "../../hooks";
 import { AuthContext } from "../../context";
-import { Divider, Badge } from "@mui/material";
+import { Badge } from "@mui/material";
 import ProfilBackDrop from "../ProfilBackDrop";
-import {
-  IoLogoAppleAr,
-  IoMdCart,
-  FaBars,
-  FaHome,
-  FaBlog,
-  IoIosContact,
-  MdOutlineAccountCircle,
-  CiLogout,
-  BsBag,
-  CiStar,
-  MdOutlineCancel,
-} from "../../assets/icons";
-// import ProfilBackDrop from "../ProfilBackDrop";
-// icons import
+import { IoLogoAppleAr, IoMdCart } from "../../assets/icons";
 
 const Navbar = () => {
-  const { setBackdropAuth, currentUser } = useContext(AuthContext);
-  const drawerRef = useRef<HTMLDivElement>();
-  const [isDrawerOpen, setIsDrawerOpen] = useClickOutside(drawerRef);
-  const [isProfilBackdropOpen, setIsProfilBackdropOpen] =
-    useState<boolean>(false);
+  const { setBackdropAuth, currentUser, logout } = useContext(AuthContext);
 
   return (
     <div className="navbarContainer">
@@ -68,7 +49,7 @@ const Navbar = () => {
                 <IoMdCart className="shoppingCartIcon" />
               </Badge>
             </Link>
-            <ProfilBackDrop />
+            <ProfilBackDrop logout={logout} />
           </div>
         ) : (
           <div className="auth-btns-container">
@@ -90,85 +71,8 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <button className="bars" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
-        <FaBars className="bars-icon" />
-      </button>
-      {isDrawerOpen && <Drawer drawerRef={drawerRef} />}
-    </div>
-  );
-};
-const Drawer = ({ drawerRef }) => {
-  return (
-    <div className="drawer-container">
-      <div className="drawer" ref={drawerRef}>
-        <li>
-          <NavLink to="/" className="nav">
-            <FaHome />
-            <p>Home</p>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/products" className="nav">
-            <IoIosContact className="drawer-icon " />
-            <p>Products</p>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/blog" className="nav">
-            <FaBlog />
-            <p>Blog</p>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/about" className="nav">
-            <FaHome />
-            <p>About</p>
-          </NavLink>
-        </li>
-        <Divider />
-      </div>
     </div>
   );
 };
 
-// const ProfilBackfrop = ({
-//   closeProfilBackdrop,
-// }: {
-//   closeProfilBackdrop: () => void;
-// }) => {
-//   return (
-//     <div className="profil-backdrop-container">
-//       <button onClick={closeProfilBackdrop}>
-//         <Link to="/account" className="item">
-//           <MdOutlineAccountCircle className="icon" />
-//           <p>My Account</p>
-//         </Link>
-//       </button>
-//       <button onClick={closeProfilBackdrop}>
-//         <Link to="/account/orders" className="item">
-//           <BsBag className="icon" />
-//           <p>My Orders</p>
-//         </Link>
-//       </button>
-//       <button onClick={closeProfilBackdrop}>
-//         <Link to="" className="item">
-//           <MdOutlineCancel className="icon" />
-//           <p>MyCancelation</p>
-//         </Link>
-//       </button>
-//       <button onClick={closeProfilBackdrop}>
-//         <Link to="" className="item">
-//           <CiStar className="icon" />
-//           <p>My Reviews</p>
-//         </Link>
-//       </button>
-//       <button onClick={closeProfilBackdrop}>
-//         <Link to="item" className="item">
-//           <CiLogout className="icon" />
-//           <p>Logout</p>
-//         </Link>
-//       </button>
-//     </div>
-//   );
-// };
 export default Navbar;

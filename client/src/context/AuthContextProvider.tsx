@@ -1,5 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { CurrentUserType } from "../types";
+import { NotificationContext } from "../context/NotificationContextProvider";
+import authService from "../services/authentication";
 
 const AuthContext = createContext(null);
 
@@ -22,10 +24,7 @@ const AuthContextProvider = ({ children }) => {
     isLoginOpen: false,
     isSignupOpen: false,
   });
-
-  const [shoppingCartProducts, setShoppigCartProduts] = useState<
-    shoppingCartType[]
-  >([]);
+  const { showNotification } = useContext(NotificationContext);
 
   function checkAuth(fn: any) {
     if (!currentUser) {
@@ -34,6 +33,19 @@ const AuthContextProvider = ({ children }) => {
     }
     return fn;
   }
+
+  const logout = async (): Promise<void> => {
+    try {
+      await authService.logout();
+      setCurrentUser(null);
+      showNotification("success", "logout Successfully");
+      localStorage.removeItem("currentUser");
+    } catch (err) {
+      console.log(err);
+      showNotification("error", err.response.data.message);
+      localStorage.removeItem("currentUser");
+    }
+  };
 
   useEffect(() => {
     const getUserDataFromLocalStorage = (): void => {
@@ -54,9 +66,8 @@ const AuthContextProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         backdropAuth,
+        logout,
         setBackdropAuth,
-        shoppingCartProducts,
-        setShoppigCartProduts,
         handleOpenLoginBackdrop: () => {
           setBackdropAuth({
             isLoginOpen: true,

@@ -108,21 +108,6 @@
   font-size: 14px;
   color: gray;
 }
-.add-review-container .form-review-container .publish button {
-  padding: 5px 20px;
-  border: 1px solid gray;
-  border-radius: 30px;
-  font-weight: 600;
-  background-color: black;
-  color: white;
-  transition: 300ms ease-in;
-}
-.add-review-container .form-review-container .publish button:hover {
-  scale: 102%;
-  background-color: white;
-  color: black;
-  border-color: var(--yellowPrimary);
-}
 /* end add revieww   */
 @media only screen and (max-width: 1000px) {
   .reviews-container {

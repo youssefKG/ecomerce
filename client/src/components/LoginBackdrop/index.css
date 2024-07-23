@@ -9,33 +9,39 @@
   width: 400px;
   margin: 4px;
 }
+
 .login-container .close-btn {
   position: absolute;
   top: 6px;
   right: 4px;
   z-index: 10;
 }
+
 .login-container .login-header {
   width: 100%;
   display: flex;
   text-align: center;
   flex-direction: column;
 }
+
 .login-container .login-header h1 {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.5mm;
 }
+
 .login-container .login-header p {
   color: gray;
   font-size: 14px;
 }
+
 .login-container .login-header p span {
   font-weight: 700;
   color: black;
   margin: 0 5px;
   cursor: pointer;
 }
+
 .login-container .passport-auth {
   display: flex;
   flex-direction: column;
@@ -52,14 +58,12 @@
   font-size: 14px;
   font-weight: 600;
   border-radius: 6px;
-  opacity: 50px;
   gap: 8px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   transition: 300ms ease-in-out;
 }
 .login-container .passport-auth button:hover {
-  opacity: 100%;
-  scale: 102%;
+  opacity: 90%;
   /* border-color: var(--blueSecondary); */
 }
 .login-container .passport-auth button .passport-icon {
@@ -96,6 +100,11 @@
   opacity: 0.9;
   /* color: black; */
   border: 1px solid black;
+}
+.login-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .login-container .form .error-message {
   text-align: center;

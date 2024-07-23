@@ -12,6 +12,7 @@
 }
 root {
   list-style: none;
+  color: white;
 }
 
 body {
@@ -33,7 +34,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: white;
+  background: black;
   border-radius: 30px;
 }
 

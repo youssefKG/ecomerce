@@ -7,9 +7,11 @@ import {
   ArrowUturnUpIcon,
 } from "@heroicons/react/24/outline";
 
-interface ProfilBackDropProps {}
+interface ProfilBackDropProps {
+  logout: () => Promise<void>;
+}
 
-const ProfilBackDrop = ({}) => {
+const ProfilBackDrop = ({ logout }: ProfilBackDropProps) => {
   return (
     <Popover className="z-40">
       <PopoverButton className=" outline-none ">
@@ -42,22 +44,19 @@ const ProfilBackDrop = ({}) => {
         </Link>
         <Link
           className="block data-[focus]:bg-blue-100 hover:opacity-100 opacity-95 p-2 hover:bg-gray-100 transition ease-out duration-300"
-          to="/license"
+          to="/checkout"
         >
           <div className="flex gap-2 items-center">
             <ArrowUturnUpIcon className="size-5" />
             <p>My Returns</p>
           </div>
         </Link>
-        <Link
-          className="block data-[focus]:bg-blue-100 hover:opacity-100 opacity-95 p-2 hover:bg-gray-100 transition ease-out duration-300"
-          to="/license"
-        >
-          <div className="flex gap-2 items-center">
+        <button className="block data-[focus]:bg-blue-100 hover:opacity-100 opacity-95 p-2 hover:bg-gray-100 transition ease-out duration-300">
+          <div onClick={logout} className="flex gap-2 items-center">
             <ArrowLeftEndOnRectangleIcon className="size-5" />
             <p>Logout</p>
           </div>
-        </Link>
+        </button>
       </PopoverPanel>
     </Popover>
   );

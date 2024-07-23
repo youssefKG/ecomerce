@@ -1,25 +1,25 @@
-import {
-  useBesSellingProducts,
-  useFeaturedProducts,
-} from "../../hooks/useBestSellingProducts";
-import "./index.css";
-
+import { useProducts, UseProductsI } from "../../hooks";
 import HeroSection from "../../components/heroSection/index";
 import ProductSection from "../../components/ProductsSection/index";
 import CategoriesSection from "../../components/CategoriesSection";
 import WhyUsSection from "../../components/WhyUsSection";
 import BestSellingProduct from "../../components/BestSellingProduct";
+import CardsSectionSkeleton from "../../components/skeletons/PorductsSectionSkeleton";
+import "./index.css";
 
 const Home = () => {
-  const [bestSellingProducts, setBestSelligProducts] = useBesSellingProducts();
-  const [featuredProducts, setFeaturedProducts] = useFeaturedProducts();
+  const { bestSellingProducts, isBestSellingProductsLoading }: UseProductsI =
+    useProducts();
 
   return (
     <div className="home-container">
       <HeroSection />
-      <ProductSection />
+      <ProductSection
+        bestSellingProducts={bestSellingProducts}
+        isBestSellingProductsLoading={isBestSellingProductsLoading}
+      />
       <CategoriesSection />
-      <BestSellingProduct />
+      <BestSellingProduct bestSellingProducts={bestSellingProducts} />
       <WhyUsSection />
     </div>
   );

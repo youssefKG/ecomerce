@@ -67,6 +67,17 @@ type ProductFields = {
   stock?: boolean;
 };
 
+interface NewProductType {
+  name: string;
+  description: string;
+  imgURLS: string[];
+  price: number;
+  discount: number;
+  rate: number;
+  categoryId: string;
+  stock: number;
+}
+
 export {
   ReviewType,
   ProductDetailType,
@@ -76,4 +87,5 @@ export {
   ProductDataType,
   CreateReviewType,
   ReviewDataType,
+  NewProductType,
 };

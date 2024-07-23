@@ -1,6 +1,4 @@
-import useCart, { UseCartI } from "../../hooks/cart";
-import Ordersummary from "../../components/OrderSummary";
-import ShopingCart from "../../components/ShoppingCart";
+import { useCart, UseCartI } from "../../hooks";
 import CartTable from "../../components/CartTable";
 import "./index.css";
 
@@ -10,17 +8,16 @@ const Cart = () => {
     cartProducts,
     decrementCartItemQuantite,
     removeCartItem,
+    isCartProductLoading,
   }: UseCartI = useCart();
   return (
-    <div className="cart-container">
-      <CartTable
-        cartProducts={cartProducts}
-        incrementCartItemQuantite={incrementCartItemQuantite}
-        decrementCartItemQuantite={decrementCartItemQuantite}
-        removeCartItem={removeCartItem}
-      />
-      <Ordersummary />
-    </div>
+    <CartTable
+      cartProducts={cartProducts}
+      incrementCartItemQuantite={incrementCartItemQuantite}
+      decrementCartItemQuantite={decrementCartItemQuantite}
+      removeCartItem={removeCartItem}
+      isCartProductLoading={isCartProductLoading}
+    />
   );
 };
 export default Cart;

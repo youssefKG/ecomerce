@@ -208,15 +208,6 @@ class Authenticator implements IAuthenticator {
       // destructure email from req obj
       const email: string = req.currentUser.email;
 
-      // check if the user is already login
-      if (!req.currentUser.isLogin) {
-        next(new CustomError("only login users cand logout", 400, null));
-        return;
-      }
-
-      // update the user to logout
-      await this.userRepository.updateUser(email, { isLogin: true });
-
       res.status(200).clearCookie("totib-token").json({
         success: true,
         message: "logout successfuly",

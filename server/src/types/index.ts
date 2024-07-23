@@ -7,6 +7,7 @@ import {
   ProductDataType,
   CreateReviewType,
   ReviewDataType,
+  NewProductType,
 } from "./product.type";
 import {
   RegisterFormDataType,
@@ -36,6 +37,7 @@ export {
   ProductType,
   ProductFields,
   ProductFieldsConfig,
+  NewProductType,
   // cart
   Cart,
   CartType,

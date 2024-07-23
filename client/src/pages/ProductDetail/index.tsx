@@ -1,12 +1,16 @@
 import { useContext } from "react";
-import useProductDetail, { UseProductDetailI } from "../../hooks/productDetail";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../../context"; // notification
+import { AuthContext } from "../../context";
+import {
+  useReview,
+  UseReviewI,
+  useProductDetail,
+  UseProductDetailI,
+} from "../../hooks";
 import ProductReviewsSection from "../../components/ProductReviewsSection";
 import ProductDetailSection from "../../components/ProductDetailSection";
 import SimillarProductSection from "../../components/SimilarProducdsSection";
 import AddReview from "../../components/ProductReviewsSection/AddReview";
-import useReview, { UseReviewI } from "../../hooks/review";
 import "./index.css";
 
 const ProductDetail = () => {
@@ -23,6 +27,7 @@ const ProductDetail = () => {
     incrementProductQuantite,
     decrementProductQuantite,
     addProductToCart,
+    isAddProductLoading,
   }: UseProductDetailI = useProductDetail(product_id);
 
   const {
@@ -44,6 +49,7 @@ const ProductDetail = () => {
         quantite={quantite}
         decrementProductQuantite={decrementProductQuantite}
         addProductToCart={() => checkAuth(addProductToCart)()}
+        isAddProductLoading={isAddProductLoading}
       />
 
       <section className="product-reviews-section">

@@ -1,8 +1,8 @@
 interface ProductType {
   id: string;
-  title: string;
+  name: string;
   rate: number;
-  imgsURL: string[];
+  imgURLS: string[];
   price: number;
   discount: number;
   stock: number;
@@ -19,7 +19,7 @@ interface ProductDataType {
   id: string;
   name: string;
   rate: number;
-  imgURL: string[];
+  imgURLS: string[];
   discount: number;
   description: string;
   price: number;

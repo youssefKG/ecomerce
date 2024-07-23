@@ -32,7 +32,7 @@ const useReview = (productId: string): UseReviewI => {
     setFormReview({ ...formReview, [e.target.name]: e.target.value });
   };
 
-  const handleStarsRatingChange = (_, newValue: number) => {
+  const handleStarsRatingChange = (_: any, newValue: number) => {
     console.log(formReview);
 
     setFormReview({ ...formReview, rate: newValue });

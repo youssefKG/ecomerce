@@ -15,11 +15,9 @@ container.register("ProductRepository", {
 const product: IProduct = container.resolve(Product);
 
 route.get("/product-detail/:productId", product.getProductDetail.bind(product));
-route.get(
-  "/best-selling-products",
-  product.getBestSellingProducts.bind(product),
-);
-route.get("/featured-products", product.getFeaturedProducts.bind(product));
-route.get("/simillar-products", product.getSimilartProducts.bind(product));
+route.get("/best-selling", product.getBestSellingProducts.bind(product));
+route.get("/featured", product.getFeaturedProducts.bind(product));
+route.get("/simillar", product.getSimilartProducts.bind(product));
+route.post("/", product.createProducts.bind(product));
 
 export default route;

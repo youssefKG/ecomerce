@@ -92,13 +92,15 @@ class CartRepository implements ICartRepository {
     quantite: number,
     price: number,
   ): Promise<CartItems> {
-    const cartIem: CartItems = await this.prisma.cartItems.upsert({
+    const cartItem: CartItems = await this.prisma.cartItems.upsert({
       where: { productId_cartId: { productId, cartId } },
       update: { quantite: { increment: quantite } },
       create: { cartId, productId, quantite, price },
     });
 
-    return cartIem;
+    console.log("cart Item", cartItem);
+
+    return cartItem;
   }
 
   public async decrementCartItemQuantite(

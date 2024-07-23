@@ -1,11 +1,7 @@
-import React from "react";
+import CheckoutInfo from "../../components/CheckoutInfo";
 
-function Checkout() {
-  return (
-    <div className="h-screen w-screen">
-      <div className=""></div>
-    </div>
-  );
-}
+const Checkout = () => {
+  return <CheckoutInfo />;
+};
 
 export default Checkout;

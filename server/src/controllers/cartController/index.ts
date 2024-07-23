@@ -49,6 +49,7 @@ class CartController implements ICartController {
       const productCarts: CartType | null =
         await this.cartRepository.userCartProducts(userId);
 
+      console.log(productCarts);
       if (!productCarts)
         return next(new CustomError("no pround is found ", 402, null));
 
@@ -124,6 +125,7 @@ class CartController implements ICartController {
     next: NextFunction,
   ) {
     try {
+      // destruct productId and quantite
       const { productId, quantite } = req.body;
       const userId: string = req.currentUser.id;
 

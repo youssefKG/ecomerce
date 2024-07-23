@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContextProvider";
+import { NotificationContext } from "../../context/NotificationContextProvider";
 import { LoginFormDataType } from "../../types";
 import { RotatingLines } from "react-loader-spinner";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -9,7 +10,6 @@ import { Divider } from "@mui/material";
 import { FaFacebook, FcGoogle } from "../../assets/icons";
 import { ResponseI } from "../../api";
 import authService from "../../services/authentication";
-import { useSnackbar } from "notistack";
 import "./index.css";
 
 const LoginBackDrop = () => {
@@ -19,10 +19,8 @@ const LoginBackDrop = () => {
     setCurrentUser,
     handleOpenRegisterBackdrop,
   } = useContext(AuthContext);
+  const { showNotification } = useContext(NotificationContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleFormSubmit = async (
     values: LoginFormDataType,
@@ -33,22 +31,15 @@ const LoginBackDrop = () => {
       setIsLoading(true);
 
       const response: ResponseI = await authService.login(values);
+      console.log(response);
 
-      if (response.data.success) {
-        setCurrentUser(response.data.result);
-        setSuccessMessage(response.data.message);
-        localStorage.setItem(
-          "currentUser",
-          JSON.stringify(response.data.result),
-        );
-        setErrorMessage(null);
-      }
-      enqueueSnackbar(response.data.message, { variant: "success" });
+      setCurrentUser(response.data.result);
+      localStorage.setItem("currentUser", JSON.stringify(response.data.result));
+      showNotification("success", response.data.message);
+      setBackdropAuth({ isLoginOpen: false, isSignupOpenf: false });
     } catch (err) {
-      setErrorMessage("Email Or password incorrect !!");
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+      showNotification("error", err.response.data.message);
       setCurrentUser(null);
-      setSuccessMessage(null);
       console.log(err);
     } finally {
       setIsLoading(false);
@@ -124,12 +115,8 @@ const LoginBackDrop = () => {
                 )}
               />
             </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {successMessage && (
-              <p className="login-success-message">{successMessage}</p>
-            )}
 
-            <button type="submit" className="login-btn">
+            <button type="submit" disabled={isLoading} className="login-btn">
               {isLoading ? (
                 <RotatingLines
                   visible={true}

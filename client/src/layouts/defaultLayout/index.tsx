@@ -4,7 +4,7 @@ import Header from "../../components/Navbar";
 import Footer from "../../components/footer";
 import Laoding from "../../components/loading";
 import LoginBackDrop from "../../components/LoginBackdrop";
-import SignupBackdrop from "../../components/SignupBackdrop";
+import RegisterBackDrop from "../../components/registerBackDrop";
 import GlobalConextProvider from "../../context/GlobalContextProvider";
 import "./index.css";
 
@@ -13,7 +13,7 @@ const DefaultLayout = () => {
     <GlobalConextProvider>
       <div className="layoutContainer">
         <LoginBackDrop />
-        <SignupBackdrop />
+        <RegisterBackDrop />
         <Header />
         <Suspense fallback={<Laoding />}>
           <Outlet />

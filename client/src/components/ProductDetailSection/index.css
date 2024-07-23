@@ -117,23 +117,7 @@
   transition: 300ms ease-in;
   opacity: 0.85;
 }
-.product .desc .btns .add-to-cart-btns .add-item {
-  display: flex;
-  border: 1px solid silver;
-  padding: 5px;
-  border-radius: 30px;
-  align-items: center;
-}
 
-.product .desc .btns .add-to-cart-btns .add-item input {
-  outline: none;
-  border: none;
-  width: fit-content;
-  text-align: center;
-  font-weight: 700;
-  font-size: 17px;
-  width: 60px;
-}
 .product .desc .btns .buy-now-btn {
   border: 1px solid silver;
   border-radius: 30px;
