@@ -19,7 +19,7 @@ interface ITokenService {
 @injectable()
 class TokenService implements ITokenService {
   // jwt secret key
-  #jwtSecretKey = process.env.JWT_SECRET || "jwt-secret-key";
+  #jwtSecretKey = process.env.JWT_SECRET as string;
 
   // verify Token
   public verifyToken(token: string): JwtPayload | null {
@@ -35,6 +35,7 @@ class TokenService implements ITokenService {
 
   // generate a token
   public generateToken(user: JwtPayload): string {
+    console.log("generate token ", this.#jwtSecretKey);
     return jwt.sign(user, this.#jwtSecretKey);
   }
 }

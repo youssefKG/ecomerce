@@ -4,25 +4,52 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./index.css";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Divider } from "@mui/material";
+import ErrorMessage from "../../components/Commons/ErrorMessage";
+import { CheckoutInfoErrorsType, CheckoutInfoDataType } from "../../types";
 
 const countrys: string[] = ["Maroc", "French", "USA"];
+
 const CheckoutInfo = () => {
-  const [selectedCountry, setSelectedCountry] = useState<string>("Maroc");
+  const [checkoutInfoData, setCheckoutInfoData] =
+    useState<CheckoutInfoDataType>({
+      phoneNumber: "",
+      country: "Maroc",
+      email: "",
+      adressShipping: "",
+      confirmEmail: "",
+      city: "",
+      adress: "",
+      postalCode: "",
+    });
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCheckoutInfoData((prevCheckoutInfoData: CheckoutInfoDataType) => ({
+      ...prevCheckoutInfoData,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const contryChange = (value: "Maroc" | "USA" | "French") => {
+    setCheckoutInfoData({ ...checkoutInfoData, country: value });
+  };
+
+  const [checkoutInfoErrors, setCheckoutInforErrors] =
+    useState<CheckoutInfoErrorsType>({});
+
   return (
-    <div className="flex flex-col gap-6 max-w-3xl w-full border p-2 sm:p-6 border-gray-200 rounded-md w-full border-solid">
+    <div className="flex flex-col gap-6 max-w-3xl border p-2 sm:p-6 border-gray-200 rounded-md w-full border-solid">
       <div className="flex flex-col gap-2">
         <p className="font-semibold text-sm text-gray-600 ">
           Select Shipping Country*
         </p>
-        <Listbox value={selectedCountry} onChange={setSelectedCountry}>
+        <Listbox value={checkoutInfoData.country} onChange={contryChange}>
           <ListboxButton className="text-start text-gray-600 border font-semibold rounded-md text-sm border-gray-200 border-solid p-1 px-4">
-            <p>{selectedCountry}</p>
+            <p>{checkoutInfoData.country}</p>
             <ChevronDownIcon
               className="group pointer-events-none absolute text-gray-600 top-2.5 right-2.5 size-4 fill-black"
               aria-hidden="true"
@@ -48,11 +75,13 @@ const CheckoutInfo = () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-sm text-gray-600 ">Phone number*</p>
-          <PhoneInput
-            country={"ma"}
-            value="08785748745"
-            containerClass="phone-number-container"
-            inputClass="phone-number-input"
+          <input
+            className="border-solid w-full border outline-none border-gray-200 p-1
+          font-medium text-sm rounded-md px-2"
+            placeholder="Phone number"
+            name="phoneNumber"
+            onChange={handleInputChange}
+            value={checkoutInfoData.phoneNumber}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -63,7 +92,11 @@ const CheckoutInfo = () => {
             className="border-solid w-full border outline-none border-gray-200 p-1
           font-medium text-sm rounded-md px-2"
             placeholder="Adress shipping"
+            name="adressShipping"
+            onChange={handleInputChange}
+            value={checkoutInfoData.adressShipping}
           />
+          <ErrorMessage message={checkoutInfoErrors?.adress} />
         </div>
         <div className="flex gap-4 flex-wrap">
           <div className="flex flex-col flex-1 gap-2">
@@ -74,7 +107,11 @@ const CheckoutInfo = () => {
               className="border-solid w-full border outline-none border-gray-200 p-1
           font-medium text-sm rounded-md px-2"
               placeholder="Email adress"
+              name="email"
+              onChange={handleInputChange}
+              value={checkoutInfoData.email}
             />
+            <ErrorMessage message={checkoutInfoErrors?.email} />
           </div>
           <div className="flex flex-col flex-1 gap-2">
             <p className="font-semibold text-sm text-gray-600 ">
@@ -83,18 +120,25 @@ const CheckoutInfo = () => {
             <input
               className="border-solid w-full border outline-none border-gray-200 p-1
           font-medium text-sm rounded-md px-2"
-              placeholder="Email adress"
+              placeholder="Confirm email adress"
+              name="ConfirmEmail"
+              onChange={handleInputChange}
+              value={checkoutInfoData.confirmEmail}
             />
+            <ErrorMessage message={checkoutInfoErrors?.confirmEmail} />
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">
           <div className="flex flex-col flex-1 gap-2">
             <p className="font-semibold text-sm text-gray-600 ">City*</p>
             <input
-              className="border-solid w-full border outline-none border-gray-200 p-1
-          font-medium text-sm rounded-md px-2"
+              className="border-solid w-full border outline-none border-gray-200 p-1 font-medium text-sm rounded-md px-2"
               placeholder="City"
+              name="city"
+              onChange={handleInputChange}
+              value={checkoutInfoData.city}
             />
+            <ErrorMessage message={checkoutInfoErrors?.city} />
           </div>
           <div className="flex flex-col flex-1 gap-2">
             <p className="font-semibold text-sm text-gray-600 ">Postal code*</p>
@@ -102,19 +146,26 @@ const CheckoutInfo = () => {
               className="border-solid w-full border outline-none border-gray-200 p-1
           font-medium text-sm rounded-md px-2"
               placeholder="Postal code"
+              onChange={handleInputChange}
+              value={checkoutInfoData.postalCode}
             />
+            <ErrorMessage message={checkoutInfoErrors?.postalCode} />
           </div>
         </div>
-      </div>
-      <div className="flex flex-col flex-1 gap-2">
-        <p className="font-semibold text-sm text-gray-600 ">
-          Street name and house number*
-        </p>
-        <input
-          className="border-solid w-full border outline-none border-gray-200 p-1
+        <div className="flex flex-col flex-1 gap-2">
+          <p className="font-semibold text-sm text-gray-600 ">
+            Street name and house number*
+          </p>
+          <input
+            className="border-solid w-full border outline-none border-gray-200 p-1
           font-medium text-sm rounded-md px-2"
-          placeholder="Street name and house number"
-        />
+            placeholder="Street name and house number"
+            name="adress"
+            onChange={handleInputChange}
+            value={checkoutInfoData.adress}
+          />
+          <ErrorMessage message={checkoutInfoErrors?.adress} />
+        </div>
       </div>
     </div>
   );

@@ -123,7 +123,30 @@ interface FormReviewType {
   rate: number;
 }
 
+type CheckoutInfoErrorsType = {
+  phoneNumber?: string;
+  adressShipping?: string, 
+  email?: string, 
+  confirmEmail?: string,
+  city?: string, 
+  postalCode?: string,
+  adress?: string,
+  Country?: string,
+}
+
+type CheckoutInfoDataType = {
+  phoneNumber: string;
+  adressShipping: string, 
+  email: string, 
+  confirmEmail: string,
+  city: string, 
+  postalCode: string,
+  adress: string,
+  country: "USA" | "Maroc" | "French",
+}
+
 export type {
+  // auth
   LoginFormDataType,
   LoginFormDataErrorsType,
   RegisterFormDataType,
@@ -138,4 +161,8 @@ export type {
   ReviewType,
   CategorieType,
   ProductDataType,
+  // checkout 
+  CheckoutInfoErrorsType,
+  CheckoutInfoDataType
 };
+

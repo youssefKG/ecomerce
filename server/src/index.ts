@@ -25,6 +25,6 @@ app.use("/api/review", reviewRoute);
 // goloabl express error handler
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () => {
+app.listen(1900, () => {
   console.log("server runing on port ", process.env.PORT);
 });

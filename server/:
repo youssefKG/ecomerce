@@ -4,9 +4,6 @@ import { inject, injectable, container } from "tsyringe";
 import jwt from "jsonwebtoken";
 import { UserRepository } from "../../services";
 import { CustomError } from "../../utils/errorHandler.ts";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 interface DecodedDataType {
   id: string;
@@ -46,8 +43,7 @@ class Token implements TokenI {
         return;
       }
 
-      const tokenSecret = process.env.JWT_SECRET as string;
-      console.log("token secret key", tokenSecret);
+      const tokenSecret = process.env.JWT_SECRET ;
       const decodedData = jwt.verify(token, tokenSecret) as DecodedDataType;
 
       if (!decodedData) {

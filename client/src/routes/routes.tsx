@@ -40,14 +40,8 @@ const router = createBrowserRouter([
         path: "",
         Component: ProtectedRoutes,
         children: [
-          {
-            path: "",
-            Component: CheckoutLayout,
-            children: [
-              { path: "/cart", Component: Cart },
-              { path: "/checkout", Component: Checkout },
-            ],
-          },
+          { path: "/cart", Component: Cart },
+          { path: "/checkout", Component: Checkout },
           {
             path: "/account",
             Component: AccoutLayout,
