@@ -1,7 +1,7 @@
 const ErrorMessage = ({ message }: { message: string }) => {
   return (
     <>
-      {message && <p className="font-medium text-red-700 text-sm">{message}</p>}
+      {message && <p className="font-medium text-red-700 text-xs">{message}</p>}
     </>
   );
 };

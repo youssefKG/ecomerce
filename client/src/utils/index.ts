@@ -4,6 +4,7 @@ import furnitureCategoriesData from "./furnitureCat";
 import reviewsData from "./reviewsData";
 import isValidEmail from "./isValidEmail";
 import isStrongPassword from "./isStrongPassword";
+import validateCheckoutForm from "./validateCheckoutForm";
 
 export {
   productsData,
@@ -12,4 +13,5 @@ export {
   reviewsData,
   isValidEmail,
   isStrongPassword,
+  validateCheckoutForm,
 };

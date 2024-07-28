@@ -131,7 +131,7 @@ type CheckoutInfoErrorsType = {
   city?: string, 
   postalCode?: string,
   adress?: string,
-  Country?: string,
+  country?: string,
 }
 
 type CheckoutInfoDataType = {
@@ -144,6 +144,7 @@ type CheckoutInfoDataType = {
   adress: string,
   country: "USA" | "Maroc" | "French",
 }
+
 
 export type {
   // auth
