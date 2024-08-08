@@ -5,9 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 const NotificationContext = createContext(null);
 
 const NotificationContextProdvider = ({ children }) => {
-  const showNotification = (type: string, message: string): void => {
+  const showNotification = (
+    type: "error" | "success" | "info",
+    message: string,
+  ): void => {
     toast[type](message);
   };
+
   return (
     <NotificationContext.Provider
       value={{

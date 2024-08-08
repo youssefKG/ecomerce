@@ -5,14 +5,6 @@ import authService from "../services/authentication";
 
 const AuthContext = createContext(null);
 
-interface shoppingCartType {
-  id: number;
-  imgURL: string;
-  quatinte: number;
-  productPrice: number;
-  totalPrice: number;
-}
-
 type BackdropType = {
   isLoginOpen: boolean;
   isSignupOpen: boolean;

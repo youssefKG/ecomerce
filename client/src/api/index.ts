@@ -30,7 +30,7 @@ class Api implements ApiI {
   }
 }
 
-const instancApi: ApiI = new Api();
+const api: ApiI = new Api();
 
-export default instancApi;
+export default api;
 export type { ApiI, AxiosResponse as ResponseI };

@@ -35,7 +35,9 @@ const CheckoutInfo = ({
         </p>
         <Listbox value={checkoutInfoData?.country} onChange={countryChange}>
           <ListboxButton className="text-start text-gray-600 border font-semibold rounded-md text-sm border-gray-200 border-solid p-1 px-4">
-            <p>{checkoutInfoData ? checkoutInfoData?.country : "Maroc"}</p>
+            <p>
+              {checkoutInfoData?.country ? checkoutInfoData?.country : "Maroc"}
+            </p>
             <ChevronDownIcon
               className="group pointer-events-none absolute text-gray-600 top-2.5 right-2.5 size-4 fill-black"
               aria-hidden="true"

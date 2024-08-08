@@ -1,17 +1,29 @@
-import { useContext, useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { AuthContext, NotificationContext } from "../../context";
-import profilService from "../../services/editProfil";
-import { ResponseI } from "../../api";
-import { EditProfilData } from "../../types";
+import {
+  useContext,
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEventHandler,
+} from "react";
+import { CurrentUserType } from "../../types";
+import { AuthContext } from "../../context";
+import { NotificationContext } from "../../context/NotificationContextProvider";
 import { Paper } from "@mui/material";
-import { RotatingLines } from "react-loader-spinner";
 import "./index.css";
 
+interface EditAccountDataType extends CurrentUserType {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 const EditAccount = () => {
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const { showNotification } = useContext(NotificationContext);
-  const [profilData, setProfilData] = useState<EditProfilData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [profilData, setProfilData] = useState<EditAccountDataType | null>(
+    null,
+  );
+  const [laoding, setIsLoading] = useState<boolean>(false);
 
   const handleEditFromAccountChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -19,17 +31,11 @@ const EditAccount = () => {
     setProfilData({ ...profilData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    e: FormEventHandler<HTMLFormElement>,
+  ): Promise<void> => {
     try {
-      e.preventDefault();
       setIsLoading(true);
-      const response: ResponseI =
-        await profilService.editProfilService(profilData);
-
-      if (response.status === 200) {
-        showNotification("success", "Profil data updated successfully!!");
-        setCurrentUser(response.data.result);
-      }
     } catch (err) {
       showNotification("error", err.response.data.message);
     } finally {
@@ -37,24 +43,10 @@ const EditAccount = () => {
     }
   };
 
-  const handleCancel = () =>
-    setProfilData({
-      firstName: currentUser.firstName,
-      lastName: currentUser.lastName,
-      address: currentUser.address,
-      email: currentUser.email,
-      currentPassword: "",
-      newPassword: "",
-      confirmNewPassword: "",
-    });
-
   useEffect(() => {
     if (currentUser) {
       setProfilData({
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        address: currentUser.address,
-        email: currentUser.email,
+        ...currentUser,
         currentPassword: "",
         newPassword: "",
         confirmNewPassword: "",
@@ -63,7 +55,7 @@ const EditAccount = () => {
   }, []);
 
   return (
-    <Paper className="edit-account-container  ">
+    <Paper className="edit-account-container">
       <form onSubmit={handleSubmit}>
         <h1 className="edit-pass-header">Edit Your Profil</h1>
         <div className="account-info-container">
@@ -136,25 +128,9 @@ const EditAccount = () => {
           />
         </div>
         <div className="btns">
-          <button onClick={handleCancel} className="cancel-btn">
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="flex justify-center items-center bg-blue-900 text-white w-36 text-center"
-          >
-            {isLoading ? (
-              <RotatingLines
-                visible={true}
-                width="20"
-                strokeWidth="3"
-                animationDuration="0.75"
-                ariaLabel="rotating-lines-loading"
-                strokeColor="gray"
-              />
-            ) : (
-              <p>Save Changes</p>
-            )}
+          <button className="cancel-btn">Cancel</button>
+          <button type="submit" className="save-changes-btn">
+            Save Changes
           </button>
         </div>
       </form>

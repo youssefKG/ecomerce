@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
 import { FormReviewType } from "../../types";
 import { Avatar, Rating } from "@mui/material";
+import { RotatingLines } from "react-loader-spinner";
 
 interface AddReviewProps {
   postReview: () => Promise<void>;
@@ -15,6 +16,7 @@ const AddReview = ({
   handleChange,
   formReview,
   handleStarsRatingChange,
+  isPostReviewLoading,
 }: AddReviewProps) => {
   return (
     <div className="add-review-container">
@@ -36,10 +38,24 @@ const AddReview = ({
             <Rating size="medium" onChange={handleStarsRatingChange} />
           </div>
           <button
-            className="font-medium py-1 px-3 shadow hover:opacity-95 transition rounded text-white text-sm tracking-wide bg-gray-700 "
+            disabled={isPostReviewLoading}
+            className="font-medium max-w-28 w-full  flex items-center justify-center py-1 px-3 shadow
+            hover:opacity-95 transition rounded text-white text-sm
+            tracking-wide bg-gray-700 "
             onClick={postReview}
           >
-            Post Review
+            {isPostReviewLoading ? (
+              <RotatingLines
+                visible={true}
+                width="20"
+                strokeWidth="3"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                strokeColor="gray"
+              />
+            ) : (
+              <p>Post Review</p>
+            )}
           </button>
         </div>
       </div>

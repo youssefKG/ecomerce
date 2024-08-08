@@ -3,26 +3,17 @@ import { CurrentUserType } from "../../types";
 import { AuthContext } from "../../context";
 import { Paper } from "@mui/material";
 import "./index.css";
-import { Link } from "react-router-dom";
+
 const Profil = () => {
   const [profilData, setProfilData] = useState<CurrentUserType | null>(null);
   const { currentUser } = useContext(AuthContext);
+
   useEffect(() => {
-    if (currentUser) {
-      setProfilData(currentUser);
-    }
+    if (currentUser) setProfilData(currentUser);
   }, []);
+
   return (
     <div className="-container">
-      <div className="acount-siderBar">
-        <div className="crumbs">
-          <Link to="Home" className="">
-            Home
-          </Link>
-          <p>/</p>
-          <Link to="my-account">My Account</Link>
-        </div>
-      </div>
       <Paper>
         <div className="edit-profil-container">
           <h1 className="edit-pass-header">Edit Your Profil</h1>
@@ -71,4 +62,5 @@ const Profil = () => {
     </div>
   );
 };
+
 export default Profil;

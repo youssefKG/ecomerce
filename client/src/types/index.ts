@@ -125,26 +125,35 @@ interface FormReviewType {
 
 type CheckoutInfoErrorsType = {
   phoneNumber?: string;
-  adressShipping?: string, 
-  email?: string, 
-  confirmEmail?: string,
-  city?: string, 
-  postalCode?: string,
-  adress?: string,
-  country?: string,
-}
+  adressShipping?: string;
+  email?: string;
+  confirmEmail?: string;
+  city?: string;
+  postalCode?: string;
+  adress?: string;
+  country?: string;
+};
 
 type CheckoutInfoDataType = {
   phoneNumber: string;
-  adressShipping: string, 
-  email: string, 
-  confirmEmail: string,
-  city: string, 
-  postalCode: string,
-  adress: string,
-  country: "USA" | "Maroc" | "French",
-}
+  adressShipping: string;
+  email: string;
+  confirmEmail: string;
+  city: string;
+  postalCode: string;
+  adress: string;
+  country: "USA" | "Maroc" | "French";
+};
 
+interface EditProfilData {
+  firstName: string;
+  lastName: string;
+  address: string;
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
 
 export type {
   // auth
@@ -162,8 +171,8 @@ export type {
   ReviewType,
   CategorieType,
   ProductDataType,
-  // checkout 
+  // checkout
   CheckoutInfoErrorsType,
-  CheckoutInfoDataType
+  CheckoutInfoDataType,
+  EditProfilData,
 };
-
