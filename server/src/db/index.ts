@@ -1,5 +1,5 @@
-import { PrismaClient, Category } from "@prisma/client";
-import { catchError } from "../handlers/errorHandler";
+// import { PrismaClient, Category } from "@prisma/client";
+// import { catchError } from "../handlers/errorHandler";
 //
 // interface NewProductType {
 // 	title: string;
@@ -11,7 +11,7 @@ import { catchError } from "../handlers/errorHandler";
 // 	category: string;
 // 	created_at: Date;
 // }
-const client: PrismaClient = new PrismaClient();
+// const client: PrismaClient = new PrismaClient();
 // const products: NewProductType[] = [
 // 	{
 // 		title: "Modern Sofa",
@@ -119,66 +119,66 @@ const client: PrismaClient = new PrismaClient();
 //
 // export default main;
 
-const insertProducts = async () => {
-  try {
-    const products = await client.product.createMany({
-      data: [
-        {
-          name: "Product A",
-          description: "Description of Product A",
-          imgURLS: ["url1", "url2"],
-          price: 100,
-          discount: 0.1,
-          rate: 4.5,
-          categoryId: "66896d60d1cd8df58c8fa6d0",
-          created_at: "2024-07-06T12:00:00Z",
-          stock: 50,
-        },
-        {
-          name: "Product B",
-          description: "Description of Product B",
-          imgURLS: ["url3", "url4"],
-          price: 80,
-          discount: 0.05,
-          rate: 4.0,
-          categoryId: "66896d60d1cd8df58c8fa6d0",
-          created_at: "2024-07-06T12:30:00Z",
-          stock: 30,
-        },
-        {
-          name: "Product C",
-          description: "Description of Product C",
-          imgURLS: ["url5"],
-          price: 120,
-          discount: 0,
-          rate: 4.8,
-          categoryId: "66896d60d1cd8df58c8fa6d0",
-          created_at: "2024-07-06T13:00:00Z",
-          stock: 20,
-        },
-      ],
-    });
-    console.log("product is inserted");
-  } catch (err) {
-    console.log(err);
-  }
-};
+// const insertProducts = async () => {
+//   try {
+//     const products = await client.product.createMany({
+//       data: [
+//         {
+//           name: "Product A",
+//           description: "Description of Product A",
+//           imgURLS: ["url1", "url2"],
+//           price: 100,
+//           discount: 0.1,
+//           rate: 4.5,
+//           categoryId: "66896d60d1cd8df58c8fa6d0",
+//           created_at: "2024-07-06T12:00:00Z",
+//           stock: 50,
+//         },
+//         {
+//           name: "Product B",
+//           description: "Description of Product B",
+//           imgURLS: ["url3", "url4"],
+//           price: 80,
+//           discount: 0.05,
+//           rate: 4.0,
+//           categoryId: "66896d60d1cd8df58c8fa6d0",
+//           created_at: "2024-07-06T12:30:00Z",
+//           stock: 30,
+//         },
+//         {
+//           name: "Product C",
+//           description: "Description of Product C",
+//           imgURLS: ["url5"],
+//           price: 120,
+//           discount: 0,
+//           rate: 4.8,
+//           categoryId: "66896d60d1cd8df58c8fa6d0",
+//           created_at: "2024-07-06T13:00:00Z",
+//           stock: 20,
+//         },
+//       ],
+//     });
+//     console.log("product is inserted");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-const insertCategory = async () => {
-  try {
-    const category = await client.category.createMany({
-      data: [
-        {
-          name: "cat 1",
-        },
-        {
-          name: "cat 2",
-        },
-      ],
-    });
-    console.log("inserted successfylly ");
-  } catch (err) {
-    console.log(err);
-  }
-};
-export { insertCategory, insertProducts };
+// const insertCategory = async () => {
+//   try {
+//     const category = await client.category.createMany({
+//       data: [
+//         {
+//           name: "cat 1",
+//         },
+//         {
+//           name: "cat 2",
+//         },
+//       ],
+//     });
+//     console.log("inserted successfylly ");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// export { insertCategory, insertProducts };

@@ -4,25 +4,34 @@ import {
   ProductType,
   ProductFields,
   ProductFieldsConfig,
-  ProductDataType,
-  NewProductType,
+  CreateProductInput,
 } from "../../types";
 import { Database } from "../../services";
+import { PrismaClientValidationError } from "@prisma/client/runtime/library";
+import { CustomError } from "../../utils/errorHandler.ts";
 
 interface IProductRepository {
-  productDetail: (productId: string) => Promise<ProductDataType | null>;
+  productDetail: (productId: string) => Promise<ProductDetailType | null>;
+
   similarProducts: (category: string) => Promise<ProductType[] | null>;
+
   featuredProducts: () => Promise<ProductType[] | null>;
-  bestSellingProducts: () => Promise<ProductType[] | null>;
+
+  bestSellingProducts: () => Promise<ProductType[] | CustomError>;
+
   getProductById: (
     id: string,
     fields: ProductFields,
   ) => Promise<ProductFieldsConfig | null>;
+
   updateProduct: (
     productId: string,
     stock: number,
-  ) => Promise<ProductDetailType | null>;
-  createProducts: (products: NewProductType[]) => Promise<void>;
+  ) => Promise<ProductDetailType | undefined>;
+
+  createProduct: (products: CreateProductInput) => Promise<ProductDetailType>;
+
+  deleteProduct: (productId: string) => Promise<void>;
 }
 
 @injectable()
@@ -46,45 +55,27 @@ class ProductRepository implements IProductRepository {
 
   // feautred products
   public async featuredProducts(): Promise<ProductType[] | null> {
-    try {
-      const featuredProductsData: ProductType[] | null =
-        await this.prisma.product.findMany({
-          orderBy: [{ created_at: "asc" }],
-          select: {
-            id: true,
-            name: true,
-            imgURLS: true,
-            price: true,
-            discount: true,
-            rate: true,
-            stock: true,
-          },
-        });
-
-      return featuredProductsData;
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
+    return await this.prisma.product.findMany({
+      orderBy: [{ created_at: "asc" }],
+      select: {
+        id: true,
+        name: true,
+        imgURLS: true,
+        price: true,
+        discount: true,
+        rate: true,
+        stock: true,
+      },
+    });
   }
 
   public async productDetail(
     productId: string,
-  ): Promise<ProductDataType | null> {
+  ): Promise<ProductDetailType | null> {
     try {
-      const productDetailData: ProductDataType | null =
+      const productDetailData: ProductDetailType | null =
         await this.prisma.product.findUnique({
           where: { id: productId },
-          select: {
-            id: true,
-            name: true,
-            description: true,
-            imgURLS: true,
-            price: true,
-            rate: true,
-            stock: true,
-            discount: true,
-          },
         });
 
       return productDetailData;
@@ -121,7 +112,7 @@ class ProductRepository implements IProductRepository {
     }
   }
 
-  public async bestSellingProducts(): Promise<ProductType[] | null> {
+  public async bestSellingProducts(): Promise<ProductType[] | CustomError> {
     try {
       // check if the product is already in cart
       const bestSellingProductsData: ProductType[] | null =
@@ -143,14 +134,17 @@ class ProductRepository implements IProductRepository {
       return bestSellingProductsData;
     } catch (err) {
       console.log(err);
-      return null;
+      if (err instanceof PrismaClientValidationError) {
+        throw new CustomError(err.message, 400, err);
+      }
+      throw new CustomError("database error ", 400, null);
     }
   }
 
   public async updateProduct(
     productId: string,
     stock: number,
-  ): Promise<ProductDetailType | null> {
+  ): Promise<ProductDetailType> {
     const updatedProduct: ProductDetailType | null =
       await this.prisma.product.update({
         where: { id: productId },
@@ -159,10 +153,25 @@ class ProductRepository implements IProductRepository {
     return updatedProduct;
   }
 
-  public async createProducts(products: NewProductType[]): Promise<void> {
-    await this.prisma.product.createMany({
-      data: products,
-    });
+  public async createProduct(product: any): Promise<ProductDetailType> {
+    try {
+      const newProduct = await this.prisma.product.create({ data: product });
+
+      return newProduct;
+    } catch (err) {
+      if (err instanceof PrismaClientValidationError)
+        throw new CustomError(err.message, 400, err);
+      else throw new CustomError("unexpected error", 500, null);
+    }
+  }
+
+  public async deleteProduct(productId: string): Promise<void> {
+    try {
+      await this.prisma.product.delete({ where: { id: productId } });
+    } catch (err) {
+      console.log(err);
+      throw new CustomError("delete product error", 500, err);
+    }
   }
 }
 

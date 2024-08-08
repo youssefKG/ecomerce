@@ -47,7 +47,7 @@ class Token implements TokenI {
       }
 
       const tokenSecret = process.env.JWT_SECRET as string;
-      console.log("token secret key", tokenSecret);
+
       const decodedData = jwt.verify(token, tokenSecret) as DecodedDataType;
 
       if (!decodedData) {

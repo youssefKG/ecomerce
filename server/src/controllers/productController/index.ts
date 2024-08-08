@@ -1,12 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
 import { ReviewRepository, ProductRepository } from "../../services";
-import {
-  NewProductType,
-  ProductDataType,
-  ProductType,
-  ReviewType,
-} from "../../types";
+import { ProductDetailType, ReviewType } from "../../types";
 import { CustomError } from "../../utils/errorHandler.ts";
 
 interface IProduct {
@@ -35,11 +30,6 @@ interface IProduct {
     res: Response,
     next: NextFunction,
   ) => Promise<void>;
-  createProducts: (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => Promise<void>;
 }
 
 @injectable()
@@ -60,7 +50,7 @@ class Product implements IProduct {
       const productId: string = req.params.productId;
 
       // find the product detail
-      const productDetail: ProductDataType | null =
+      const productDetail: ProductDetailType | null =
         await this.productRepository.productDetail(productId);
 
       if (!productDetail) {
@@ -86,8 +76,7 @@ class Product implements IProduct {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const featuredProducts: ProductType[] | null =
-        await this.productRepository.featuredProducts();
+      const featuredProducts = await this.productRepository.featuredProducts();
 
       if (!featuredProducts) {
         next(new CustomError("not founds", 402, null));
@@ -112,7 +101,7 @@ class Product implements IProduct {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const bestSellingProducts: ProductType[] | null =
+      const bestSellingProducts =
         await this.productRepository.bestSellingProducts();
 
       if (!bestSellingProducts) {
@@ -189,23 +178,6 @@ class Product implements IProduct {
         message: "product reviews ",
         result: productReviews,
         success: true,
-      });
-    } catch (err) {
-      console.log(err);
-      next(err);
-    }
-  }
-
-  public async createProducts(req: Request, res: Response, next: NextFunction) {
-    try {
-      const products: NewProductType[] = req.body;
-      console.log(products);
-      await this.productRepository.createProducts(products);
-
-      res.status(200).json({
-        success: true,
-        result: null,
-        message: "the products is created",
       });
     } catch (err) {
       console.log(err);

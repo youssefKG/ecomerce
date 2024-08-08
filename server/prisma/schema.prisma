@@ -12,6 +12,12 @@ enum Role {
   USER
 }
 
+enum Country {
+  Maroc
+  French
+  USA
+}
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName String
@@ -27,6 +33,7 @@ model User {
   Review    Review[]
   cart      Cart?
   order     Order[]
+  checkoutInfo CheckoutInfo[]
 }
 
 model Category {
@@ -116,6 +123,20 @@ model OrderItems {
 
   order   Order   @relation(fields: [orderId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+}
+
+model CheckoutInfo {
+  id  String @id @default(auto())  @map("_id") @db.ObjectId
+  country Country  
+  phoneNumber Int 
+  email String
+  confirmEmail String
+  city String
+  postalCode Int
+  adrees String
+  userId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model sessions {

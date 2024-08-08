@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { injectable } from "tsyringe";
+import { injectable, container } from "tsyringe";
 
 interface IPasswordService {
   hashPassword: (password: string) => string;
@@ -21,6 +21,8 @@ class PasswordService implements IPasswordService {
     return isValidPasswor;
   }
 }
+
+container.register("IPasswordService", PasswordService);
 
 export default PasswordService;
 export { IPasswordService };

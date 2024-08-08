@@ -4,33 +4,38 @@ import {
   ProductType,
   ProductFieldsConfig,
   ProductFields,
-  ProductDataType,
   CreateReviewType,
   ReviewDataType,
   NewProductType,
+  CreateProductInput,
+  LineItem,
 } from "./product.type";
+
 import {
   RegisterFormDataType,
   LoginFormDataType,
   LoginFormDataErrorsType,
   RegisterFormDataErrorsType,
 } from "./auth";
+
 import {
   NewUserType,
-  IUpdatableUserDataType,
   IUserFields,
   User,
+  CurrentUser,
+  IUpdateProfileData,
 } from "./user.type";
 import { Cart, CartType, CartItemsType, CartItems } from "./cart.type";
 
 export {
   User,
+  CurrentUser,
+  IUpdateProfileData,
   RegisterFormDataType,
   LoginFormDataType,
   LoginFormDataErrorsType,
   RegisterFormDataErrorsType,
   IUserFields,
-  IUpdatableUserDataType,
   NewUserType,
   // product
   ProductDetailType,
@@ -38,12 +43,13 @@ export {
   ProductFields,
   ProductFieldsConfig,
   NewProductType,
+  CreateProductInput,
+  LineItem,
   // cart
   Cart,
   CartType,
   CartItemsType,
   CartItems,
-  ProductDataType,
   // review
   CreateReviewType,
   ReviewType,

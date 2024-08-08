@@ -13,17 +13,6 @@ type ProductType = {
   stock: number;
 };
 
-type ProductDataType = {
-  id: string;
-  name: string;
-  description: string;
-  imgURLS: string[];
-  rate: number;
-  price: number;
-  stock: number;
-  discount: number;
-};
-
 type ProductFieldsConfig = {
   id: string;
   name?: string;
@@ -78,14 +67,31 @@ interface NewProductType {
   stock: number;
 }
 
+type CreateProductInput = {
+  name: string;
+  description: string;
+  imgURLS: string[];
+  rate: number;
+  discount: number;
+  stock: number;
+  price: number;
+  categoryId: string;
+};
+
+type LineItem = {
+  price: string;
+  quantite: number;
+};
+
 export {
   ReviewType,
   ProductDetailType,
   ProductType,
   ProductFieldsConfig,
   ProductFields,
-  ProductDataType,
   CreateReviewType,
   ReviewDataType,
   NewProductType,
+  CreateProductInput,
+  LineItem,
 };

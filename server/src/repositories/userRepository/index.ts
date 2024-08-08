@@ -1,13 +1,13 @@
 import { User } from "@prisma/client";
 import { Database } from "../../services";
-import { NewUserType } from "../../types/user.type";
-import { IUserFields, IUpdatableUserDataType } from "../../types";
-import { delay, inject, injectable } from "tsyringe";
+import { IUpdateProfileData, NewUserType } from "../../types/user.type";
+import { IUserFields } from "../../types";
+import { container, delay, inject, injectable } from "tsyringe";
 
 interface IUserRepository {
   findByEmail: (email: string, fields?: any) => Promise<User | null>;
   createUser: (newUserData: NewUserType) => Promise<void>;
-  updateUser: (email: string, newData: IUpdatableUserDataType) => Promise<void>;
+  updateUser: (email: string, newData: IUpdateProfileData) => Promise<void>;
   findUserById: (userId: string) => Promise<User | null>;
 }
 
@@ -19,11 +19,11 @@ class UserRepositories implements IUserRepository {
   public async findUserById(userId: string): Promise<User | null> {
     try {
       const findUser: User | null = await this.prisma.user.findUnique({
-        where: { id: userId }, });
+        where: { id: userId },
+      });
       return findUser;
     } catch (err) {
-      console.log(err);
-      return null;
+      throw err;
     }
   }
 
@@ -58,14 +58,20 @@ class UserRepositories implements IUserRepository {
 
   public async updateUser(
     email: string,
-    newData: IUpdatableUserDataType,
+    newData: IUpdateProfileData,
   ): Promise<void> {
-    await this.prisma.user.update({
-      where: { email },
-      data: newData,
-    });
+    try {
+      await this.prisma.user.update({
+        where: { email },
+        data: newData,
+      });
+    } catch (err) {
+      throw err;
+    }
   }
 }
+
+container.register("IUserRepository", UserRepositories);
 
 export default UserRepositories;
 export { IUserRepository };

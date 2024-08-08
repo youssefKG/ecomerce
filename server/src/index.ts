@@ -4,7 +4,13 @@ import * as dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import productRouter from "./routes/product";
-import { authRoute, productRoute, cartRoutes, reviewRoute } from "./routes";
+import {
+  authRoute,
+  productRoute,
+  cartRoutes,
+  reviewRoute,
+  userRoute,
+} from "./routes";
 import errorHandler from "./utils/errorHandler.ts";
 
 const app: Express = express();
@@ -20,6 +26,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/product", productRoute);
 app.use("/api/cart", cartRoutes);
 app.use("/api/review", reviewRoute);
+app.use("/api/user", userRoute);
 // routes end
 
 // goloabl express error handler

@@ -7,13 +7,13 @@ import {
   LoginFormDataErrorsType,
   RegisterFormDataErrorsType,
 } from "../../types";
+import { IUserRepository } from "../../repositories";
 import {
-  UserRepository,
   ValidationService,
   TokenService,
+  IPasswordService,
 } from "../../services";
 
-import PasswordService from "../../services/password.service";
 import { CustomError } from "../../utils/errorHandler.ts";
 
 interface IAuthenticator {
@@ -33,9 +33,9 @@ interface IAuthenticator {
 @injectable()
 class Authenticator implements IAuthenticator {
   constructor(
-    @inject(UserRepository) private userRepository: UserRepository,
+    @inject("IUserRepository") private userRepository: IUserRepository,
     @inject(ValidationService) private validationService: ValidationService,
-    @inject(PasswordService) private passwordService: PasswordService,
+    @inject("IPasswordService") private passwordService: IPasswordService,
     @inject(TokenService) private tokenService: TokenService,
   ) {}
 
@@ -53,32 +53,24 @@ class Authenticator implements IAuthenticator {
         this.validationService.validateLoginFormData({ email, password });
 
       // if validation fail responde with error
-      if (
-        !this.validationService.isEmpty(validationErrors) ||
-        !email ||
-        !password
-      ) {
-        next(
-          new CustomError(
-            "validation rules not match from",
-            403,
-            validationErrors,
-          ),
+      if (!this.validationService.isEmpty(validationErrors))
+        throw new CustomError(
+          "validation rules not match from",
+          403,
+          validationErrors,
         );
-        return;
-      }
 
       // find user by email
       const userWithEmail: User | null =
         await this.userRepository.findByEmail(email);
 
       // if there is no account with this email respond with error
-      if (!userWithEmail) {
-        next(
-          new CustomError("No account with email has been register", 401, null),
+      if (!userWithEmail)
+        throw new CustomError(
+          "No account with email has been register",
+          401,
+          null,
         );
-        return;
-      }
 
       // compare the password with hash password with salt
       const isPasswordValid: boolean = this.passwordService.verifyPassword(
@@ -87,10 +79,8 @@ class Authenticator implements IAuthenticator {
       );
 
       // respond with 401 error if the password does not match the hash with salt
-      if (!isPasswordValid) {
-        next(new CustomError("Wrong credentials", 401, null));
-        return;
-      }
+      if (!isPasswordValid)
+        throw new CustomError("Wrong credentials", 401, null);
 
       // generate jwt token
       const token: string = this.tokenService.generateToken({
@@ -102,9 +92,6 @@ class Authenticator implements IAuthenticator {
         role: userWithEmail.role,
         isLogin: userWithEmail.isLogin,
       });
-
-      // update the data to user islogin = true
-      await this.userRepository.updateUser(email, { isLogin: true });
 
       // asign the cookie in the borwser and response with user information
       res
@@ -126,6 +113,7 @@ class Authenticator implements IAuthenticator {
           },
         });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
@@ -145,30 +133,24 @@ class Authenticator implements IAuthenticator {
         this.validationService.validateRegisterFormData(req.body);
 
       // if validation fail respond with 403 error
-      if (
-        !this.validationService.isEmpty(validationErrors) ||
-        !email ||
-        !password ||
-        !firstName ||
-        !lastName
-      ) {
-        next(
-          new CustomError("validation rules not match", 403, validationErrors),
+      if (!this.validationService.isEmpty(validationErrors))
+        throw new CustomError(
+          "validation rules not match",
+          403,
+          validationErrors,
         );
-        return;
-      }
 
       // find a account whith this email
       const userWithTheSameEmail: User | null =
         await this.userRepository.findByEmail(email);
 
       // if there is account  account with the same email res with 400 status  error message
-      if (userWithTheSameEmail) {
-        next(
-          new CustomError("account with this email already exist!", 400, null),
+      if (userWithTheSameEmail)
+        throw new CustomError(
+          "account with this email already exist!",
+          400,
+          null,
         );
-        return;
-      }
 
       // generate the salte and create the hash password
       const hashPassword: string = this.passwordService.hashPassword(password);

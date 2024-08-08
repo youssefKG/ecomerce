@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
+import { injectable, inject, container } from "tsyringe";
+import { updateProfilDataSchema } from "../../validators";
+import { IPasswordService } from "../../services/password.service";
+import { IUserRepository } from "../../repositories";
+import { CurrentUser, IUpdateProfileData, User } from "../../types";
+import { CustomError } from "../../utils/errorHandler.ts";
+import { UserRepository } from "../../services";
 
 interface ReviewForm {
   firstName: string;
@@ -9,56 +15,60 @@ interface ReviewForm {
   rate: String;
   imgURL: String;
 }
-class UserSer {
-  public async addToFavoris(
+
+interface IUserController {
+  editProfilData: (
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<void> {
+  ) => Promise<void>;
+}
+
+@injectable()
+class UserController implements IUserController {
+  constructor(
+    @inject("IUserRepository") private userRepository: IUserRepository,
+    @inject("IPasswordService") private passwordService: IPasswordService,
+  ) {}
+
+  public async editProfilData(req: Request, res: Response, next: NextFunction) {
     try {
-      const reviewForm: ReviewForm | null = req.body;
+      // distruct new profil data from request body
+      const updateProfileData: IUpdateProfileData = req.body;
+      const user: CurrentUser | null = req.currentUser;
 
-      if (!reviewForm) {
-        res.status(401).json({
-          success: false,
-          message: "all fields are required",
-          result: null,
-        });
-        return;
-      }
+      // validate request body
+      const updateProfilDataError = updateProfilDataSchema.validate(
+        updateProfilDataSchema,
+      ).error;
 
-      if (reviewForm?.firstName.length < 4 || reviewForm?.lastName) {
-        res.status(400).json({
-          success: false,
-          message:
-            "first name and last name need to be at least 3 characters long",
-          result: null,
-        });
-        return;
-      }
+      // res with error if the new profil data schema is invalid
+      if (updateProfilDataError)
+        throw new CustomError("invalid schema", 403, updateProfilDataError);
 
-      if (reviewForm.review.length < 18) {
-        res.status(401).json({
-          success: false,
-          message: "reviw content need to be at least 16 characters long",
-          result: null,
-        });
-        return;
-      }
+      // compare the passwords
+      const isValidPassword = this.passwordService.verifyPassword(
+        updateProfileData.currentPassword,
+        user.password,
+      );
+
+      if (!isValidPassword)
+        throw new CustomError("the current password is incorrect!", 403, null);
+
+      await this.userRepository.updateUser(user.email, updateProfileData);
+
+      res.status(200).json({
+        success: true,
+        result: null,
+        message: "The profil data updated successfully",
+      });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
-
-  public async addReview(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-    } catch (err) {
-      console.log(err);
-    }
-  }
 }
+
+const userController: IUserController = container.resolve(UserController);
+
+export default userController;
+export type { IUserController };
