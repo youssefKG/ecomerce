@@ -1,53 +1,31 @@
 import "./index.css";
-import { IoSearch } from "react-icons/io5";
 import { productsData } from "../../utils";
 import { ProductCard } from "../cards";
-import { Pagination, Chip } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Pagination } from "@mui/material";
+
 interface PropsType {
-  filters: string[] | null;
-  handleDeleteFilter: (filter: string) => void;
-  handleDeleteAllFilters: () => void;
+  isFilterDrawerOpen: boolean;
+  toggleFilterDrawer: (value: boolean) => void;
 }
-const ProductsCollections = ({
-  filters,
-  handleDeleteFilter,
-  handleDeleteAllFilters,
-}: PropsType) => {
+
+const ProductsCollections = ({ toggleFilterDrawer }: PropsType) => {
   return (
-    <div className="products-collections-container">
+    <div className="mt-4 md:mx-12 mx-2 flex flex-col justify-center items-center  gap-4 w-full">
       <h1 className="font-bold text-2xl"> Our Collection of products</h1>
-      <div className="search-container">
-        <input type="text" placeholder="Search for item" />
-        <button>
-          <IoSearch />
-        </button>
-      </div>
-      <div className="chips-filters-container">
-        {filters &&
-          filters.map((filter: string, i: number) => (
-            <Chip
-              variant="outlined"
-              deleteIcon={<DeleteIcon />}
-              key={i}
-              label={filter}
-              onDelete={() => handleDeleteFilter(filter)}
-            />
-          ))}
-        {filters && filters.length ? (
-          <Chip
-            variant="outlined"
-            label="Clear All"
-            onClick={handleDeleteAllFilters}
-          />
-        ) : null}
-      </div>
-      <div className="cards-container">
+      <button
+        onClick={() => toggleFilterDrawer(true)}
+        className="self-start font-mediu opacity-80 hover:opacity-100
+        transition-all border border-solid text-sm  tracking-wide px-4 rounded-full
+        text-gray-800 border-gray-700  "
+      >
+        Filter
+      </button>
+      <div className="flex flex-wrap mx-auto">
         {productsData.map((product, i) => (
           <ProductCard
-            product_id={+product.id}
+            product_id={product.id}
             key={i}
-            title={product.title}
+            title={product.name}
             price={product.price}
             imgURL={product.imgURL}
             discount={product.discount}
@@ -58,4 +36,5 @@ const ProductsCollections = ({
     </div>
   );
 };
+
 export default ProductsCollections;

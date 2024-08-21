@@ -21,6 +21,7 @@ const useCart = (): UseCartI => {
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
   const [isCartProductLoading, setIsCartProductLoading] =
     useState<boolean>(false);
+
   const { showNotification } = useContext(NotificationContext);
 
   const incrementCartItemQuantite = async (

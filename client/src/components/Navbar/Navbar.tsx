@@ -3,7 +3,11 @@ import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../../context";
 import { Badge } from "@mui/material";
 import ProfilBackDrop from "../ProfilBackDrop";
-import { IoLogoAppleAr, IoMdCart } from "../../assets/icons";
+import { IoLogoAppleAr } from "../../assets/icons";
+import {
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
 
 const Navbar = () => {
   const { setBackdropAuth, currentUser, logout } = useContext(AuthContext);
@@ -37,6 +41,17 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="profil">
+        <div
+          className="flex gap-1 justify-between items-center border
+          border-gray-500 px-2 rounded-xl font-medium bg-gray-50/10 text-white
+          "
+        >
+          <input
+            className="rounded-xl outline-none flex-1 tracking-wide bg-none bg-transparent"
+            placeholder="Search for product"
+          />
+          <MagnifyingGlassIcon className="size-5" />
+        </div>
         {currentUser ? (
           <div className="currentUser">
             <Link to="/cart">
@@ -46,7 +61,7 @@ const Navbar = () => {
                 color="warning"
                 variant="dot"
               >
-                <IoMdCart className="shoppingCartIcon" />
+                <ShoppingBagIcon className="shoppingCartIcon size-6" />
               </Badge>
             </Link>
             <ProfilBackDrop logout={logout} />

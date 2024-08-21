@@ -16,7 +16,7 @@ const ProductSection = ({
     <section className="product-section">
       <div className="header-product-section-container">
         <h1 className="font-bold text-2xl">Featured Products</h1>
-        <button>View All</button>
+        <button className="px-2 rounded shadow-md">View All</button>
       </div>
       {!isBestSellingProductsLoading ? (
         <div className="products-cards-container">

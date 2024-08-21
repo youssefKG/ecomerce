@@ -155,6 +155,23 @@ interface EditProfilData {
   confirmNewPassword: string;
 }
 
+type SortByType = {
+  priceLowToHigh?: boolean;
+  priceHighToLow?: boolean;
+  rating?: boolean;
+  oldest?: boolean;
+  newest?: boolean;
+  bestSelling?: boolean;
+};
+
+type CategoryFilterType = {
+  beds: boolean;
+  seating: boolean;
+  tables: boolean;
+  storage: boolean;
+  decoration: boolean;
+};
+
 export type {
   // auth
   LoginFormDataType,
@@ -175,4 +192,6 @@ export type {
   CheckoutInfoErrorsType,
   CheckoutInfoDataType,
   EditProfilData,
+  SortByType,
+  CategoryFilterType,
 };

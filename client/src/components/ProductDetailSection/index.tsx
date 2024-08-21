@@ -30,13 +30,23 @@ const ProductDetailSection = ({
     productData && (
       <section className="flex lg:grid items-center grid-cols-1 2xl:grid-cols-6 lg:grid-cols-4  gap-6 justify-center">
         <div className="flex w-full sm:flex-row flex-col-reverse 2xl:col-start-2 lg:col-start-1 items-center row-start-1 col-span-2 gap-1">
-          <div className="flex sm:flex-col w-full h-24   items-center gap-2 sm:w-[20%] overflow-y-scroll max-h-80">
+          <div className="flex sm:flex-col w-full h-24 sm:h-full  items-center gap-2 sm:w-[20%] overflow-y-scroll max-h-80">
             {productData.imgURLS.map((img: string, i: number) => {
-              return <img src={img} key={i} />;
+              return (
+                <button>
+                  <img src={img} key={i} />
+                </button>
+              );
             })}
-            <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
-            <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
-            <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
+            <button>
+              <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
+            </button>
+            <button>
+              <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
+            </button>
+            <button>
+              <img src="https://www.ikea.com/ma/fr/images/products/tillstaellning-porte-serviettes-couleur-laiton__0895944_pe629480_s5.jpg?f=xxxs" />
+            </button>
           </div>
           {productData.imgURLS.map((img) => {
             return (

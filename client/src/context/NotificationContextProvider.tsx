@@ -19,13 +19,15 @@ const NotificationContextProdvider = ({ children }) => {
       }}
     >
       {children}
-      <ToastContainer
-        className="text-white text-sm"
-        position="top-center"
-        draggable
-        autoClose={3000}
-        theme="colored"
-      />
+      <div style={{ color: "white" }} className="text-white text-sm">
+        <ToastContainer
+          style={{ color: "white" }}
+          position="top-center"
+          draggable
+          autoClose={3000}
+          theme="colored"
+        />
+      </div>
     </NotificationContext.Provider>
   );
 };
