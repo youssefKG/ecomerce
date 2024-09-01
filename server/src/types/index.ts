@@ -9,6 +9,7 @@ import {
   NewProductType,
   CreateProductInput,
   LineItem,
+  ProductSearchType,
 } from "./product.type";
 
 import {
@@ -45,6 +46,7 @@ export {
   NewProductType,
   CreateProductInput,
   LineItem,
+  ProductSearchType,
   // cart
   Cart,
   CartType,

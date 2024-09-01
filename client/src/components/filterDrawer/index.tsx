@@ -9,11 +9,11 @@ import { ChangeEvent } from "react";
 interface IFilterDrawer {
   isFilterDrawerOpen: boolean;
   sortBy: SortByType;
-  rate: number;
+  rate: number[];
   price: number[];
   categorys: CategoryFilterType;
   handlePriceChange: (_, newValue: number | number[]) => void;
-  handleRateChange: (_, newValue: number) => void;
+  handleRateChange: (newValues: number[]) => void;
   toggleFilterDrawer: (value: boolean) => void;
   handleSortByChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleCategoryChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -80,12 +80,26 @@ const FilterDrawer = ({
         <Divider />
         <div className="flex flex-col gpa-2 justify-center">
           <p className="font-semibold text-gray-600">Rating: </p>
-          <Rating
-            value={rate}
-            onChange={handleRateChange}
-            name="simple-controlled"
-            className="mx-auto"
-          />
+          <div className="flex justify-between items-center pr-2">
+            <p className="text-gray-500 text-sm">Min:</p>
+            <Rating
+              value={rate[0]}
+              onChange={(_, newValue: number) =>
+                handleRateChange([newValue, rate[1]])
+              }
+              name="simple-controlled"
+              className="mx-auto"
+            />
+          </div>
+          <div className="flex justify-between items-center ">
+            <p className="text-gray-500 text-sm">Max:</p>
+            <Rating
+              value={rate[1]}
+              onChange={(_, newValue) => handleRateChange([rate[0], newValue])}
+              name="simple-controlled"
+              className="mx-auto"
+            />
+          </div>
         </div>
         <Divider />
         <div className="flex gap-2 flex-col">

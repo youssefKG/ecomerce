@@ -5,10 +5,12 @@ import {
   ProductFields,
   ProductFieldsConfig,
   CreateProductInput,
+  ProductSearchType,
 } from "../../types";
 import { Database } from "../../services";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 import { CustomError } from "../../utils/errorHandler.ts";
+import { FilterBy } from "../../types/sortBy";
 
 interface IProductRepository {
   productDetail: (productId: string) => Promise<ProductDetailType | null>;
@@ -32,6 +34,10 @@ interface IProductRepository {
   createProduct: (products: CreateProductInput) => Promise<ProductDetailType>;
 
   deleteProduct: (productId: string) => Promise<void>;
+
+  filterProducts: (filterBy: FilterBy) => Promise<ProductType[]>;
+
+  searchProducts: (productName: string) => Promise<ProductSearchType[]>;
 }
 
 @injectable()
@@ -117,7 +123,6 @@ class ProductRepository implements IProductRepository {
       // check if the product is already in cart
       const bestSellingProductsData: ProductType[] | null =
         await this.prisma.product.findMany({
-          orderBy: [],
           take: 14,
           skip: 0,
           select: {
@@ -129,6 +134,7 @@ class ProductRepository implements IProductRepository {
             rate: true,
             imgURLS: true,
           },
+          orderBy: { sells: "asc" },
         });
 
       return bestSellingProductsData;
@@ -171,6 +177,62 @@ class ProductRepository implements IProductRepository {
     } catch (err) {
       console.log(err);
       throw new CustomError("delete product error", 500, err);
+    }
+  }
+
+  public async filterProducts(filters: FilterBy): Promise<ProductType[]> {
+    try {
+      // get category name in
+      const categorys = [];
+
+      for (const key in filters.categorys) {
+        console.log(key);
+        if (filters.categorys[key] == true)
+          categorys.push({ categoryName: key });
+      }
+
+      const products: ProductType[] = await this.prisma.product.findMany({
+        where: {
+          rate: { lt: filters.rate[1], gt: filters.rate[0] },
+          price: {
+            lt: filters.price[1],
+            gt: filters.price[0],
+          },
+          OR: categorys,
+        },
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          discount: true,
+          stock: true,
+          rate: true,
+          imgURLS: true,
+        },
+      });
+
+      return products;
+    } catch (err) {
+      console.log(err);
+      throw new CustomError("error from database", 500, null);
+    }
+  }
+
+  public async searchProducts(
+    productName: string,
+  ): Promise<ProductSearchType[]> {
+    try {
+      const products: ProductSearchType[] = await this.prisma.product.findMany({
+        where: { name: { contains: productName, mode: "insensitive" } },
+        skip: 0,
+        take: 6,
+        select: { id: true, name: true, imgURLS: true },
+      });
+
+      return products;
+    } catch (err) {
+      console.log(err);
+      throw new CustomError("search product error ", 500, null);
     }
   }
 }

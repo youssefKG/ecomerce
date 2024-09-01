@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -19,20 +20,20 @@ enum Country {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  role      Role     @default(USER)
-  imgURL    String
-  adress    String
-  isLogin   Boolean
-  salt      String
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  firstName    String
+  lastName     String
+  email        String         @unique
+  password     String
+  role         Role           @default(USER)
+  imgURL       String
+  adress       String
+  isLogin      Boolean
+  salt         String
   /// Field referred in an index, but found no data to define the type.
-  Review    Review[]
-  cart      Cart?
-  order     Order[]
+  Review       Review[]
+  cart         Cart?
+  order        Order[]
   checkoutInfo CheckoutInfo[]
 }
 
@@ -43,20 +44,22 @@ model Category {
 }
 
 model Product {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  description String
-  imgURLS     String[]
-  price       Int
-  discount    Float
-  rate        Float
-  categoryId  String       @db.ObjectId
-  created_at  DateTime     @default(now())
-  stock      Int
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  imgURLS      String[]
+  price        Int
+  discount     Float
+  rate         Float
+  categoryId   String   @db.ObjectId
+  created_at   DateTime @default(now())
+  stock        Int
+  categoryName String
+  sells        Int
 
-  reviews     Review[]
-  orderItems  OrderItems[]
-  cartItems   CartItems[]
+  reviews    Review[]
+  orderItems OrderItems[]
+  cartItems  CartItems[]
 
   catgory Category @relation(fields: [categoryId], references: [id])
 }
@@ -97,6 +100,7 @@ model CartItems {
 
   product Product @relation(fields: [productId], references: [id])
   cart    Cart    @relation(fields: [cartId], references: [id])
+
   @@unique([productId, cartId])
 }
 
@@ -126,15 +130,15 @@ model OrderItems {
 }
 
 model CheckoutInfo {
-  id  String @id @default(auto())  @map("_id") @db.ObjectId
-  country Country  
-  phoneNumber Int 
-  email String
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  country      Country
+  phoneNumber  Int
+  email        String
   confirmEmail String
-  city String
-  postalCode Int
-  adrees String
-  userId String @db.ObjectId
+  city         String
+  postalCode   Int
+  adrees       String
+  userId       String  @db.ObjectId
 
   user User @relation(fields: [userId], references: [id])
 }

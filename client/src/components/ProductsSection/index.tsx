@@ -29,11 +29,12 @@ const ProductSection = ({
                 imgURL={product.imgURLS[0]}
                 price={product.price}
                 discount={product.discount}
+                rate={product.rate}
               />
             ))}
         </div>
       ) : (
-        <CardsSectionSkeleton />
+        <CardsSectionSkeleton cardsNumber={14} />
       )}
     </section>
   );

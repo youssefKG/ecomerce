@@ -5,6 +5,7 @@ import { IPayementMethod } from "../../../services/stripePayment";
 import { productSchema } from "../../../validators";
 import { CustomError } from "../../../utils/errorHandler.ts";
 import { CreateProductInput } from "../../../types";
+import { error } from "console";
 
 interface ProductControllerI {
   createProduct: (
@@ -53,12 +54,8 @@ class ProductController implements ProductControllerI {
         );
 
       // create product in my payement service (stripe)
-      const productId = await this.payementMethod.createProduct({
-        name: productInput.name,
-        images: productInput.imgURLS,
-        description: productInput.description,
-      });
-
+      const productId: string = "";
+  
       // create price in my payement Service (stripe)
       const priceId = await this.payementMethod.createPrice({
         product: productId,

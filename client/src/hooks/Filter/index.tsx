@@ -1,15 +1,19 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { SortByType, CategoryFilterType } from "../../types";
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { NotificationContext } from "../../context";
+import { SortByType, CategoryFilterType, ProductType } from "../../types";
+import productService from "../../services/products";
+import { ResponseI } from "../../api";
 
 interface IUseFilterProducts {
+  products: ProductType[];
+  isLoading: boolean;
   isFilterDrawerOpen: boolean;
   categorys: CategoryFilterType;
-  rate: number;
+  rate: number[];
   price: number[];
   sortBy: SortByType;
-  handleRateChange: (_, newValue: number) => void;
+  handleRateChange: (newValues: number[]) => void;
   handlePriceChange: (_, newValue: number | number[]) => void;
   toggleFilterDrawer: (newValue: boolean) => void;
   handleSortByChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -17,24 +21,28 @@ interface IUseFilterProducts {
 }
 
 const useFilterProducts = (): IUseFilterProducts => {
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(true);
   const [price, setPrice] = useState<number[]>([0, 2000]);
-  const [rate, setRate] = useState<number>(5);
+  const [rate, setRate] = useState<number[]>([0, 5]);
   const [sortBy, setSortBy] = useState<SortByType>({
-    priceLowToHigh: false,
-    priceHighToLow: false,
-    rating: false,
-    oldest: false,
-    newest: false,
-    bestSelling: false,
+    priceLowToHigh: true,
+    priceHighToLow: true,
+    rating: true,
+    oldest: true,
+    newest: true,
+    bestSelling: true,
   });
   const [categorys, setCategorys] = useState<CategoryFilterType>({
-    beds: false,
-    seating: false,
-    tables: false,
-    storage: false,
-    decoration: false,
+    beds: true,
+    seating: true,
+    tables: true,
+    storage: true,
+    decoration: true,
   });
+
+  const { showNotification } = useContext(NotificationContext);
 
   const navigate = useNavigate();
   const urlSearchParams = new URLSearchParams(window.location.search);
@@ -62,11 +70,13 @@ const useFilterProducts = (): IUseFilterProducts => {
     navigate(`/products?${urlSearchParams.toString()}`);
   };
 
-  const handleRateChange = (_, newValue: number) => {
-    urlSearchParams.set("rating", newValue.toString());
-    setRate(newValue);
-    console.log(rate);
-    console.log(urlSearchParams);
+  const handleRateChange = (newValues: number[]) => {
+    urlSearchParams.set("max_rate", newValues[1].toString());
+    urlSearchParams.set("min-rate", newValues[0].toString());
+
+    navigate(`/products?${urlSearchParams.toString()}`);
+    setRate(newValues);
+    console.log("rate", rate);
   };
 
   const toggleFilterDrawer = (value: boolean): void => {
@@ -83,8 +93,30 @@ const useFilterProducts = (): IUseFilterProducts => {
     setSortBy({ ...sortBy, [event.target.name]: !sortBy[event.target.name] });
     const query = urlSearchParams.toString();
     navigate(`/products?${query}`);
-    console.log(urlSearchParams);
   };
+
+  useEffect(() => {
+    const fetchProducts = async (): Promise<void> => {
+      try {
+        setIsLoading(true);
+        const response: ResponseI = await productService.findProducts(
+          categorys,
+          rate,
+          price,
+        );
+
+        console.log("response from filrer hooks", response);
+        setProducts(response.data.result);
+      } catch (err) {
+        console.log(err);
+        showNotification("error", err.response.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [sortBy, categorys, price, rate]);
 
   useEffect(() => {
     // get data from url params and set it to sortBy state
@@ -117,9 +149,9 @@ const useFilterProducts = (): IUseFilterProducts => {
       const max_pirce: number = +urlSearchParams.get("max_pirce");
       setPrice([min_pirce, max_pirce]);
     }
-  }, [urlSearchParams]);
-
+  }, []);
   return {
+    products,
     price,
     categorys,
     sortBy,
@@ -130,6 +162,7 @@ const useFilterProducts = (): IUseFilterProducts => {
     handlePriceChange,
     handleRateChange,
     handleCategoryChange,
+    isLoading,
   };
 };
 

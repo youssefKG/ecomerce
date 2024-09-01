@@ -5,6 +5,8 @@ import useFilterProducts from "../../hooks/Filter";
 
 const Products = () => {
   const {
+    isLoading,
+    products,
     price,
     categorys,
     sortBy,
@@ -33,7 +35,9 @@ const Products = () => {
       />
       <ProductsCollections
         toggleFilterDrawer={toggleFilterDrawer}
+        products={products}
         isFilterDrawerOpen={isFilterDrawerOpen}
+        isLoading={isLoading}
       />
     </div>
   );

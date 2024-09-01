@@ -15,11 +15,11 @@ import errorHandler from "./utils/errorHandler.ts";
 
 const app: Express = express();
 
+// middlewares
 app.use(express.json());
 dotenv.config();
 app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 app.use(cookieParser());
-
 // routes start
 app.use("/api/product", productRouter);
 app.use("/api/auth", authRoute);

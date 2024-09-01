@@ -4,7 +4,6 @@ import ProductSection from "../../components/ProductsSection/index";
 import CategoriesSection from "../../components/CategoriesSection";
 import WhyUsSection from "../../components/WhyUsSection";
 import BestSellingProduct from "../../components/BestSellingProduct";
-import CardsSectionSkeleton from "../../components/skeletons/PorductsSectionSkeleton";
 import "./index.css";
 
 const Home = () => {

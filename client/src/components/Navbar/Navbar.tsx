@@ -1,16 +1,22 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
+import { useDebounce } from "../../hooks";
+import ProductSearch from "../ProductSearch";
 import { NavLink, Link } from "react-router-dom";
-import { AuthContext } from "../../context";
-import { Badge } from "@mui/material";
-import ProfilBackDrop from "../ProfilBackDrop";
+import ProfileMenu from "../ProfilMenu";
 import { IoLogoAppleAr } from "../../assets/icons";
-import {
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
 
 const Navbar = () => {
-  const { setBackdropAuth, currentUser, logout } = useContext(AuthContext);
+  const [searchInputValue, setSearchInputValue] = useState<string>("");
+  const searchInputDebounceValue = useDebounce(searchInputValue, 500);
+
+  useEffect(() => {
+    const fetchSearchProducts = async () => {
+      try {
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  }, [searchInputDebounceValue]);
 
   return (
     <div className="navbarContainer">
@@ -41,50 +47,8 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="profil">
-        <div
-          className="flex gap-1 justify-between items-center border
-          border-gray-500 px-2 rounded-xl font-medium bg-gray-50/10 text-white
-          "
-        >
-          <input
-            className="rounded-xl outline-none flex-1 tracking-wide bg-none bg-transparent"
-            placeholder="Search for product"
-          />
-          <MagnifyingGlassIcon className="size-5" />
-        </div>
-        {currentUser ? (
-          <div className="currentUser">
-            <Link to="/cart">
-              <Badge
-                badgeContent={true}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                color="warning"
-                variant="dot"
-              >
-                <ShoppingBagIcon className="shoppingCartIcon size-6" />
-              </Badge>
-            </Link>
-            <ProfilBackDrop logout={logout} />
-          </div>
-        ) : (
-          <div className="auth-btns-container">
-            <button
-              onClick={(): void =>
-                setBackdropAuth({ isLoginOpen: true, isSignupOpen: false })
-              }
-            >
-              <p className="text-sm">Login</p>
-            </button>
-            <div className="devider" />
-            <button
-              onClick={() =>
-                setBackdropAuth({ isLoginOpen: false, isSignupOpen: true })
-              }
-            >
-              <p className="text-sm">Signup</p>
-            </button>
-          </div>
-        )}
+        <ProductSearch />
+        <ProfileMenu />
       </div>
     </div>
   );

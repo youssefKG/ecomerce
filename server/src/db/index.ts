@@ -1,4 +1,4 @@
-// import { PrismaClient, Category } from "@prisma/client";
+import { PrismaClient, Category } from "@prisma/client";
 // import { catchError } from "../handlers/errorHandler";
 //
 // interface NewProductType {
@@ -11,7 +11,34 @@
 // 	category: string;
 // 	created_at: Date;
 // }
-// const client: PrismaClient = new PrismaClient();
+const client: PrismaClient = new PrismaClient();
+
+const addCategory = async () => {
+  try {
+    console.log("start updating");
+    await client.product.updateMany({
+      data: {
+        categoryName: "beds",
+      },
+    });
+    console.log("updated successfylly");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const updateSells = async () => {
+  try {
+    await client.product.updateMany({
+      data: {
+        sells: 0,
+      },
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
 // const products: NewProductType[] = [
 // 	{
 // 		title: "Modern Sofa",
@@ -182,3 +209,5 @@
 //   }
 // };
 // export { insertCategory, insertProducts };
+export default addCategory;
+export { updateSells };

@@ -1,8 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
 import { ReviewRepository, ProductRepository } from "../../services";
-import { ProductDetailType, ReviewType } from "../../types";
+import {
+  ProductDetailType,
+  ProductSearchType,
+  ProductType,
+  ReviewType,
+} from "../../types";
 import { CustomError } from "../../utils/errorHandler.ts";
+import { FilterBy } from "../../types/sortBy";
 
 interface IProduct {
   getProductDetail: (
@@ -26,6 +32,16 @@ interface IProduct {
     next: NextFunction,
   ) => Promise<void>;
   getProductReviews: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  getProducts: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
+  searchProducts: (
     req: Request,
     res: Response,
     next: NextFunction,
@@ -178,6 +194,54 @@ class Product implements IProduct {
         message: "product reviews ",
         result: productReviews,
         success: true,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  public async getProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const filterBy: FilterBy = req.body;
+      const offset = req.query.offset;
+      console.log(filterBy);
+
+      const products: ProductType[] =
+        await this.productRepository.filterProducts(filterBy);
+
+      res.status(200).json({
+        result: products,
+        success: true,
+        message: "products",
+        filterBy,
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  public async searchProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const productName: string = req.params.productName;
+      console.log(productName);
+
+      const products: ProductSearchType[] =
+        await this.productRepository.searchProducts(productName);
+
+      res.status(200).json({
+        result: products,
+        success: true,
+        message: "search products",
       });
     } catch (err) {
       console.log(err);

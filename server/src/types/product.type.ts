@@ -83,6 +83,12 @@ type LineItem = {
   quantite: number;
 };
 
+type ProductSearchType = {
+  id: string;
+  name: string;
+  imgURLS: string[];
+};
+
 export {
   ReviewType,
   ProductDetailType,
@@ -94,4 +100,5 @@ export {
   NewProductType,
   CreateProductInput,
   LineItem,
+  ProductSearchType,
 };

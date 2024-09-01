@@ -18,5 +18,7 @@ route.get("/product-detail/:productId", product.getProductDetail.bind(product));
 route.get("/best-selling", product.getBestSellingProducts.bind(product));
 route.get("/featured", product.getFeaturedProducts.bind(product));
 route.get("/simillar", product.getSimilartProducts.bind(product));
+route.post("/list", product.getProducts.bind(product));
+route.get("/search/:productName", product.searchProducts.bind(product));
 
 export default route;

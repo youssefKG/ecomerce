@@ -1,14 +1,20 @@
-import "./index.css";
-import { productsData } from "../../utils";
 import { ProductCard } from "../cards";
-import { Pagination } from "@mui/material";
+import { ProductType } from "../../types";
+import CardsSectionSkeleton from "../skeletons/PorductsSectionSkeleton";
+// import "./index.css";
 
 interface PropsType {
+  isLoading: boolean;
   isFilterDrawerOpen: boolean;
   toggleFilterDrawer: (value: boolean) => void;
+  products: ProductType[];
 }
 
-const ProductsCollections = ({ toggleFilterDrawer }: PropsType) => {
+const ProductsCollections = ({
+  toggleFilterDrawer,
+  products,
+  isLoading,
+}: PropsType) => {
   return (
     <div className="mt-4 md:mx-12 mx-2 flex flex-col justify-center items-center  gap-4 w-full">
       <h1 className="font-bold text-2xl"> Our Collection of products</h1>
@@ -20,19 +26,23 @@ const ProductsCollections = ({ toggleFilterDrawer }: PropsType) => {
       >
         Filter
       </button>
-      <div className="flex flex-wrap mx-auto">
-        {productsData.map((product, i) => (
-          <ProductCard
-            product_id={product.id}
-            key={i}
-            title={product.name}
-            price={product.price}
-            imgURL={product.imgURL}
-            discount={product.discount}
-          />
-        ))}
-      </div>
-      <Pagination count={10} size="medium" color="primary" variant="outlined" />
+      {isLoading ? (
+        <CardsSectionSkeleton cardsNumber={19} />
+      ) : (
+        <div className="flex flex-wrap mx-auto">
+          {products.map((product: ProductType) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              imgURL={product.imgURLS[0]}
+              discount={product.discount}
+              rate={product.rate}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -19,6 +19,7 @@ const DefaultLayout = () => {
           <Outlet />
         </Suspense>
       </div>
+      <Footer />
     </GlobalConextProvider>
   );
 };
