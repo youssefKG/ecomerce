@@ -1,10 +1,10 @@
 # Admin Fonctionality 
 ## Dashboard
-1.total sells.
-2.orders value.
-3.customers.
-4.orders.
-5.cancels orders.
+1. total sells.
+2. orders value.
+3. customers.
+4. orders.
+5. cancels orders.
 
 ## product 
 1. create product.
