@@ -45,31 +45,21 @@ class ReviewRepository implements IReviewRepository {
   }
 
   public async likeReview(reviewId: string): Promise<ReviewType | null> {
-    try {
-      const likedReview = await this.prisma.review.update({
-        where: { id: reviewId },
-        data: { likes: { increment: 1 } },
-      });
+    const likedReview = await this.prisma.review.update({
+      where: { id: reviewId },
+      data: { likes: { increment: 1 } },
+    });
 
-      return likedReview;
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
+    return likedReview;
   }
 
   public async dislikeReview(reviewId: string): Promise<ReviewType | null> {
-    try {
-      const dislikedReview: ReviewType = await this.prisma.review.update({
-        where: { id: reviewId },
-        data: { dislikes: { increment: 1 } },
-      });
+    const dislikedReview: ReviewType = await this.prisma.review.update({
+      where: { id: reviewId },
+      data: { dislikes: { decrement: 1 } },
+    });
 
-      return dislikedReview;
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
+    return dislikedReview;
   }
 }
 

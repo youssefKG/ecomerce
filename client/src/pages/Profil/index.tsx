@@ -46,7 +46,7 @@ const Profil = () => {
             />
           </div>
           <div className="change-password-container">
-            <h2>Change Password</h2>
+            <h2>Change Password:</h2>
             <input
               className="current-password"
               placeholder="Current Password"

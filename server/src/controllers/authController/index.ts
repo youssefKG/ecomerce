@@ -13,7 +13,6 @@ import {
   TokenService,
   IPasswordService,
 } from "../../services";
-
 import { CustomError } from "../../utils/errorHandler.ts";
 
 interface IAuthenticator {
@@ -104,7 +103,7 @@ class Authenticator implements IAuthenticator {
         .json({
           success: true,
           result: {
-            id: userWithEmail?.id,
+            id: userWithEmail.id,
             firstName: userWithEmail.firstName,
             lastName: userWithEmail.lastName,
             email: userWithEmail.email,

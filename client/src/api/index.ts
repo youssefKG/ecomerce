@@ -6,13 +6,13 @@ axios.defaults.withCredentials = true;
 
 interface ApiI {
   get: (endPoints: string) => Promise<AxiosResponse>;
-  post: (endPoint: string, body: any) => Promise<AxiosResponse>;
+  post: (endPoint: string, body: unknown) => Promise<AxiosResponse>;
   delete: (endPoints: string) => Promise<AxiosResponse>;
-  put: (endPoints: string, body?: any) => Promise<AxiosResponse>;
+  put: (endPoints: string, body?: unknown) => Promise<AxiosResponse>;
 }
 
 class Api implements ApiI {
-  public async put(endPoints: string, body?: any): Promise<AxiosResponse> {
+  public async put(endPoints: string, body?: unknown): Promise<AxiosResponse> {
     if (!body) return axios.put(endPoints);
     return axios.put(endPoints, body);
   }
@@ -21,7 +21,7 @@ class Api implements ApiI {
     return axios.get(endPoint);
   }
 
-  public async post(endPoints: string, body?: any): Promise<AxiosResponse> {
+  public async post(endPoints: string, body?: unknown): Promise<AxiosResponse> {
     return axios.post(endPoints, body);
   }
 

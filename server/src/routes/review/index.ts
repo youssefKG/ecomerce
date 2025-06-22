@@ -11,10 +11,23 @@ route.get(
   "/get-reviews/:productId",
   reviewController.productReviews.bind(reviewController),
 );
+
 route.post(
   "/",
   verifyToken,
   reviewController.createReview.bind(reviewController),
+);
+
+route.put(
+  "/like",
+  verifyToken,
+  reviewController.likeReview.bind(reviewController),
+);
+
+route.put(
+  "/dislike",
+  verifyToken,
+  reviewController.dislikeReview.bind(reviewController),
 );
 
 export default route;

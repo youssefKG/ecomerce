@@ -25,6 +25,11 @@ interface IReviewController {
     res: Response,
     next: NextFunction,
   ) => Promise<void>;
+  dislikeReview: (
+    req: Request,
+    res: Response,
+    Next: NextFunction,
+  ) => Promise<void>;
 }
 
 @injectable()
@@ -112,7 +117,16 @@ class ReviewController implements IReviewController {
     next: NextFunction,
   ): Promise<void> {
     try {
+      const reviewId: string = req.params.reviewId;
+
+      await this.reviewRepository.dislikeReview(reviewId);
+      res.status(200).json({
+        success: true,
+        result: null,
+        message: "success",
+      });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
@@ -134,6 +148,21 @@ class ReviewController implements IReviewController {
         message: "product reviews",
       });
     } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+  public async dislikeReview(req: Request, res: Response, next: NextFunction) {
+    try {
+      const reviewId: string = req.params.reviewId as string;
+      await this.reviewRepository.dislikeReview(reviewId);
+
+      res.status(200).json({
+        success: true,
+        result: null,
+        message: "Success",
+      });
+    } catch (err: any) {
       console.log(err);
       next(err);
     }

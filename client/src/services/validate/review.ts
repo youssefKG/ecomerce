@@ -101,4 +101,4 @@ class ValidationService implements IValidationService {
 }
 
 export default ValidationService;
-export { IValidationService };
+export type { IValidationService };

@@ -5,7 +5,6 @@ import { IPasswordService } from "../../services/password.service";
 import { IUserRepository } from "../../repositories";
 import { CurrentUser, IUpdateProfileData, User } from "../../types";
 import { CustomError } from "../../utils/errorHandler.ts";
-import { UserRepository } from "../../services";
 
 interface ReviewForm {
   firstName: string;
